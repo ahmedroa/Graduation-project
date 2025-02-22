@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation/core/theme/colors.dart';
+import 'package:graduation/features/home/ui/widgets/home_bloc_builder.dart';
 
 class Homescreen extends StatelessWidget {
   const Homescreen({super.key});
@@ -20,7 +21,7 @@ class Homescreen extends StatelessWidget {
         centerTitle: true,
         actions: [IconButton(onPressed: () {}, icon: Icon(Icons.notifications, color: ColorsManager.kPrimaryColor))],
       ),
-      body: Column(children: []),
+      body: HomeBlocBuilder(),
     );
   }
 }

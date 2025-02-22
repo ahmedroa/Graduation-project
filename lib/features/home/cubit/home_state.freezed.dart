@@ -21,43 +21,43 @@ mixin _$HomeState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function(List<PostCar> carInformation) success,
     required TResult Function(String error) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function(List<PostCar> carInformation)? success,
     TResult? Function(String error)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function(List<PostCar> carInformation)? success,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Success value) success,
     required TResult Function(Error value) error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Success value)? success,
     TResult? Function(Error value)? error,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
+    TResult Function(Loading value)? loading,
+    TResult Function(Success value)? success,
     TResult Function(Error value)? error,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -128,7 +128,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function(List<PostCar> carInformation) success,
     required TResult Function(String error) error,
   }) {
     return initial();
@@ -139,7 +139,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function(List<PostCar> carInformation)? success,
     TResult? Function(String error)? error,
   }) {
     return initial?.call();
@@ -150,7 +150,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function(List<PostCar> carInformation)? success,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
@@ -164,8 +164,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Success value) success,
     required TResult Function(Error value) error,
   }) {
     return initial(this);
@@ -175,8 +175,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Success value)? success,
     TResult? Function(Error value)? error,
   }) {
     return initial?.call(this);
@@ -186,8 +186,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
+    TResult Function(Loading value)? loading,
+    TResult Function(Success value)? success,
     TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
@@ -225,7 +225,7 @@ class __$$LoadingImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadingImpl implements _Loading {
+class _$LoadingImpl implements Loading {
   const _$LoadingImpl();
 
   @override
@@ -247,7 +247,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function(List<PostCar> carInformation) success,
     required TResult Function(String error) error,
   }) {
     return loading();
@@ -258,7 +258,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function(List<PostCar> carInformation)? success,
     TResult? Function(String error)? error,
   }) {
     return loading?.call();
@@ -269,7 +269,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function(List<PostCar> carInformation)? success,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
@@ -283,8 +283,8 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Success value) success,
     required TResult Function(Error value) error,
   }) {
     return loading(this);
@@ -294,8 +294,8 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Success value)? success,
     TResult? Function(Error value)? error,
   }) {
     return loading?.call(this);
@@ -305,8 +305,8 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
+    TResult Function(Loading value)? loading,
+    TResult Function(Success value)? success,
     TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
@@ -317,8 +317,8 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements HomeState {
-  const factory _Loading() = _$LoadingImpl;
+abstract class Loading implements HomeState {
+  const factory Loading() = _$LoadingImpl;
 }
 
 /// @nodoc
@@ -327,6 +327,8 @@ abstract class _$$SuccessImplCopyWith<$Res> {
     _$SuccessImpl value,
     $Res Function(_$SuccessImpl) then,
   ) = __$$SuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<PostCar> carInformation});
 }
 
 /// @nodoc
@@ -340,36 +342,74 @@ class __$$SuccessImplCopyWithImpl<$Res>
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? carInformation = null}) {
+    return _then(
+      _$SuccessImpl(
+        carInformation:
+            null == carInformation
+                ? _value._carInformation
+                : carInformation // ignore: cast_nullable_to_non_nullable
+                    as List<PostCar>,
+      ),
+    );
+  }
 }
 
 /// @nodoc
 
-class _$SuccessImpl implements _Success {
-  const _$SuccessImpl();
+class _$SuccessImpl implements Success {
+  const _$SuccessImpl({required final List<PostCar> carInformation})
+    : _carInformation = carInformation;
+
+  final List<PostCar> _carInformation;
+  @override
+  List<PostCar> get carInformation {
+    if (_carInformation is EqualUnmodifiableListView) return _carInformation;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_carInformation);
+  }
 
   @override
   String toString() {
-    return 'HomeState.success()';
+    return 'HomeState.success(carInformation: $carInformation)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SuccessImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$SuccessImpl &&
+            const DeepCollectionEquality().equals(
+              other._carInformation,
+              _carInformation,
+            ));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_carInformation),
+  );
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function(List<PostCar> carInformation) success,
     required TResult Function(String error) error,
   }) {
-    return success();
+    return success(carInformation);
   }
 
   @override
@@ -377,10 +417,10 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function(List<PostCar> carInformation)? success,
     TResult? Function(String error)? error,
   }) {
-    return success?.call();
+    return success?.call(carInformation);
   }
 
   @override
@@ -388,12 +428,12 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function(List<PostCar> carInformation)? success,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success();
+      return success(carInformation);
     }
     return orElse();
   }
@@ -402,8 +442,8 @@ class _$SuccessImpl implements _Success {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Success value) success,
     required TResult Function(Error value) error,
   }) {
     return success(this);
@@ -413,8 +453,8 @@ class _$SuccessImpl implements _Success {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Success value)? success,
     TResult? Function(Error value)? error,
   }) {
     return success?.call(this);
@@ -424,8 +464,8 @@ class _$SuccessImpl implements _Success {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
+    TResult Function(Loading value)? loading,
+    TResult Function(Success value)? success,
     TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
@@ -436,8 +476,17 @@ class _$SuccessImpl implements _Success {
   }
 }
 
-abstract class _Success implements HomeState {
-  const factory _Success() = _$SuccessImpl;
+abstract class Success implements HomeState {
+  const factory Success({required final List<PostCar> carInformation}) =
+      _$SuccessImpl;
+
+  List<PostCar> get carInformation;
+
+  /// Create a copy of HomeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -513,7 +562,7 @@ class _$ErrorImpl implements Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function(List<PostCar> carInformation) success,
     required TResult Function(String error) error,
   }) {
     return error(this.error);
@@ -524,7 +573,7 @@ class _$ErrorImpl implements Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function(List<PostCar> carInformation)? success,
     TResult? Function(String error)? error,
   }) {
     return error?.call(this.error);
@@ -535,7 +584,7 @@ class _$ErrorImpl implements Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function(List<PostCar> carInformation)? success,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
@@ -549,8 +598,8 @@ class _$ErrorImpl implements Error {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Success value) success,
     required TResult Function(Error value) error,
   }) {
     return error(this);
@@ -560,8 +609,8 @@ class _$ErrorImpl implements Error {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Success value)? success,
     TResult? Function(Error value)? error,
   }) {
     return error?.call(this);
@@ -571,8 +620,8 @@ class _$ErrorImpl implements Error {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
+    TResult Function(Loading value)? loading,
+    TResult Function(Success value)? success,
     TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
