@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/features/auth/ui/screens/login.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
+import 'package:graduation/features/home/ui/screens/details.dart';
 import '../../features/auth/logic/cubit/login_cubit.dart';
 import '../../features/home/ui/widgets/bottom_vav_bar.dart';
 
@@ -15,6 +16,11 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(create: (context) => HomeCubit()..getHomeData(), child: BottomNavBar()),
         );
+      case Routes.details:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(create: (context) => HomeCubit()..getHomeData(), child: Details()),
+        );
+
       default:
         return null;
     }

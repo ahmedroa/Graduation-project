@@ -10,29 +10,52 @@ class PostsCubit extends Cubit<PostsState> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   PostCar? postCar;
 
-  void createPost({
-    required String title,
-    required String description,
-    required String model,
-    required String carLocation,
-    required String carYear,
-    required String carColor,
-    required String image,
-  }) {
+  createPost(
+    //   {
+    //   required String name,
+    //   required String description,
+    //   required int year,
+    //   required int carTheftHistory,
+    //   required String image,
+    //   required String location,
+    //   required bool isLocation,
+    //   required String locationName,
+    //   required String nameFound,
+    //   required String phone,
+    //   required String phone2,
+    //   required bool what1,
+    //   required bool what2,
+    //   required String tokinNotification,
+    // }
+  ) {
     emit(PostsLoading());
     try {
-      firestore.collection('posts').add({
-        'title': title,
-        'description': description,
-        'image': image,
-        'model': model,
-        'carLocation': carLocation,
-        'carYear': carYear,
-        'carColor': carColor,
-        'createdAt': DateTime.now(),
-      });
-    } catch (error) {
-      emit(PostsError(error.toString()));
+      firestore
+          .collection('posts')
+          .add({
+            'id': '',
+            'name': 'جلي امجراند',
+            'description': 'سرقت من المعموره اخر محطه بجوار مسجد السيدة زينب',
+            'year': 2023,
+            'carTheftHistory': '2024',
+            'image':
+                'https://firebasestorage.googleapis.com/v0/b/graduation-1e7b6.appspot.com/o/1.jpg?alt=media&token=3b3b3b3b-3b3b-3b3b-3b3b-3b3b3b3b3b3b',
+            'location': 'https://maps.app.goo.gl/T811JhKnSEK5qRfi7',
+            'isLocation': true,
+            'locationName': 'المعموره',
+            'nameFound': 'ahned khalid',
+            'phone': '+966548828730',
+            "phone2": '+966548828730',
+            'what1': false,
+            'what2': false,
+            'isFound': false,
+            'tokinNotification': '',
+          })
+          .then((value) {
+            FirebaseFirestore.instance.collection('posts').doc(value.id).update({'id': value.id});
+          }); // emit(PostsSuccess());
+    } catch (e) {
+      // emit(PostsError(e.toString()));
     }
   }
 }
