@@ -10,7 +10,6 @@ part 'reported_cars_cubit.freezed.dart';
 
 class ReportedCarsCubit extends Cubit<ReportedCarsState> {
   ReportedCarsCubit() : super(ReportedCarsState.initial());
-  // String uid = FirebaseAuth.instance.currentUser!.uid;
   String uid = 'test';
   final firestore = FirebaseFirestore.instance;
 

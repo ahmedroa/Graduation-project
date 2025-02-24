@@ -17,7 +17,7 @@ class Homescreen extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           backgroundColor: ColorsManager.kPrimaryColor,
           onPressed: () {
-            BlocProvider.of<PostsCubit>(context).createPost();
+            // BlocProvider.of<PostsCubit>(context).createPost();
           },
           child: const Icon(Icons.add, color: Colors.white),
         ),

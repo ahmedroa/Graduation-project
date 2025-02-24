@@ -9,8 +9,21 @@ part 'settings_cubit.freezed.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit() : super(SettingsState.initial());
+
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  void getDataUser() {
+    emit(SettingsState.loading());
+    try {
+      firestore.collection('users').doc(auth.currentUser!.uid).get().then((value) {
+        emit(SettingsState.success());
+      });
+      emit(SettingsState.success());
+    } catch (e) {
+      emit(SettingsState.error(e.toString()));
+    }
+  }
 
   void logout() {
     emit(SettingsState.loggingOut());
@@ -22,16 +35,14 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
   }
 
-  void getDataUser() {
+  void deleteAccount() {
     emit(SettingsState.loading());
-
     try {
-      firestore.collection('users').doc(auth.currentUser!.uid).get().then((value) {
-        emit(SettingsState.success());
-      });
-      emit(SettingsState.success());
+      auth.currentUser!.delete();
+      firestore.collection('users').doc(auth.currentUser!.uid).delete();
+      emit(SettingsState.deleteAccountSuccess());
     } catch (e) {
-      emit(SettingsState.error(e.toString()));
+      emit(SettingsState.deleteAccountFailure(e.toString()));
     }
   }
 }

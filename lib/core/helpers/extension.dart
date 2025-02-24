@@ -25,9 +25,17 @@ extension ListExtension<T> on List<T>? {
   bool isNullOrEmpty() => this == null || this!.isEmpty;
 }
 
+// extension AuthExtensions on BuildContext {
+//   bool get isLoggedIn {
+//     final user = FirebaseAuth.instance.currentUser;
+//     return user != null;
+//   }
+
+// }
+
 extension AuthExtensions on BuildContext {
-  bool get isLoggedIn {
+  bool get isNotLoggedIn {
     final user = FirebaseAuth.instance.currentUser;
-    return user != null;
+    return user == null;
   }
 }
