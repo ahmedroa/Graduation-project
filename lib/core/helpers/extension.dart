@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 
 extension Navigation on BuildContext {
@@ -22,4 +23,11 @@ extension StringExtension on String? {
 
 extension ListExtension<T> on List<T>? {
   bool isNullOrEmpty() => this == null || this!.isEmpty;
+}
+
+extension AuthExtensions on BuildContext {
+  bool get isLoggedIn {
+    final user = FirebaseAuth.instance.currentUser;
+    return user != null;
+  }
 }

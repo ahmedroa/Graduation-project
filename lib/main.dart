@@ -17,3 +17,4 @@ void main() async {
   NetworkMonitor().startMonitoring();
   runApp(MyApp(appRouter: AppRouter()));
 }
+// flutter pub run build_runner build --delete-conflicting-outputs

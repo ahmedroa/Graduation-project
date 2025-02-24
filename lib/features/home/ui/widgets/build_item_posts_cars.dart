@@ -23,6 +23,11 @@ class BuildItemPostsCars extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // CachedNetworkImage(
+                //   imageUrl: '${carList.image}',
+                //   placeholder: (context, url) => CircularProgressIndicator(),
+                //   errorWidget: (context, url, error) => Icon(Icons.error),
+                // ),
                 Image.network(carList.image ?? '', width: 100, height: 100, fit: BoxFit.cover),
                 const SizedBox(width: 10),
                 Expanded(

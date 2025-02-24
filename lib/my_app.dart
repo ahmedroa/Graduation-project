@@ -6,7 +6,6 @@ import 'package:graduation/core/routing/routes.dart';
 import 'package:graduation/core/theme/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:graduation/core/widgets/error.dart';
-// import 'package:graduation/core/widgets/no_internet.dart';
 
 class MyApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-    ErrorWidget.builder = (FlutterErrorDetails details) {
+    ErrorWidget.builder = (FlutterErrorDetails error) {
       return ErrorPage();
     };
 
@@ -32,16 +31,13 @@ class MyApp extends StatelessWidget {
         supportedLocales: const [Locale("ar", "AE")],
         locale: const Locale("ar", "AE"),
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
         theme: lightTheme,
-        // home: ErrorPage(),
         initialRoute: Routes.bottomNavBar,
         onGenerateRoute: appRouter.generateRoute,
       ),
     );
   }
 }
-// 
 
 
 

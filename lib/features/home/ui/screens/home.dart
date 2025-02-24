@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/features/home/ui/widgets/home_bloc_builder.dart';
 import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
+// import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
 
 class Homescreen extends StatelessWidget {
   const Homescreen({super.key});
@@ -15,7 +17,6 @@ class Homescreen extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           backgroundColor: ColorsManager.kPrimaryColor,
           onPressed: () {
-            // showModalBottomSheet(context: context, isScrollControlled: true, builder: (context) => Container());
             BlocProvider.of<PostsCubit>(context).createPost();
           },
           child: const Icon(Icons.add, color: Colors.white),
