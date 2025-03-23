@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
+import 'package:graduation/core/helpers/spacing.dart';
 
 import 'package:graduation/features/home/ui/screens/details.dart';
 
@@ -16,19 +17,22 @@ class BuildItemPostsCars extends StatelessWidget {
           Navigator.push(context, MaterialPageRoute(builder: (context) => Details(carList: carList)));
         },
         child: Container(
-          decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(10)),
+          height: 110,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(width: .1),
+          ),
           width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // CachedNetworkImage(
-                //   imageUrl: '${carList.image}',
-                //   placeholder: (context, url) => CircularProgressIndicator(),
-                //   errorWidget: (context, url, error) => Icon(Icons.error),
-                // ),
-                Image.network(carList.image ?? '', width: 100, height: 100, fit: BoxFit.cover),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(carList.image ?? '', width: 100, height: 100, fit: BoxFit.cover),
+                ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
@@ -38,7 +42,7 @@ class BuildItemPostsCars extends StatelessWidget {
                         carList.name ?? "اسم غير متوفر",
                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
-
+                      verticalSpace(8),
                       Text(
                         carList.description ?? "وصف غير متوفر",
                         maxLines: 1,
@@ -46,7 +50,12 @@ class BuildItemPostsCars extends StatelessWidget {
                         style: const TextStyle(fontSize: 14, color: Colors.black54),
                       ),
 
-                      Text(carList.name ?? "اسم غير متوفر", style: const TextStyle(fontSize: 16)),
+                      Row(
+                        children: [
+                          Icon(Icons.location_on_outlined),
+                          Text(carList.locationName ?? "اسم غير متوفر", style: const TextStyle(fontSize: 16)),
+                        ],
+                      ),
                     ],
                   ),
                 ),

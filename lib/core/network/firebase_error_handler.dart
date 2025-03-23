@@ -4,23 +4,13 @@ part 'firebase_error_handler.freezed.dart';
 
 @freezed
 class FirebaseFailure with _$FirebaseFailure {
-  const factory FirebaseFailure.auth({
-    required String code,
-    required String message,
-  }) = _AuthFailure;
+  const factory FirebaseFailure.auth({required String code, required String message}) = _AuthFailure;
 
-  const factory FirebaseFailure.database({
-    required String code,
-    required String message,
-  }) = _DatabaseFailure;
+  const factory FirebaseFailure.database({required String code, required String message}) = _DatabaseFailure;
 
-  const factory FirebaseFailure.network({
-    required String message,
-  }) = _NetworkFailure;
+  const factory FirebaseFailure.network({required String message}) = _NetworkFailure;
 
-  const factory FirebaseFailure.unknown({
-    required String message,
-  }) = _UnknownFailure;
+  const factory FirebaseFailure.unknown({required String message}) = _UnknownFailure;
 }
 
 class FirebaseErrorHandler {
@@ -30,24 +20,16 @@ class FirebaseErrorHandler {
     } else if (error is FirebaseException) {
       return _handleDatabaseError(error);
     } else {
-      return FirebaseFailure.unknown(
-        message: error.toString(),
-      );
+      return FirebaseFailure.unknown(message: error.toString());
     }
   }
 
   static FirebaseFailure _handleAuthError(FirebaseAuthException error) {
-    return FirebaseFailure.auth(
-      code: error.code,
-      message: _getAuthErrorMessage(error.code),
-    );
+    return FirebaseFailure.auth(code: error.code, message: _getAuthErrorMessage(error.code));
   }
 
   static FirebaseFailure _handleDatabaseError(FirebaseException error) {
-    return FirebaseFailure.database(
-      code: error.code,
-      message: _getDatabaseErrorMessage(error.code),
-    );
+    return FirebaseFailure.database(code: error.code, message: _getDatabaseErrorMessage(error.code));
   }
 
   static String _getAuthErrorMessage(String code) {

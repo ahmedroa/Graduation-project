@@ -1,6 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'posts_state.dart';
 
@@ -9,57 +14,233 @@ class PostsCubit extends Cubit<PostsState> {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   String auth = 'test';
+  int selectedOption = 1;
+
+  // Car information variables
+  final TextEditingController carNameController = TextEditingController();
+  final TextEditingController carTypeController = TextEditingController();
+  final TextEditingController carColorController = TextEditingController();
+  final TextEditingController carModelController = TextEditingController();
+  final TextEditingController chassisNumberController = TextEditingController();
+  final TextEditingController plateNumberController = TextEditingController();
+
+  // Car data lists
+  final List<String> carTypes = [
+    "أستون مارتن",
+    "ألفا روميو",
+    "إنفينيتي",
+    "أودي",
+    "بي إم دبليو",
+    "بيجو",
+    "بورش",
+    "بوجاتي",
+    "بوغاتي",
+    "بويك",
+    "تاتا",
+    "تسلا",
+    "تويوتا",
+    "جي إم سي",
+    "جيلي",
+    "جاكوار",
+    "جينيسيس",
+    "دايهاتسو",
+    "دودج",
+    "دي إس",
+    "دونغفينغ",
+    "رام",
+    "رينو",
+    "سيتروين",
+    "سوبارو",
+    "سوزوكي",
+    "شيري",
+    "شيفروليه",
+    "شانجان",
+    "فاو",
+    "فورد",
+    "فيراري",
+    "فولفو",
+    "فولكس فاجن",
+    "كاديلاك",
+    "كيا",
+    "كوينيجسيج",
+    "لاند روفر",
+    "لكزس",
+    "لامبورغيني",
+    "لينكولن",
+    "لوتس",
+    "مازدا",
+    "مازيراتي",
+    "ماهيندرا",
+    "مايباخ",
+    "ميتسوبيشي",
+    "ميني",
+    "مرسيدس",
+    "نيسان",
+    "هافال",
+    "هوندا",
+    "هيونداي",
+  ];
+
+  final List<String> carColors = [
+    "أبيض",
+    "أسود",
+    "فضي",
+    "رمادي",
+    "أزرق",
+    "أحمر",
+    "أخضر",
+    "ذهبي",
+    "برتقالي",
+    "بني",
+    "أرجواني",
+    "زهري",
+  ];
+
+  final List<String> carModels = List.generate(2025 - 1990 + 1, (index) => (2025 - index).toString());
+
+  // First and second car images
+  File? firstCarImage;
+  File? secondCarImage;
+
+  void selectOption(int option) {
+    selectedOption = option;
+    emit(PostsSelectedOption());
+  }
+
+  // Car image handling methods
+  void setFirstCarImage(File image) {
+    firstCarImage = image;
+    emit(CarImagesUpdated());
+  }
+
+  void setSecondCarImage(File image) {
+    secondCarImage = image;
+    emit(CarImagesUpdated());
+  }
+
+  // Method to clear all car information
+  void clearCarInfo() {
+    carNameController.clear();
+    carTypeController.clear();
+    carColorController.clear();
+    carModelController.clear();
+    chassisNumberController.clear();
+    plateNumberController.clear();
+    firstCarImage = null;
+    secondCarImage = null;
+    emit(CarInfoCleared());
+  }
+
+  // Method to validate car information
+  bool validateCarInfo() {
+    if (carNameController.text.isEmpty ||
+        carTypeController.text.isEmpty ||
+        carColorController.text.isEmpty ||
+        carModelController.text.isEmpty) {
+      emit(PostsError('يرجى إدخال جميع المعلومات المطلوبة'));
+      return false;
+    }
+
+    if (firstCarImage == null) {
+      emit(PostsError('يرجى إضافة صورة السيارة'));
+      return false;
+    }
+
+    return true;
+  }
+
+  // Modified createPost method to include car information
   Future<void> createPost({
-    required String name,
-    required String description,
-    required int year,
-
-    required String carTheftHistory,
-    required String image,
-    required String location,
-    required String phone,
-    required String phone2,
-    required String tokinNotification,
-    required String userId,
-    required String createdAt,
-    required String locationName,
-    required String nameFound,
-    required bool what1,
-    required bool what2,
-    required bool isFound,
-
-    required bool isLocation,
+    String? name,
+    String? description,
+    String? carTheftHistory,
+    String? location,
+    String? phone,
+    String? phone2,
+    String? tokinNotification,
+    String? locationName,
+    String? nameFound,
+    bool what1 = false,
+    bool what2 = false,
+    bool isFound = false,
+    bool isLocation = false,
   }) async {
     emit(PostsLoading());
+
+    // Validate car information first
+    if (!validateCarInfo()) {
+      return;
+    }
+
     try {
       String userId = 'test';
+
+      // Upload images to storage first (assuming you have a method for this)
+      List<String> imageUrls = await uploadCarImages();
+
       PostCar post = PostCar(
         id: '',
-        name: name,
-        description: description,
-        year: year,
-        carTheftHistory: carTheftHistory,
-        image: image,
-        location: location,
+        name: name ?? carNameController.text,
+        description: description ?? '',
+        year: int.tryParse(carModelController.text) ?? DateTime.now().year,
+        carTheftHistory: carTheftHistory ?? '',
+        // carType: carTypeController.text,
+        // carColor: carColorController.text,
+        // chassisNumber: chassisNumberController.text,
+        // plateNumber: plateNumberController.text,
+        image: imageUrls.isNotEmpty ? imageUrls[0] : '',
+        // secondImage: imageUrls.length > 1 ? imageUrls[1] : '',
+        location: location ?? '',
         isLocation: isLocation,
-        locationName: locationName,
-        nameFound: nameFound,
-        phone2: phone2,
+        locationName: locationName ?? '',
+        nameFound: nameFound ?? '',
+        phone: phone ?? '',
+        phone2: phone2 ?? '',
         what1: what1,
         what2: what2,
         isFound: isFound,
-        phone: phone,
-        tokinNotification: tokinNotification,
+        tokinNotification: tokinNotification ?? '',
         userId: userId,
         createdAt: FieldValue.serverTimestamp(),
       );
+
       DocumentReference postRef = await firestore.collection('posts').add(post.toJson());
       await postRef.update({'id': postRef.id});
       post.id = postRef.id;
+
       await firestore.collection('users').doc(userId).collection('posts').doc(postRef.id).set(post.toJson());
+
+      // Clear form after successful submission
+      clearCarInfo();
+      emit(PostsCreated(post));
     } catch (e) {
       emit(PostsError(e.toString()));
     }
+  }
+
+  // Method to upload car images to Firebase Storage
+  Future<List<String>> uploadCarImages() async {
+    List<String> imageUrls = [];
+
+    try {
+      if (firstCarImage != null) {
+        // final ref = FirebaseStorage.instance.ref().child('car_images/${DateTime.now().millisecondsSinceEpoch}_1.jpg');
+        // await ref.putFile(firstCarImage!);
+        // String url = await ref.getDownloadURL();
+        // imageUrls.add(url);
+      }
+
+      if (secondCarImage != null) {
+        // final ref = FirebaseStorage.instance.ref().child('car_images/${DateTime.now().millisecondsSinceEpoch}_2.jpg');
+        // await ref.putFile(secondCarImage!);
+        // String url = await ref.getDownloadURL();
+        // imageUrls.add(url);
+      }
+    } catch (e) {
+      emit(PostsError('فشل في رفع الصور: ${e.toString()}'));
+    }
+
+    return imageUrls;
   }
 
   void likePost(String postId) async {
@@ -67,8 +248,96 @@ class PostsCubit extends Cubit<PostsState> {
     try {
       await firestore.collection('posts').doc(postId).update({'likes': FieldValue.increment(1)});
       await firestore.collection('users').doc(auth).collection('likes').doc(postId).set({'postId': postId});
+      emit(PostLiked());
     } catch (e) {
       emit(PostsError(e.toString()));
     }
   }
 }
+
+// Add new states for car information
+// class CarImagesUpdated extends PostsState {}
+
+// class CarInfoCleared extends PostsState {}
+
+// class PostsCreated extends PostsState {
+//   final PostCar post;
+//   PostsCreated(this.post);
+// }
+
+// class PostLiked extends PostsState {}
+// class PostsCubit extends Cubit<PostsState> {
+//   PostsCubit() : super(PostsInitial());
+
+//   FirebaseFirestore firestore = FirebaseFirestore.instance;
+//   String auth = 'test';
+//  int selectedOption = 1; // متغير عادي
+
+//   void selectOption(int option) {
+//     selectedOption = option;
+//     emit(PostsSelectedOption()); // تحديث الـ state لإعادة بناء الواجهة
+//   }
+
+//   Future<void> createPost({
+//     required String name,
+//     required String description,
+//     required int year,
+
+//     required String carTheftHistory,
+//     required String image,
+//     required String location,
+//     required String phone,
+//     required String phone2,
+//     required String tokinNotification,
+//     required String userId,
+//     required String createdAt,
+//     required String locationName,
+//     required String nameFound,
+//     required bool what1,
+//     required bool what2,
+//     required bool isFound,
+
+//     required bool isLocation,
+//   }) async {
+//     emit(PostsLoading());
+//     try {
+//       String userId = 'test';
+//       PostCar post = PostCar(
+//         id: '',
+//         name: name,
+//         description: description,
+//         year: year,
+//         carTheftHistory: carTheftHistory,
+//         image: image,
+//         location: location,
+//         isLocation: isLocation,
+//         locationName: locationName,
+//         nameFound: nameFound,
+//         phone2: phone2,
+//         what1: what1,
+//         what2: what2,
+//         isFound: isFound,
+//         phone: phone,
+//         tokinNotification: tokinNotification,
+//         userId: userId,
+//         createdAt: FieldValue.serverTimestamp(),
+//       );
+//       DocumentReference postRef = await firestore.collection('posts').add(post.toJson());
+//       await postRef.update({'id': postRef.id});
+//       post.id = postRef.id;
+//       await firestore.collection('users').doc(userId).collection('posts').doc(postRef.id).set(post.toJson());
+//     } catch (e) {
+//       emit(PostsError(e.toString()));
+//     }
+//   }
+
+//   void likePost(String postId) async {
+//     emit(PostsLoading());
+//     try {
+//       await firestore.collection('posts').doc(postId).update({'likes': FieldValue.increment(1)});
+//       await firestore.collection('users').doc(auth).collection('likes').doc(postId).set({'postId': postId});
+//     } catch (e) {
+//       emit(PostsError(e.toString()));
+//     }
+//   }
+// }

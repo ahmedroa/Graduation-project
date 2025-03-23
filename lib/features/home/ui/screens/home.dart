@@ -1,33 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation/core/helpers/extension.dart';
+import 'package:graduation/core/helpers/spacing.dart';
+import 'package:graduation/core/routing/app_router.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/features/home/ui/widgets/home_bloc_builder.dart';
 import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
 // import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
 
-class Homescreen extends StatelessWidget {
+class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
 
+  @override
+  State<Homescreen> createState() => _HomescreenState();
+}
+
+class _HomescreenState extends State<Homescreen> {
+  int selectedTag = 0;
+
+  final List<String> _tags = ["السيارات اللتي تم العثور عليها", "السيارات المبلغ عنها"];
+
+  Widget _buildTags(int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedTag = index;
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(15),
+          border: selectedTag == index ? Border.all(color: ColorsManager.kPrimaryColor, width: 2) : null,
+        ),
+        child: Text(_tags[index], style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.secondary)),
+      ),
+    );
+  }
+
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PostsCubit(),
       child: Scaffold(
+        backgroundColor: Color(0xffFDFDFD),
         floatingActionButton: FloatingActionButton(
           backgroundColor: ColorsManager.kPrimaryColor,
           onPressed: () {
             // BlocProvider.of<PostsCubit>(context).createPost();
+            context.pushNamed(Routes.createPost);
           },
           child: const Icon(Icons.add, color: Colors.white),
         ),
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: Text('الرئيسية'),
-          centerTitle: true,
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.notifications, color: ColorsManager.kPrimaryColor))],
+
+        body: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 12, right: 12),
+                child: Row(children: [Text('أهلا آحمد'), Spacer(), Icon(Icons.notifications)]),
+              ),
+              verticalSpace(12),
+              // Center(
+              //   child: SizedBox(
+              //     height: 40,
+              //     child: Directionality(
+              //       textDirection: TextDirection.rtl,
+              //       child: ListView(
+              //         scrollDirection: Axis.horizontal,
+              //         children: _tags.asMap().entries.map((MapEntry map) => _buildTags(map.key)).toList(),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              HomeBlocBuilder(),
+            ],
+          ),
         ),
-        body: HomeBlocBuilder(),
       ),
     );
   }

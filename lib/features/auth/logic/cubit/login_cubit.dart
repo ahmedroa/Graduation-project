@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +15,16 @@ class LoginCubit extends Cubit<LoginState> {
   TextEditingController passwordController = TextEditingController();
 
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   void register({required String email, required String password}) async {
     try {
       emit(LoginState.loading());
 
-      auth.createUserWithEmailAndPassword(email: email, password: password);
+      auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then({} as FutureOr Function(UserCredential value))
+          .catchError((e) {});
       emit(LoginState.success('User created successfully'));
     } catch (e) {
       emit(LoginState.error(error: e.toString()));

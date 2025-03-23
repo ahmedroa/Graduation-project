@@ -44,4 +44,15 @@ class ReportedCarsCubit extends Cubit<ReportedCarsState> {
       emit(ReportedCarsState.error(failure.message));
     }
   }
+
+  void editReportedCar(String postId, PostCar postCar) async {
+    try {
+      emit(ReportedCarsState.loading());
+      await firestore.collection('users').doc(uid).collection('posts').doc(postId).update(postCar.toJson());
+      emit(ReportedCarsState.success(carInformation: []));
+    } catch (e) {
+      FirebaseFailure failure = FirebaseErrorHandler.handleError(e);
+      emit(ReportedCarsState.error(failure.message));
+    }
+  }
 }

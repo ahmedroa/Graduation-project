@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +11,7 @@ import 'package:graduation/core/widgets/error.dart';
 
 class MyApp extends StatelessWidget {
   final AppRouter appRouter;
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   const MyApp({super.key, required this.appRouter});
 
@@ -30,51 +33,15 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: const [Locale("ar", "AE")],
         locale: const Locale("ar", "AE"),
+
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
-        initialRoute: Routes.bottomNavBar,
+        navigatorObservers: [
+          FirebaseAnalyticsObserver(analytics: analytics), // 👈 يراقب التنقل بين الصفحات تلقائيًا
+        ],
+        initialRoute: Routes.section,
         onGenerateRoute: appRouter.generateRoute,
       ),
     );
   }
 }
-
-
-
-// class MyApp extends StatelessWidget {
-//   final AppRouter appRouter;
-
-//   const MyApp({super.key, required this.appRouter});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
-//     return ScreenUtilInit(
-//       designSize: Size(375, 812),
-//       minTextAdapt: true,
-//       child: StreamBuilder<List<ConnectivityResult>>(
-//         stream: Connectivity().onConnectivityChanged,
-//         builder: (context, snapshot) {
-//           if (snapshot.hasData && snapshot.data!.contains(ConnectivityResult.none)) {
-//             return const NoInternet();
-//           }
-//           return MaterialApp(
-//             localizationsDelegates: const [
-//               GlobalCupertinoLocalizations.delegate,
-//               GlobalMaterialLocalizations.delegate,
-//               GlobalWidgetsLocalizations.delegate,
-//             ],
-//             supportedLocales: const [Locale("ar", "AE")],
-//             locale: const Locale("ar", "AE"),
-//             debugShowCheckedModeBanner: false,
-//             title: 'Flutter Demo',
-//             theme: lightTheme,
-//             initialRoute: Routes.bottomNavBar,
-//             onGenerateRoute: appRouter.generateRoute,
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }

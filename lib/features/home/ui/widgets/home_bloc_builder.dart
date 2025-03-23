@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation/core/widgets/loading.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:graduation/features/home/cubit/home_state.dart';
@@ -16,12 +17,15 @@ class HomeBlocBuilder extends StatelessWidget {
           initial: () => loading(),
           loading: () => loading(),
           success:
-              (carInformation) => ListView.builder(
-                itemCount: carInformation.length,
-                itemBuilder: (context, index) {
-                  final carList = carInformation[index];
-                  return BuildItemPostsCars(carList: carList);
-                },
+              (carInformation) => SizedBox(
+                height: 600.h,
+                child: ListView.builder(
+                  itemCount: carInformation.length,
+                  itemBuilder: (context, index) {
+                    final carList = carInformation[index];
+                    return BuildItemPostsCars(carList: carList);
+                  },
+                ),
               ),
           error: (error) => Center(child: Text("❌ خطأ: $error")),
         );
