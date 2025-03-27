@@ -25,10 +25,11 @@ class PostsError extends PostsState {
 
 class PostsSelectedOption extends PostsState {}
 
+class CarImagesUpdated extends PostsState {}
+
 class PostsCreated extends PostsState {
   final PostCar post;
   PostsCreated(this.post);
 }
 
 class PostLiked extends PostsState {}
-class CarImagesUpdated extends PostsState {}

@@ -21,6 +21,7 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   //  brightness: Brightness.dark,
   appBarTheme: AppBarTheme(
+    iconTheme: IconThemeData(color: ColorsManager.kPrimaryColor),
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: ColorsManager.backgroundColorDark,
       statusBarIconBrightness: Brightness.dark,
@@ -34,7 +35,6 @@ ThemeData lightTheme = ThemeData(
     displayLarge: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold, fontFamily: 'Tajawal'),
   ),
   scaffoldBackgroundColor: Colors.white, //
-
   // primaryTextTheme: Typography.whiteCupertino
 );
 

@@ -17,7 +17,6 @@ class CarInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     final postsCubit = context.read<PostsCubit>();
 
-    // Methods to handle image selection
     void pickFirstImage() async {
       final ImagePicker picker = ImagePicker();
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
@@ -34,7 +33,6 @@ class CarInformation extends StatelessWidget {
       }
     }
 
-    // Methods to show selection sheets
     void showCarTypeSelectionSheet() {
       showModalBottomSheet(
         context: context,
@@ -244,7 +242,6 @@ class CarInformation extends StatelessWidget {
                     child: MainButton(
                       text: 'التالي',
                       onTap: () {
-                        // Validate basic data before proceeding
                         if (postsCubit.validateCarInfo()) {
                           postsCubit.selectOption(2);
                         }
@@ -260,6 +257,9 @@ class CarInformation extends StatelessWidget {
     );
   }
 }
+
+
+
 // class CarInformation extends StatefulWidget {
 //   const CarInformation({super.key});
 

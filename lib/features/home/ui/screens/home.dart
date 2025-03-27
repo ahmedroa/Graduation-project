@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/helpers/extension.dart';
 import 'package:graduation/core/helpers/spacing.dart';
-import 'package:graduation/core/routing/app_router.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/theme/colors.dart';
+import 'package:graduation/core/theme/text_styles.dart';
+import 'package:graduation/features/home/ui/widgets/add_post_bottom_sheet.dart';
 import 'package:graduation/features/home/ui/widgets/home_bloc_builder.dart';
 import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
 // import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
@@ -51,8 +51,11 @@ class _HomescreenState extends State<Homescreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: ColorsManager.kPrimaryColor,
           onPressed: () {
-            // BlocProvider.of<PostsCubit>(context).createPost();
-            context.pushNamed(Routes.createPost);
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => AddPostBottomSheet(),
+            );
           },
           child: const Icon(Icons.add, color: Colors.white),
         ),
@@ -60,23 +63,33 @@ class _HomescreenState extends State<Homescreen> {
         body: SafeArea(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 12, right: 12),
-                child: Row(children: [Text('أهلا آحمد'), Spacer(), Icon(Icons.notifications)]),
+              Container(
+                height: 100,
+                decoration: BoxDecoration(color: ColorsManager.kPrimaryColor),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 12),
+                  child: Row(
+                    children: [
+                      Text('أهلا آحمد', style: TextStyles.font16BlacMedium.copyWith(fontSize: 20)),
+                      Spacer(),
+                      Icon(Icons.notifications),
+                    ],
+                  ),
+                ),
               ),
               verticalSpace(12),
-              // Center(
-              //   child: SizedBox(
-              //     height: 40,
-              //     child: Directionality(
-              //       textDirection: TextDirection.rtl,
-              //       child: ListView(
-              //         scrollDirection: Axis.horizontal,
-              //         children: _tags.asMap().entries.map((MapEntry map) => _buildTags(map.key)).toList(),
-              //       ),
-              //     ),
-              //   ),
-              // ),
+              Center(
+                child: SizedBox(
+                  height: 40,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: _tags.asMap().entries.map((MapEntry map) => _buildTags(map.key)).toList(),
+                    ),
+                  ),
+                ),
+              ),
               HomeBlocBuilder(),
             ],
           ),

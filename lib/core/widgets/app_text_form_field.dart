@@ -102,6 +102,7 @@ class AppTextFormField extends StatelessWidget {
           borderSide: const BorderSide(color: Colors.red, width: 1.3),
           borderRadius: borderRadius ?? BorderRadius.circular(16.0),
         ),
+
         // hintStyle: hintStyle ?? TextStyles.font14LightGrayRegular,
         hintText: hintText,
         helperStyle: const TextStyle(color: Color(0xffA2A2A2)),

@@ -8,6 +8,7 @@ import 'package:graduation/features/home/ui/screens/details.dart';
 import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
 import 'package:graduation/features/posts/ui/screens/car_information.dart';
 import 'package:graduation/features/posts/ui/screens/create_post.dart';
+import 'package:graduation/features/posts/ui/screens/report_vehicle.dart';
 import 'package:graduation/features/posts/ui/widgets/section.dart';
 import 'package:graduation/features/splach/splach.dart';
 import '../../features/auth/logic/cubit/login_cubit.dart';
@@ -37,6 +38,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => BlocProvider(create: (context) => PostsCubit(), child: Section()));
       case Routes.carInformation:
         return MaterialPageRoute(builder: (_) => CarInformation());
+      case Routes.reportVehicle:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(create: (context) => PostsCubit(), child: ReportVehicle()),
+        );
 
       default:
         return null;

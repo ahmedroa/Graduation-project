@@ -8,7 +8,7 @@ class ReportedCars extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reported Cars'),
+        title: Text(' السيارات المبلغ عنها'),
         centerTitle: true,
         actions: [
           IconButton(

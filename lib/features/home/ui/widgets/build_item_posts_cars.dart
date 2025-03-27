@@ -17,7 +17,7 @@ class BuildItemPostsCars extends StatelessWidget {
           Navigator.push(context, MaterialPageRoute(builder: (context) => Details(carList: carList)));
         },
         child: Container(
-          height: 110,
+          // height: 110,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -29,6 +29,11 @@ class BuildItemPostsCars extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // CachedNetworkImage(
+                //   imageUrl: '${carList.image}',
+                //   placeholder: (context, url) => CircularProgressIndicator(),
+                //   errorWidget: (context, url, error) => Icon(Icons.error),
+                // ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.network(carList.image ?? '', width: 100, height: 100, fit: BoxFit.cover),

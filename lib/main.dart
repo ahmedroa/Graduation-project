@@ -22,7 +22,10 @@ void main() async {
 }
 
 
-
+// icon app
+// name app 
+// color app
+// 
 
 // flutter pub run build_runner build --delete-conflicting-outputs 
 
