@@ -26,9 +26,8 @@ class HomeCubit extends Cubit<HomeState> {
 
       emit(HomeState.success(carInformation: posts));
     } catch (e) {
-      FirebaseFailure failure = FirebaseErrorHandler.handleError(e);
 
-      emit(HomeState.error(error: failure.message));
+      emit(HomeState.error(error: e.toString()));
     }
   }
 }

@@ -1,11 +1,9 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:graduation/features/auth/logic/cubit/login_state.dart';
+import 'package:graduation/features/auth/login/logic/cubit/login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginState.initial());
@@ -17,25 +15,13 @@ class LoginCubit extends Cubit<LoginState> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  void register({required String email, required String password}) async {
-    try {
-      emit(LoginState.loading());
-
-      auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then({} as FutureOr Function(UserCredential value))
-          .catchError((e) {});
-      emit(LoginState.success('User created successfully'));
-    } catch (e) {
-      emit(LoginState.error(error: e.toString()));
-    }
-  }
-
   void login({required String email, required String password}) async {
+    emit(LoginState.loading());
     try {
-      emit(LoginState.loading());
-
-      auth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential credential = await auth.signInWithEmailAndPassword(email: email, password: password);
+      emit(LoginState.success('User logged in successfully'));
+    } on FirebaseAuthException catch (e) {
+      emit(LoginState.error(error: e.message ?? 'An error occurred'));
     } catch (e) {
       emit(LoginState.error(error: e.toString()));
     }
@@ -55,3 +41,4 @@ class LoginCubit extends Cubit<LoginState> {
     auth.signOut();
   }
 }
+

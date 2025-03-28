@@ -28,12 +28,22 @@ class _CarOwnerInformationState extends State<CarOwnerInformation> {
             Text('اسم صاحب المركبه', style: TextStyles.font14DarkMedium),
             verticalSpace(8),
 
-            AppTextFormField(hintText: 'اكتب الاسم', validator: (v) {}),
+            AppTextFormField(
+              hintText: 'اكتب الاسم',
+              validator: (v) {
+                return null;
+              },
+            ),
             verticalSpace(12),
             Text('رقم الهاتف', style: TextStyles.font14DarkMedium),
 
             verticalSpace(8),
-            AppTextFormField(hintText: 'اكتب رقم الهاتف', validator: (v) {}),
+            AppTextFormField(
+              hintText: 'اكتب رقم الهاتف',
+              validator: (v) {
+                return null;
+              },
+            ),
             Row(
               children: [
                 Checkbox(
@@ -49,7 +59,12 @@ class _CarOwnerInformationState extends State<CarOwnerInformation> {
             ),
 
             verticalSpace(8),
-            AppTextFormField(hintText: 'اكتب رقم هاتف اخر ', validator: (v) {}),
+            AppTextFormField(
+              hintText: 'اكتب رقم هاتف اخر ',
+              validator: (v) {
+                return null;
+              },
+            ),
             Row(
               children: [
                 Checkbox(

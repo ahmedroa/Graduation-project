@@ -1,5 +1,4 @@
 // ignore_for_file: file_names
-// ignore_for_file: file_names
 class PostCar {
   String? id;
   String? name;

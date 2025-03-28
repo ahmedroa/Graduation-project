@@ -32,6 +32,7 @@ class ForgotPassword extends StatelessWidget {
                       if (value == null) {
                         return 'Please enter a valid email';
                       }
+                      return null;
                     },
                   ),
                   verticalSpace(60),

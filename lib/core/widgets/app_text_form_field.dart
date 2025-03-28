@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
 import 'package:graduation/core/theme/colors.dart';
+import 'package:graduation/core/theme/text_styles.dart';
 
 class AppTextFormField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
@@ -19,7 +20,7 @@ class AppTextFormField extends StatelessWidget {
   final Color? backgroundColor;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
-  final Function(String?) validator;
+  final String? Function(String?)? validator;
   final Color? fillColor;
   final int? maxLength;
   final Function(String)? onChanged;
@@ -63,19 +64,15 @@ class AppTextFormField extends StatelessWidget {
     return TextFormField(
       textAlign: textAlign ?? TextAlign.start,
       keyboardType: keyboardType,
-      // style: TextStyles.font14GrayRegular.copyWith(color: Theme.of(context).colorScheme.secondary),
+      controller: controller,
+      style: TextStyles.font14GrayRegular.copyWith(color: Theme.of(context).colorScheme.secondary),
       onChanged: onChanged,
       maxLength: maxLength,
       inputFormatters: inputFormatters,
       maxLines: maxLines ?? 1,
       onTap: onTap,
       obscureText: isObscureText ?? false,
-      validator: (value) {
-        if (value == null) {
-          return 'لا يمكن ترك الحقل فارغ';
-        }
-        return null;
-      },
+      validator: validator,
       decoration: InputDecoration(
         helperText: helperText,
         suffixText: prefixText,

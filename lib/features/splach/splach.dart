@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/img.dart';
-import 'package:graduation/features/auth/logic/cubit/login_cubit.dart';
-import 'package:graduation/features/auth/ui/screens/login.dart';
+import 'package:graduation/features/auth/login/logic/cubit/login_cubit.dart';
+import 'package:graduation/features/auth/login/ui/screens/login.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});

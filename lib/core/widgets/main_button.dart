@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 
 class MainButton extends StatelessWidget {
-  final String text;
+  final  text;
   final VoidCallback onTap;
   final bool hasCircularBorder;
   final double width;

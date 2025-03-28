@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
-import 'package:graduation/core/network/firebase_error_handler.dart';
 
 part 'reported_cars_state.dart';
 part 'reported_cars_cubit.freezed.dart';
@@ -29,8 +28,7 @@ class ReportedCarsCubit extends Cubit<ReportedCarsState> {
 
       emit(ReportedCarsState.success(carInformation: posts));
     } catch (e) {
-      FirebaseFailure failure = FirebaseErrorHandler.handleError(e);
-      emit(ReportedCarsState.error(failure.message));
+      emit(ReportedCarsState.error(e.toString()));
     }
   }
 
@@ -40,8 +38,8 @@ class ReportedCarsCubit extends Cubit<ReportedCarsState> {
       await firestore.collection('users').doc(uid).collection('posts').doc(postId).delete();
       emit(ReportedCarsState.success(carInformation: []));
     } catch (e) {
-      FirebaseFailure failure = FirebaseErrorHandler.handleError(e);
-      emit(ReportedCarsState.error(failure.message));
+      // FirebaseFailure failure = FirebaseErrorHandler.handleError(e);
+      emit(ReportedCarsState.error(e.toString()));
     }
   }
 
@@ -51,8 +49,8 @@ class ReportedCarsCubit extends Cubit<ReportedCarsState> {
       await firestore.collection('users').doc(uid).collection('posts').doc(postId).update(postCar.toJson());
       emit(ReportedCarsState.success(carInformation: []));
     } catch (e) {
-      FirebaseFailure failure = FirebaseErrorHandler.handleError(e);
-      emit(ReportedCarsState.error(failure.message));
+      // FirebaseFailure failure = FirebaseErrorHandler.handleError(e);
+      emit(ReportedCarsState.error(e.toString()));
     }
   }
 }

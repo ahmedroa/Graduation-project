@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/routing/app_router.dart';
-import 'package:graduation/features/auth/ui/screens/forgot_password.dart';
-import 'package:graduation/features/auth/ui/screens/login.dart';
+import 'package:graduation/features/auth/login/ui/screens/forgot_password.dart';
+import 'package:graduation/features/auth/login/ui/screens/login.dart';
+import 'package:graduation/features/auth/register/cubit/register_cubit.dart';
+import 'package:graduation/features/auth/register/ui/screen/register.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:graduation/features/home/ui/screens/details.dart';
 import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
@@ -11,7 +13,7 @@ import 'package:graduation/features/posts/ui/screens/create_post.dart';
 import 'package:graduation/features/posts/ui/screens/report_vehicle.dart';
 import 'package:graduation/features/posts/ui/widgets/section.dart';
 import 'package:graduation/features/splach/splach.dart';
-import '../../features/auth/logic/cubit/login_cubit.dart';
+import '../../features/auth/login/logic/cubit/login_cubit.dart';
 import '../../features/home/ui/widgets/bottom_vav_bar.dart';
 
 class AppRouter {
@@ -25,6 +27,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(create: (context) => LoginCubit(), child: ForgotPassword()),
         );
+      case Routes.register:
+        return MaterialPageRoute(builder: (_) => BlocProvider(create: (context) => RegisterCubit(), child: Register()));
 
       case Routes.bottomNavBar:
         return MaterialPageRoute(

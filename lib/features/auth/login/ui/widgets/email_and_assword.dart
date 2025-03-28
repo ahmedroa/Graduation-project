@@ -6,7 +6,7 @@ import 'package:graduation/core/helpers/app_regex.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/widgets/app_text_form_field.dart';
-import 'package:graduation/features/auth/logic/cubit/login_cubit.dart';
+import 'package:graduation/features/auth/login/logic/cubit/login_cubit.dart';
 
 class EmailAndPassword extends StatefulWidget {
   const EmailAndPassword({super.key});
@@ -56,17 +56,14 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
             hintText: 'البريد الإلكتروني او رقم الجوال',
             validator: (value) {
               if (value == null || value.isEmpty || !AppRegex.isEmailValid(value)) {
-                return 'الرجاء إدخال بريد إلكتروني صالح';
+                return 'لا يمكن  ترك الحقل فارغ';
               }
+              return null;
             },
           ),
           verticalSpace(18),
 
           AppTextFormField(
-            // onChanged: (v) {
-            //   context.read<LoginCubit>().passwordController.text = v;
-            //   print(v);
-            // },
             controller: context.read<LoginCubit>().passwordController,
             hintText: 'كلمة المرور',
             isObscureText: isObscureText,
@@ -82,19 +79,19 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
               ),
             ),
             validator: (value) {
-              if (value == null || value.isEmpty || !AppRegex.isPasswordValid(value)) {
-                return 'Please enter a valid password';
+              if (value == null || value.isEmpty) {
+                return 'لا يمكن  ترك الحقل فارغ';
               }
+              return null;
             },
+            // validator: (value) {
+            //   if (value == null || value.isEmpty || !AppRegex.isPasswordValid(value)) {
+            //     return 'كلمة المرور يجب أن تحتوي على حروف كبيرة وصغيرة وأرقام ورموز وطول لا يقل عن 8 أحرف';
+            //   }
+            //   return null;
+            // },
           ),
-          // verticalSpace(24),
-          // PasswordValidations(
-          //   hasLowercase: hasLowercase,
-          //   hasUppercase: hasUppercase,
-          //   hasSpecialCharacters: hasSpecialCharacters,
-          //   hasNumber: hasNumber,
-          //   hasMinLength: hasMinLength,
-          // ),
+      
         ],
       ),
     );
