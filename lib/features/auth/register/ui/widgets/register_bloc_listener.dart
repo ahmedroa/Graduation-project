@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-// ignore: depend_on_referenced_packages
+import 'package:flutter_bloc/flutter_bloc.dart' show BlocListener;
 import 'package:graduation/core/helpers/extension.dart';
 import 'package:graduation/core/routing/app_router.dart';
-import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/core/widgets/loading.dart';
-import '../../logic/cubit/login_cubit.dart';
-import '../../logic/cubit/login_state.dart';
+import 'package:graduation/features/auth/register/cubit/register_cubit.dart';
 
-class LoginBlocListener extends StatelessWidget {
-  const LoginBlocListener({super.key});
+class RegisterBlocListener extends StatelessWidget {
+  const RegisterBlocListener({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginCubit, LoginState>(
+    return BlocListener<RegisterCubit, RegisterState>(
       listenWhen: (previous, current) => current is Loading || current is Success || current is Error,
       listener: (context, state) {
         state.whenOrNull(
           loading: () {
-            Center(child: CircularProgressIndicator());
             loading();
           },
-          success: (loginResponse) {
-            Center(child: CircularProgressIndicator());
+          success: () {
             Navigator.pop(context);
             context.pushNamed(Routes.bottomNavBar);
           },
@@ -53,10 +48,7 @@ void setupErrorState(BuildContext context, String errorMessage) {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text(
-                'Got it',
-                style: TextStyles.font15DarkBlueMedium.copyWith(color: ColorsManager.kPrimaryColor),
-              ),
+              child: Text('Got it', style: TextStyles.font15DarkBlueMedium),
             ),
           ],
         ),

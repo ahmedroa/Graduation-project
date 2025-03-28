@@ -6,6 +6,7 @@ import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/img.dart';
 import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/features/auth/register/cubit/register_cubit.dart';
+import 'package:graduation/features/auth/register/ui/widgets/register_bloc_listener.dart';
 import 'package:graduation/features/auth/register/ui/widgets/sign_up_form.dart';
 
 class Register extends StatefulWidget {
@@ -86,6 +87,7 @@ class _RegisterState extends State<Register> {
                   ],
                 ),
               ),
+              RegisterBlocListener(),
             ],
           ),
         ),

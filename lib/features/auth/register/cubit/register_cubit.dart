@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,6 +18,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   TextEditingController phoneController = TextEditingController();
 
   void register({required String email, required String password, required String name, required String phone}) async {
+    emit(RegisterState.loading());
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((value) async {

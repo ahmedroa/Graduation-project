@@ -23,7 +23,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
-  bool isLoading = false;
+  // final bool _isLoading = false;
 
   @override
   void initState() {
@@ -91,7 +91,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                           ),
                         ),
                       ),
-                      // verticalSpace(30),
                       BlocBuilder<LoginCubit, LoginState>(
                         builder: (context, state) {
                           final isLoading = state is Loading;
@@ -112,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                                 }
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorsManager.kPrimaryColor, 
+                                backgroundColor: ColorsManager.kPrimaryColor,
                                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                               ),
@@ -121,7 +120,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                           );
                         },
                       ),
-
                     ],
                   ),
                 ),
