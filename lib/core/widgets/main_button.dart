@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:graduation/core/theme/text_styles.dart';
 
 import '../theme/colors.dart';
 
 class MainButton extends StatelessWidget {
-  final  text;
+  final text;
   final VoidCallback onTap;
   final bool hasCircularBorder;
   final double width;
   final double height;
   final double int;
-  // ignore: non_constant_identifier_names
   final Color color;
   final Color colortext;
   final double fontSize;
   final FontWeight fontWeight;
+  final Widget? icon; // إضافة الأيقونة كمتغير اختياري
 
   const MainButton({
     super.key,
@@ -27,6 +28,7 @@ class MainButton extends StatelessWidget {
     this.fontSize = 20,
     this.int = 10,
     this.fontWeight = FontWeight.w600,
+    this.icon, // تمرير الأيقونة كقيمة اختيارية
   });
 
   @override
@@ -39,7 +41,16 @@ class MainButton extends StatelessWidget {
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(int), color: color),
         child: MaterialButton(
           onPressed: onTap,
-          child: Text(text, style: TextStyle(color: colortext, fontSize: fontSize, fontWeight: fontWeight)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (icon != null) ...[
+                icon!,
+                const SizedBox(width: 8), // مسافة صغيرة بين الأيقونة والنص
+              ],
+              Text(text, style: TextStyles.font12WhiteMediuAm.copyWith(fontWeight: FontWeight.bold)),
+            ],
+          ),
         ),
       ),
     );

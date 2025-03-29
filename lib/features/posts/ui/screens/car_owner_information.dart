@@ -23,61 +23,9 @@ class _CarOwnerInformationState extends State<CarOwnerInformation> {
             verticalSpace(20),
             Text('بيانات صاحب المركبه', style: TextStyles.font16BlacMedium),
             verticalSpace(20),
-            Text('اضف بيانات صاحب المركبه', style: TextStyles.font12lBlacMediuAm),
-            verticalSpace(20),
             Text('اسم صاحب المركبه', style: TextStyles.font14DarkMedium),
             verticalSpace(8),
-
-            AppTextFormField(
-              hintText: 'اكتب الاسم',
-              validator: (v) {
-                return null;
-              },
-            ),
-            verticalSpace(12),
-            Text('رقم الهاتف', style: TextStyles.font14DarkMedium),
-
-            verticalSpace(8),
-            AppTextFormField(
-              hintText: 'اكتب رقم الهاتف',
-              validator: (v) {
-                return null;
-              },
-            ),
-            Row(
-              children: [
-                Checkbox(
-                  value: isChecked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isChecked = value!;
-                    });
-                  },
-                ),
-                Text('يحتوي على واتساب', style: TextStyles.font14DarkMedium),
-              ],
-            ),
-
-            verticalSpace(8),
-            AppTextFormField(
-              hintText: 'اكتب رقم هاتف اخر ',
-              validator: (v) {
-                return null;
-              },
-            ),
-            Row(
-              children: [
-                Checkbox(
-                  value: isChecked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isChecked = value!;
-                    });
-                  },
-                ),
-                Text('يحتوي على واتساب', style: TextStyles.font14DarkMedium),
-              ],
-            ),
+            buildAppTextFormField(),
             verticalSpace(20),
             Align(
               alignment: Alignment.centerLeft,
@@ -86,6 +34,64 @@ class _CarOwnerInformationState extends State<CarOwnerInformation> {
           ],
         ),
       ),
+    );
+  }
+
+  Column buildAppTextFormField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AppTextFormField(
+          hintText: 'اكتب الاسم',
+          validator: (v) {
+            return null;
+          },
+        ),
+        verticalSpace(12),
+        Text('رقم الهاتف', style: TextStyles.font14DarkMedium),
+
+        verticalSpace(8),
+        AppTextFormField(
+          hintText: 'اكتب رقم الهاتف',
+          validator: (v) {
+            return null;
+          },
+        ),
+        Row(
+          children: [
+            Checkbox(
+              value: isChecked,
+              onChanged: (bool? value) {
+                setState(() {
+                  isChecked = value!;
+                });
+              },
+            ),
+            Text('يحتوي على واتساب', style: TextStyles.font14DarkMedium),
+          ],
+        ),
+
+        verticalSpace(8),
+        AppTextFormField(
+          hintText: 'اكتب رقم هاتف اخر ',
+          validator: (v) {
+            return null;
+          },
+        ),
+        Row(
+          children: [
+            Checkbox(
+              value: isChecked,
+              onChanged: (bool? value) {
+                setState(() {
+                  isChecked = value!;
+                });
+              },
+            ),
+            Text('يحتوي على واتساب', style: TextStyles.font14DarkMedium),
+          ],
+        ),
+      ],
     );
   }
 }

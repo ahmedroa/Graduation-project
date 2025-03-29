@@ -45,12 +45,11 @@ class Setting extends StatelessWidget {
           const Divider(height: 0),
           KSettingListTile(title: 'تغير كلمة المرور', icon: Icon(Icons.lock), onTap: () => {}),
           const Divider(height: 0),
-          context.isNotLoggedIn
-              ? KSettingListTile(title: 'تسجيل الخروج', icon: Icon(Icons.logout_outlined), onTap: () => {})
-              : const Divider(height: 0),
 
-          const SizedBox(height: 10),
-
+          KSettingListTile(title: 'مشاركة التطبيق', icon: Icon(Icons.share), onTap: () => {}),
+          const Divider(height: 0),
+          KSettingListTile(title: 'تسجيل الخروج', icon: Icon(Icons.logout_outlined), onTap: () => {}),
+          const Divider(height: 0),
           context.isNotLoggedIn
               ? TextButton(onPressed: () => (), child: Text('Register Now'))
               : const SizedBox.shrink(),

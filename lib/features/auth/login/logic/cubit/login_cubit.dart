@@ -41,4 +41,3 @@ class LoginCubit extends Cubit<LoginState> {
     auth.signOut();
   }
 }
-

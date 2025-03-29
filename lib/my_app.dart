@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/routing/routes.dart';
@@ -26,6 +27,8 @@ class MyApp extends StatelessWidget {
     } else {
       islogin = true;
     }
+    FlutterNativeSplash.remove();
+
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
@@ -39,8 +42,8 @@ class MyApp extends StatelessWidget {
         locale: const Locale("ar", "AE"),
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
-        // initialRoute: islogin ? Routes.bottomNavBar : Routes.splashView,
-        initialRoute: Routes.register,
+        initialRoute: islogin ? Routes.bottomNavBar : Routes.splashView,
+        // initialRoute: Routes.register,
         onGenerateRoute: appRouter.generateRoute,
         // home: LocationFromLinkWidget(),
       ),

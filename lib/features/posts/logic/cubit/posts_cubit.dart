@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation/core/helpers/location_service.dart';
 
 part 'posts_state.dart';
+
 class PostsCubit extends Cubit<PostsState> {
   PostsCubit() : super(PostsInitial());
 
@@ -13,15 +15,40 @@ class PostsCubit extends Cubit<PostsState> {
   String auth = 'test';
   int selectedOption = 1;
 
-  // Car information variables
+  TextEditingController neighborhoodController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController streetController = TextEditingController();
   final TextEditingController carNameController = TextEditingController();
   final TextEditingController carTypeController = TextEditingController();
   final TextEditingController carColorController = TextEditingController();
   final TextEditingController carModelController = TextEditingController();
   final TextEditingController chassisNumberController = TextEditingController();
   final TextEditingController plateNumberController = TextEditingController();
+    final LocationService _locationService = LocationService();
 
-  // Car data lists
+  Future<void> getLocation() async {
+        emit(LocationLoading()); // 🔄 بدء التحميل
+
+    try {
+      final locationData = await _locationService.getCurrentLocation();
+      neighborhoodController.text = locationData['neighborhood']!;
+      cityController.text = locationData['city']!;
+      streetController.text = locationData['street']!;
+      emit(LocationFetched());
+    } catch (e) {
+      print("خطأ في جلب الموقع: $e");
+      emit(LocationError("حدث خطأ أثناء جلب الموقع"));
+    }
+  }
+
+  @override
+  Future<void> close() {
+    neighborhoodController.dispose();
+    cityController.dispose();
+    streetController.dispose();
+    return super.close();
+  }
+
   final List<String> carTypes = [
     "أستون مارتن",
     "ألفا روميو",
@@ -95,7 +122,6 @@ class PostsCubit extends Cubit<PostsState> {
 
   final List<String> carModels = List.generate(2025 - 1990 + 1, (index) => (2025 - index).toString());
 
-  // First and second car images
   File? firstCarImage;
   File? secondCarImage;
 
@@ -116,17 +142,17 @@ class PostsCubit extends Cubit<PostsState> {
   }
 
   // Method to clear all car information
-  void clearCarInfo() {
-    carNameController.clear();
-    carTypeController.clear();
-    carColorController.clear();
-    carModelController.clear();
-    chassisNumberController.clear();
-    plateNumberController.clear();
-    firstCarImage = null;
-    secondCarImage = null;
-    emit(CarInfoCleared());
-  }
+  // void clearCarInfo() {
+  //   carNameController.clear();
+  //   carTypeController.clear();
+  //   carColorController.clear();
+  //   carModelController.clear();
+  //   chassisNumberController.clear();
+  //   plateNumberController.clear();
+  //   firstCarImage = null;
+  //   secondCarImage = null;
+  //   emit(CarInfoCleared());
+  // }
 
   // Method to validate car information
   bool validateCarInfo() {
@@ -208,7 +234,7 @@ class PostsCubit extends Cubit<PostsState> {
       await firestore.collection('users').doc(userId).collection('posts').doc(postRef.id).set(post.toJson());
 
       // Clear form after successful submission
-      clearCarInfo();
+      // clearCarInfo();
       emit(PostsCreated(post));
     } catch (e) {
       emit(PostsError(e.toString()));
@@ -238,16 +264,5 @@ class PostsCubit extends Cubit<PostsState> {
     }
 
     return imageUrls;
-  }
-
-  void likePost(String postId) async {
-    emit(PostsLoading());
-    try {
-      await firestore.collection('posts').doc(postId).update({'likes': FieldValue.increment(1)});
-      await firestore.collection('users').doc(auth).collection('likes').doc(postId).set({'postId': postId});
-      emit(PostLiked());
-    } catch (e) {
-      emit(PostsError(e.toString()));
-    }
   }
 }

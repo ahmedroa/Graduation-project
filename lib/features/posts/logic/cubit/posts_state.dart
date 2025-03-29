@@ -33,3 +33,12 @@ class PostsCreated extends PostsState {
 }
 
 class PostLiked extends PostsState {}
+
+class LocationFetched extends PostsState {}
+
+class LocationError extends PostsState {
+  final String message;
+  LocationError(this.message);
+}
+
+class LocationLoading extends PostsState {} // ⏳ حالة التحميل

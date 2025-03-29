@@ -67,6 +67,7 @@ dependencies:
   geocoding: ^3.0.0
   flutter_launcher_icons: ^0.14.3
   flutter_native_splash: ^2.4.5
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

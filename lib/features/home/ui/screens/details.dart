@@ -59,20 +59,17 @@ class Details extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.only(top: 55, right: 16),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Positioned(
-                top: 40,
-                left: 16,
+            child: Positioned(
+              top: 40,
+              left: 16,
 
-                child: CircleAvatar(
-                  backgroundColor: Colors.black.withOpacity(0.5),
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
+              child: CircleAvatar(
+                backgroundColor: Colors.black.withOpacity(0.5),
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
               ),
             ),
