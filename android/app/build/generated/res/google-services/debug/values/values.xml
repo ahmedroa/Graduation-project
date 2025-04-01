@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">508415231227</string>
+    <string name="google_api_key" translatable="false">AIzaSyAWv6ZpVo2GpjlUD2me3aL18yxzZZRTooo</string>
+    <string name="google_app_id" translatable="false">1:508415231227:android:d7cb2476c5523ae163dc5e</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAWv6ZpVo2GpjlUD2me3aL18yxzZZRTooo</string>
+    <string name="google_storage_bucket" translatable="false">graduation-d7ada.firebasestorage.app</string>
+    <string name="project_id" translatable="false">graduation-d7ada</string>
+</resources>

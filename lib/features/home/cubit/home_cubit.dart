@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
-import 'package:graduation/core/network/firebase_error_handler.dart';
 import 'package:graduation/features/home/cubit/home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {

@@ -31,6 +31,8 @@ class AppTextFormField extends StatelessWidget {
   final Widget? counter;
   final TextAlign? textAlign;
   final int? maxLines;
+    final bool? readOnly; // 🔹 إضافة متغير readOnly
+
   const AppTextFormField({
     super.key,
     this.keyboardType,
@@ -57,6 +59,7 @@ class AppTextFormField extends StatelessWidget {
     this.counter,
     this.maxLines,
     this.textAlign,
+    this.readOnly, 
   });
 
   @override
@@ -73,7 +76,9 @@ class AppTextFormField extends StatelessWidget {
       onTap: onTap,
       obscureText: isObscureText ?? false,
       validator: validator,
+      readOnly: readOnly ?? false, 
       decoration: InputDecoration(
+        
         helperText: helperText,
         suffixText: prefixText,
         counter: counter,
@@ -107,6 +112,7 @@ class AppTextFormField extends StatelessWidget {
         prefixIcon: prefixIcon,
         fillColor: fillColor ?? Theme.of(context).colorScheme.primaryContainer,
         filled: true,
+        
       ),
     );
   }

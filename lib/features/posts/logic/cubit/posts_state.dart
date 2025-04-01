@@ -6,7 +6,7 @@ class PostsInitial extends PostsState {}
 
 class PostsLoading extends PostsState {}
 
-class CarInfoCleared extends PostsState {}
+// class CarInfoCleared extends PostsState {}
 
 class PostsLoaded extends PostsState {
   final List<PostCar> carList;
@@ -18,10 +18,7 @@ class PostsError extends PostsState {
   PostsError(this.message);
 }
 
-// class PostsSelectedOption extends PostsState {
-//   final int selectedOption;
-//   PostsSelectedOption({required this.selectedOption});
-// }
+
 
 class PostsSelectedOption extends PostsState {}
 
@@ -32,7 +29,6 @@ class PostsCreated extends PostsState {
   PostsCreated(this.post);
 }
 
-class PostLiked extends PostsState {}
 
 class LocationFetched extends PostsState {}
 
@@ -41,4 +37,4 @@ class LocationError extends PostsState {
   LocationError(this.message);
 }
 
-class LocationLoading extends PostsState {} // ⏳ حالة التحميل
+class LocationLoading extends PostsState {} 

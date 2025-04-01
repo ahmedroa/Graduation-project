@@ -9,6 +9,6 @@ SizedBox horizontalSpace(double width) => SizedBox(
       width: width.w,
     );
 
-heighSpacet(context) => MediaQuery.of(context).size.height;
+// heighSpacet(context) => MediaQuery.of(context).size.height;
 
-double widthSpacet(context) => MediaQuery.of(context).size.width;
+// double widthSpacet(context) => MediaQuery.of(context).size.width;

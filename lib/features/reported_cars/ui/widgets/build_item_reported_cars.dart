@@ -36,28 +36,3 @@ class BuildItemReportedCars extends StatelessWidget {
   }
 }
 
-
-// class BuildItemReportedCars extends StatelessWidget {
-//   const BuildItemReportedCars({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<ReportedCarsCubit, ReportedCarsState>(
-//       builder: (context, state) {
-//         return state.when(
-//           initial: () => loading(),
-//           loading: () => loading(),
-//           success:
-//               (carInformation) => ListView.builder(
-//                 itemCount: carInformation.length,
-//                 itemBuilder: (context, index) {
-//                   final carList = carInformation[index];
-//                   return BuildItemPostsCars(carList: carList);
-//                 },
-//               ),
-//           error: (error) => Center(child: Text("❌ خطأ: $error")),
-//         );
-//       },
-//     );
-//   }
-// }
