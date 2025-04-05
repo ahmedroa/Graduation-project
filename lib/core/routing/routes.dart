@@ -13,6 +13,7 @@ import 'package:graduation/features/posts/ui/CreatePost/screens/create_post.dart
 import 'package:graduation/features/posts/ui/ReportVehicle/widgets/report_vehicle.dart';
 import 'package:graduation/features/posts/ui/CreatePost/screens/section.dart';
 import 'package:graduation/features/posts/ui/ReportVehicle/screens/section_report_vehicle.dart';
+import 'package:graduation/features/profile/ui/profile.dart';
 import 'package:graduation/features/splach/splach.dart';
 import '../../features/auth/login/logic/cubit/login_cubit.dart';
 import '../../features/home/ui/widgets/bottom_vav_bar.dart';
@@ -51,6 +52,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(create: (context) => PostsCubit(), child: SectionReportVehicle()),
         );
+      case Routes.profile:
+        return MaterialPageRoute(builder: (_) => BlocProvider(create: (context) => PostsCubit(), child: Profile()));
 
       default:
         return null;

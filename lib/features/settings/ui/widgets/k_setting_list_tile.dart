@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:graduation/core/theme/colors.dart';
 
-
 class KSettingListTile extends StatefulWidget {
   final String title;
   final Icon icon;
@@ -48,11 +47,11 @@ class _KSettingListTileState extends State<KSettingListTile> with SingleTickerPr
           _pressController.forward();
         },
         onTapUp: (_) {
+          widget.onTap();
           setState(() {
             _isPressed = false;
           });
           _pressController.reverse();
-          widget.onTap();
         },
         onTapCancel: () {
           setState(() {

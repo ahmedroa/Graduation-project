@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -6,7 +7,11 @@ import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/routing/routes.dart';
 import 'package:graduation/core/theme/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:graduation/core/theme/colors.dart';
+import 'package:graduation/core/widgets/app_text_form_field.dart';
 import 'package:graduation/core/widgets/error.dart';
+import 'package:graduation/features/home/ui/widgets/home_bloc_builder.dart';
+import 'package:graduation/features/onboarding/onboarding.dart';
 
 class MyApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -36,9 +41,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         // initialRoute: context.isNotLoggedIn ? Routes.splashView : Routes.bottomNavBar,
-        initialRoute: Routes.bottomNavBar,
-        onGenerateRoute: appRouter.generateRoute,
-        // home: SearchPage(),
+        // initialRoute: Routes.bottomNavBar,
+        // onGenerateRoute: appRouter.generateRoute,
+        home: OnboardingView(),
       ),
     );
   }
@@ -168,6 +173,7 @@ class MyApp extends StatelessWidget {
 //     super.dispose();
 //   }
 // }
+
 // class SearchPage extends StatefulWidget {
 //   const SearchPage({super.key});
 
