@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:graduation/core/theme/colors.dart';
+import 'package:graduation/features/favorite/screen/favorite.dart';
 import 'package:graduation/features/home/ui/screens/home.dart';
 import 'package:graduation/features/settings/ui/screens/setting.dart';
 
@@ -15,7 +16,7 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
 
-  final List _widgetOptions = [Homescreen(), Container(), Setting()];
+  final List _widgetOptions = [Homescreen(), Favorite(), Setting()];
 
   void _onItemTapped(int index) {
     setState(() {

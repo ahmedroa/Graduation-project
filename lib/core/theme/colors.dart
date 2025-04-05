@@ -1,12 +1,13 @@
 import 'package:flutter/widgets.dart';
 
 class ColorsManager {
-  static const Color backgroundColor = Color(0xffF5F5F5);
+  static const Color backgroundColor = Color(0xffEFF3FB);
   static const Color backgroundColorDark = Color(0xff1A1A1A);
   static const Color kBackgroundColor = Color(0xFFF1EFF1);
   // static const Color kPrimaryColor = Color(0xFF213555);
-  // static const Color kPrimaryColor = Color(0xFF003092);
-  static const Color kPrimaryColor = Color(0xFF211C84);
+  static const Color kPrimaryColor = Color(0xFF003092);
+  // static const Color kPrimaryColor = Color(0xFF211C84);
+  // static const Color kPrimaryColor = Color(0xFF3952FF);
   // 0xFF4335A7
   // 0xff1F509A
   static const Color yellow = Color(0xFF143D60);

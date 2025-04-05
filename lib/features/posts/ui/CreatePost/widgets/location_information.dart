@@ -35,7 +35,7 @@ class LocationInformation extends StatelessWidget {
                         title: Text(postsCubit.sudanCities[index]),
                         leading: Icon(Icons.location_city),
                         onTap: () {
-                          postsCubit.cityLocationController.text = postsCubit.sudanCities[index];
+                          postsCubit.cityController.text = postsCubit.sudanCities[index];
                           Navigator.pop(context);
                         },
                       );
@@ -65,20 +65,35 @@ class LocationInformation extends StatelessWidget {
                 }
                 return null;
               },
-              controller: postsCubit.cityLocationController,
+              controller: postsCubit.cityController,
               onTap: showCitySelectionSheet,
               suffixIcon: Icon(Icons.arrow_drop_down, size: 24),
               readOnly: true,
             ),
-
             verticalSpace(8),
-            AppTextFormField(hintText: 'المدينه', validator: (value) => null),
+          AppTextFormField(
+              controller: postsCubit.neighborhoodController,
+              hintText: 'الحي',
+              validator: (value) => null,
+            ),
             verticalSpace(8),
-            AppTextFormField(hintText: 'الحي', validator: (value) => null),
+            AppTextFormField(
+              controller: postsCubit.streetController,
+              hintText: 'الشارع او المربع',
+              validator: (value) => null,
+            ),
             verticalSpace(30),
             Align(
               alignment: Alignment.centerLeft,
-              child: MainButton(text: 'التالي', onTap: () {}, width: MediaQuery.of(context).size.width / 3),
+              child: MainButton(
+                text: 'التالي',
+                onTap: () {
+                  if (postsCubit.selectedOption < 3) {
+                    postsCubit.selectOption(postsCubit.selectedOption + 1);
+                  }
+                },
+                width: MediaQuery.of(context).size.width / 3,
+              ),
             ),
           ],
         ),

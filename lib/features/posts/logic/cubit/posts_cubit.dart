@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
 import 'dart:io';
@@ -13,18 +14,84 @@ class PostsCubit extends Cubit<PostsState> {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   int selectedOption = 1;
+  final LocationService _locationService = LocationService();
 
-  final TextEditingController neighborhoodController = TextEditingController();
-  final TextEditingController cityController = TextEditingController();
-  final TextEditingController streetController = TextEditingController();
+  // car information
   final TextEditingController carNameController = TextEditingController();
   final TextEditingController carTypeController = TextEditingController();
   final TextEditingController carColorController = TextEditingController();
   final TextEditingController carModelController = TextEditingController();
-  final TextEditingController chassisNumberController = TextEditingController();
   final TextEditingController plateNumberController = TextEditingController();
-  final TextEditingController cityLocationController = TextEditingController();
-  final LocationService _locationService = LocationService();
+  final TextEditingController chassisNumberController = TextEditingController();
+
+  // car owner information
+  final TextEditingController neighborhoodController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
+  final TextEditingController streetController = TextEditingController();
+
+  // car owner information
+  final TextEditingController nameOnerCarController = TextEditingController();
+  final TextEditingController phoneOnerCarController = TextEditingController();
+  final TextEditingController phoneOnerCarController2 = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  bool whats = true;
+  bool whats2 = true;
+
+  Future<void> addPostCar(PostCar postCar) async {
+    try {
+      emit(PostsLoading());
+      await FirebaseFirestore.instance.collection('posts').doc(postCar.id).set(postCar.toMap()).then((value) {
+        FirebaseFirestore.instance.collection('posts').doc(postCar.id).update({'id': postCar.id});
+      });
+      emit(PostsSendSuccess());
+    } catch (e) {
+      emit(PostsError(e.toString()));
+    }
+  }
+
+  String? firstCarImageUrl;
+  String? secondCarImageUrl;
+  String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+Future<String?> uploadImageToStorage(File imageFile, String path) async {
+  try {
+    if (!path.startsWith("cars/")) {
+      throw FirebaseException(plugin: "firebase_storage", code: "invalid-path", message: "مسار التخزين غير صحيح.");
+    }
+
+    final storageRef = FirebaseStorage.instance.ref().child(path);
+    final uploadTask = storageRef.putFile(imageFile);
+
+    final snapshot = await uploadTask.whenComplete(() => null);
+    final imageUrl = await snapshot.ref.getDownloadURL();
+    return imageUrl;
+  } on FirebaseException catch (e) {
+    print("🔥 Firebase Storage Error: ${e.code} - ${e.message}");
+    return null;
+  } catch (e) {
+    print("❌ Unknown Error: $e");
+    return null;
+  }
+}
+
+  // Future<String?> uploadImageToStorage(File imageFile, String path) async {
+  //   try {
+  //     // تحديد مسار الصورة في Firebase Storage
+  //     final storageRef = FirebaseStorage.instance.ref().child(path);
+
+  //     // رفع الصورة إلى Storage
+  //     final uploadTask = storageRef.putFile(imageFile);
+
+  //     // انتظار إكمال عملية الرفع والحصول على رابط الصورة
+  //     final snapshot = await uploadTask.whenComplete(() => null);
+  //     final imageUrl = await snapshot.ref.getDownloadURL();
+
+  //     return imageUrl;
+  //   } catch (e) {
+  //     print("Error uploading image: $e");
+  //     return null;
+  //   }
+  // }
 
   Future<void> getLocation() async {
     emit(LocationLoading());

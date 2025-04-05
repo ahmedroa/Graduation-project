@@ -16,15 +16,15 @@ class ReportedCarsCubit extends Cubit<ReportedCarsState> {
     try {
       emit(ReportedCarsState.loading());
       QuerySnapshot snapshot = await firestore.collection('users').doc(uid).collection('posts').get();
-      List<PostCar> posts =
-          snapshot.docs.map((doc) {
-            final data = doc.data();
-            if (data != null && data is Map<String, dynamic>) {
-              return PostCar.fromJson(data);
-            } else {
-              throw Exception("Invalid document format");
-            }
-          }).toList();
+      List<PostCar> posts = [];
+      //     snapshot.docs.map((doc) {
+      //       final data = doc.data();
+      //       if (data != null && data is Map<String, dynamic>) {
+      //         return PostCar.fromJson(data);
+      //       } else {
+      //         throw Exception("Invalid document format");
+      //       }
+      //     }).toList();
 
       emit(ReportedCarsState.success(carInformation: posts));
     } catch (e) {
@@ -46,7 +46,7 @@ class ReportedCarsCubit extends Cubit<ReportedCarsState> {
   void editReportedCar(String postId, PostCar postCar) async {
     try {
       emit(ReportedCarsState.loading());
-      await firestore.collection('users').doc(uid).collection('posts').doc(postId).update(postCar.toJson());
+      // await firestore.collection('users').doc(uid).collection('posts').doc(postId).update(postCar.toJson());
       emit(ReportedCarsState.success(carInformation: []));
     } catch (e) {
       // FirebaseFailure failure = FirebaseErrorHandler.handleError(e);

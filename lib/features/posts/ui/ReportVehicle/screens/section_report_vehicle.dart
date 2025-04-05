@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
-import 'package:graduation/features/posts/ui/ReportVehicle/screens/report_vehicle.dart';
+import 'package:graduation/features/posts/ui/ReportVehicle/widgets/report_vehicle.dart';
 import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
+import 'package:graduation/features/posts/ui/ReportVehicle/widgets/report_vehicle_location_information.dart';
 
 class SectionReportVehicle extends StatelessWidget {
   const SectionReportVehicle({super.key});
@@ -89,7 +90,7 @@ class SectionReportVehicle extends StatelessWidget {
                           case 1:
                             return ReportVehicle();
                           case 2:
-                            return Container();
+                            return ReportVehicleLocationInformation();
                           default:
                             return Container();
                         }

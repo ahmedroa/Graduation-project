@@ -31,7 +31,9 @@ class AppTextFormField extends StatelessWidget {
   final Widget? counter;
   final TextAlign? textAlign;
   final int? maxLines;
-    final bool? readOnly; // 🔹 إضافة متغير readOnly
+  final bool? readOnly; // 🔹 إضافة متغير readOnly
+  final FocusNode? focusNode;
+  
 
   const AppTextFormField({
     super.key,
@@ -59,12 +61,14 @@ class AppTextFormField extends StatelessWidget {
     this.counter,
     this.maxLines,
     this.textAlign,
-    this.readOnly, 
+    this.readOnly,
+    this.focusNode,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: focusNode,
       textAlign: textAlign ?? TextAlign.start,
       keyboardType: keyboardType,
       controller: controller,
@@ -76,9 +80,8 @@ class AppTextFormField extends StatelessWidget {
       onTap: onTap,
       obscureText: isObscureText ?? false,
       validator: validator,
-      readOnly: readOnly ?? false, 
+      readOnly: readOnly ?? false,
       decoration: InputDecoration(
-        
         helperText: helperText,
         suffixText: prefixText,
         counter: counter,
@@ -105,14 +108,12 @@ class AppTextFormField extends StatelessWidget {
           borderRadius: borderRadius ?? BorderRadius.circular(16.0),
         ),
 
-        // hintStyle: hintStyle ?? TextStyles.font14LightGrayRegular,
         hintText: hintText,
         helperStyle: const TextStyle(color: Color(0xffA2A2A2)),
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
         fillColor: fillColor ?? Theme.of(context).colorScheme.primaryContainer,
         filled: true,
-        
       ),
     );
   }

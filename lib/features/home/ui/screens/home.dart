@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
+import 'package:graduation/core/widgets/app_text_form_field.dart';
 import 'package:graduation/features/home/ui/widgets/add_post_bottom_sheet.dart';
 import 'package:graduation/features/home/ui/widgets/home_bloc_builder.dart';
 import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
@@ -46,7 +47,7 @@ class _HomescreenState extends State<Homescreen> {
     return BlocProvider(
       create: (context) => PostsCubit(),
       child: Scaffold(
-        backgroundColor: Color(0xffFDFDFD),
+        backgroundColor: ColorsManager.backgroundColor,
         floatingActionButton: FloatingActionButton(
           backgroundColor: ColorsManager.kPrimaryColor,
           onPressed: () {
@@ -62,18 +63,32 @@ class _HomescreenState extends State<Homescreen> {
         body: SafeArea(
           child: Column(
             children: [
-              Container(
-                height: 100,
-                decoration: BoxDecoration(color: ColorsManager.kPrimaryColor),
+              SizedBox(
+                height: 70,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 12, right: 12),
                   child: Row(
                     children: [
+                      CircleAvatar(backgroundColor: Colors.white, child: Icon(Icons.person)),
+                      horizontalSpace(12),
                       Text('أهلا آحمد', style: TextStyles.font16BlacMedium.copyWith(fontSize: 20)),
                       Spacer(),
                       Icon(Icons.notifications),
                     ],
                   ),
+                ),
+              ),
+              verticalSpace(12),
+              Padding(
+                padding: const EdgeInsets.only(left: 12, right: 12),
+                child: AppTextFormField(
+                  hintText: 'بحث',
+                  validator: (value) {
+                    return null;
+                  },
+                  onChanged: (value) {},
+                  fillColor: Colors.white,
+                  prefixIcon: Icon(Icons.search),
                 ),
               ),
               verticalSpace(12),

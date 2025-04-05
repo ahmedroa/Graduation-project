@@ -11,21 +11,13 @@ class HomeCubit extends Cubit<HomeState> {
   void getHomeData() async {
     try {
       emit(HomeState.loading());
-
       QuerySnapshot snapshot = await firestore.collection('posts').get();
-      List<PostCar> posts =
+      List<PostCar> carList =
           snapshot.docs.map((doc) {
-            final data = doc.data();
-            if (data != null && data is Map<String, dynamic>) {
-              return PostCar.fromJson(data);
-            } else {
-              throw Exception("Invalid document format");
-            }
+            return PostCar.fromMap(doc.data() as Map<String, dynamic>, doc.id);
           }).toList();
-
-      emit(HomeState.success(carInformation: posts));
+      emit(HomeState.success(carInformation: carList));
     } catch (e) {
-
       emit(HomeState.error(error: e.toString()));
     }
   }

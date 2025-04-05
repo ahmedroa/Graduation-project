@@ -18,53 +18,63 @@ class AddPostBottomSheet extends StatelessWidget {
           borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         ),
         width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.25,
+        height: MediaQuery.of(context).size.height * 0.35,
         child: Column(
           children: [
             verticalSpace(12),
-            Container(
-              height: 5,
-              width: 50,
-              decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
-            ),
-            verticalSpace(12),
-
-            // 🟢 الخيار الأول مع أنيميشن
-            TweenAnimationBuilder(
-              duration: Duration(milliseconds: 400),
-              curve: Curves.easeOut,
-              tween: Tween<double>(begin: -30, end: 0),
-              builder: (context, double value, child) {
-                return Opacity(
-                  opacity: (value + 30) / 30,
-                  child: Transform.translate(offset: Offset(0, value), child: child),
-                );
-              },
-              child: buildItem(
-                title: 'السيارات المفقودة',
-                onTap: () {
-                  context.pushNamed(Routes.createPost);
-                },
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                height: 5,
+                width: 50,
+                decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
               ),
             ),
-
-            verticalSpace(8),
-
-            TweenAnimationBuilder(
-              duration: Duration(milliseconds: 500),
-              curve: Curves.easeOut,
-              tween: Tween<double>(begin: -30, end: 0),
-              builder: (context, double value, child) {
-                return Opacity(
-                  opacity: (value + 30) / 30,
-                  child: Transform.translate(offset: Offset(0, value), child: child),
-                );
-              },
-              child: buildItem(
-                title: 'السيارات المبلغ عنها',
-                onTap: () {
-                  context.pushNamed(Routes.reportVehicle);
-                },
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  verticalSpace(12),
+                  Text('أضف بلاغ', style: TextStyles.font16BlacMedium.copyWith(fontSize: 20)),
+                  verticalSpace(12),
+                  // 🟢 الخيار الأول مع أنيميشن
+                  TweenAnimationBuilder(
+                    duration: Duration(milliseconds: 400),
+                    curve: Curves.easeOut,
+                    tween: Tween<double>(begin: -30, end: 0),
+                    builder: (context, double value, child) {
+                      return Opacity(
+                        opacity: (value + 30) / 30,
+                        child: Transform.translate(offset: Offset(0, value), child: child),
+                      );
+                    },
+                    child: buildItem(
+                      title: 'السيارات المفقودة',
+                      onTap: () {
+                        context.pushNamed(Routes.createPost);
+                      },
+                    ),
+                  ),
+                  verticalSpace(8),
+                  TweenAnimationBuilder(
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeOut,
+                    tween: Tween<double>(begin: -30, end: 0),
+                    builder: (context, double value, child) {
+                      return Opacity(
+                        opacity: (value + 30) / 30,
+                        child: Transform.translate(offset: Offset(0, value), child: child),
+                      );
+                    },
+                    child: buildItem(
+                      title: 'السيارات المبلغ عنها',
+                      onTap: () {
+                        context.pushNamed(Routes.sectionReportVehicle);
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -76,18 +86,15 @@ class AddPostBottomSheet extends StatelessWidget {
   Widget buildItem({required String title, required Function() onTap}) {
     return GestureDetector(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            border: Border.all(color: ColorsManager.grayBorder, width: 1),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(title, style: TextStyles.font16BlacMedium.copyWith(fontSize: 20)),
-          ),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          border: Border.all(color: ColorsManager.grayBorder, width: 1),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(title, style: TextStyles.font16BlacMedium.copyWith(fontSize: 20)),
         ),
       ),
     );

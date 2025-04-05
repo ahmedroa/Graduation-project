@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/core/widgets/app_text_form_field.dart';
-import 'package:graduation/core/widgets/main_button.dart';
+import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
+import 'package:graduation/features/posts/ui/CreatePost/widgets/button_sned_post.dart';
 
 class CarOwnerInformation extends StatefulWidget {
   const CarOwnerInformation({super.key});
@@ -12,9 +14,10 @@ class CarOwnerInformation extends StatefulWidget {
 }
 
 class _CarOwnerInformationState extends State<CarOwnerInformation> {
-  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
+    final postsCubit = context.read<PostsCubit>();
+
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -23,35 +26,35 @@ class _CarOwnerInformationState extends State<CarOwnerInformation> {
             verticalSpace(20),
             Text('بيانات صاحب المركبه', style: TextStyles.font16BlacMedium),
             verticalSpace(20),
-            Text('اسم صاحب المركبه', style: TextStyles.font14DarkMedium),
-            verticalSpace(8),
-            buildAppTextFormField(),
+
+            buildAppTextFormField(postsCubit),
             verticalSpace(20),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: MainButton(text: 'التالي', onTap: () {}, width: MediaQuery.of(context).size.width / 3),
-            ),
+            ButtonSnedPost(),
           ],
         ),
       ),
     );
   }
 
-  Column buildAppTextFormField() {
+  Column buildAppTextFormField(PostsCubit postsCubit) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text('اسم صاحب المركبه', style: TextStyles.font14DarkMedium),
+        verticalSpace(8),
         AppTextFormField(
+          controller: postsCubit.nameOnerCarController,
           hintText: 'اكتب الاسم',
           validator: (v) {
             return null;
           },
         ),
         verticalSpace(12),
-        Text('رقم الهاتف', style: TextStyles.font14DarkMedium),
 
+        Text('رقم الهاتف', style: TextStyles.font14DarkMedium),
         verticalSpace(8),
         AppTextFormField(
+          controller: postsCubit.phoneOnerCarController,
           hintText: 'اكتب رقم الهاتف',
           validator: (v) {
             return null;
@@ -60,10 +63,10 @@ class _CarOwnerInformationState extends State<CarOwnerInformation> {
         Row(
           children: [
             Checkbox(
-              value: isChecked,
+              value: postsCubit.whats,
               onChanged: (bool? value) {
                 setState(() {
-                  isChecked = value!;
+                  postsCubit.whats = value!;
                 });
               },
             ),
@@ -71,25 +74,36 @@ class _CarOwnerInformationState extends State<CarOwnerInformation> {
           ],
         ),
 
+        Text('رقم هاتف اخر', style: TextStyles.font14DarkMedium),
         verticalSpace(8),
         AppTextFormField(
+          controller: postsCubit.phoneOnerCarController2,
           hintText: 'اكتب رقم هاتف اخر ',
           validator: (v) {
             return null;
           },
-        ),
+        ), //
         Row(
           children: [
             Checkbox(
-              value: isChecked,
+              value: postsCubit.whats2,
               onChanged: (bool? value) {
                 setState(() {
-                  isChecked = value!;
+                  postsCubit.whats2 = value!;
                 });
               },
             ),
             Text('يحتوي على واتساب', style: TextStyles.font14DarkMedium),
           ],
+        ),
+        verticalSpace(12),
+        AppTextFormField(
+          controller: postsCubit.descriptionController,
+          hintText: 'كتابة تعليق',
+          validator: (value) {
+            return null;
+          },
+          maxLines: 3,
         ),
       ],
     );

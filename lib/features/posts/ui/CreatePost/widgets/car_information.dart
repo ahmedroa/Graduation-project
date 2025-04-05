@@ -121,7 +121,15 @@ class CarInformation extends StatelessWidget {
                 else
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: MainButton(text: 'التالي', onTap: () {}, width: MediaQuery.of(context).size.width / 3),
+                    child: MainButton(
+                      text: 'التالي',
+                      onTap: () {
+                        if (postsCubit.selectedOption < 3) {
+                          postsCubit.selectOption(postsCubit.selectedOption + 1);
+                        }
+                      },
+                      width: MediaQuery.of(context).size.width / 3,
+                    ),
                   ),
               ],
             ),
@@ -197,8 +205,6 @@ class CarInformation extends StatelessWidget {
         AppTextFormField(
           hintText: 'رقم الهيكل',
           controller: postsCubit.chassisNumberController,
-          keyboardType: TextInputType.number,
-
           validator: (value) {
             return null;
           },
@@ -207,8 +213,6 @@ class CarInformation extends StatelessWidget {
         AppTextFormField(
           hintText: 'رقم اللوحة',
           controller: postsCubit.plateNumberController,
-          keyboardType: TextInputType.number,
-
           validator: (value) {
             return null;
           },
@@ -241,27 +245,27 @@ class CarInformation extends StatelessWidget {
             ],
           ),
         ),
-        horizontalSpace(12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GestureDetector(
-                onTap: pickSecondImage,
-                child: Container(
-                  height: 200,
-                  width: double.infinity,
-                  color: ColorsManager.lighterGray,
-                  child:
-                      postsCubit.secondCarImage != null
-                          ? Image.file(postsCubit.secondCarImage!, fit: BoxFit.cover)
-                          : Icon(Icons.add_a_photo),
-                ),
-              ),
-              Text('الصورة الثانية', style: TextStyles.font14DarkRegular),
-            ],
-          ),
-        ),
+        // horizontalSpace(12),
+        // Expanded(
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       GestureDetector(
+        //         onTap: pickSecondImage,
+        //         child: Container(
+        //           height: 200,
+        //           width: double.infinity,
+        //           color: ColorsManager.lighterGray,
+        //           child:
+        //               postsCubit.secondCarImage != null
+        //                   ? Image.file(postsCubit.secondCarImage!, fit: BoxFit.cover)
+        //                   : Icon(Icons.add_a_photo),
+        //         ),
+        //       ),
+        //       Text('الصورة الثانية', style: TextStyles.font14DarkRegular),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }
