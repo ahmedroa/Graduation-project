@@ -41,6 +41,7 @@ class HomeBlocBuilder extends StatelessWidget {
     );
   }
 }
+
 // class HomeBlocBuilder extends StatelessWidget {
 //   const HomeBlocBuilder({super.key});
 

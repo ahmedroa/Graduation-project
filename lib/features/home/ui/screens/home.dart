@@ -8,6 +8,7 @@ import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:graduation/features/home/ui/screens/build_search_result_item.dart';
 import 'package:graduation/features/home/ui/widgets/add_post_bottom_sheet.dart';
 import 'package:graduation/features/home/ui/widgets/home_bloc_builder.dart';
+import 'package:graduation/features/home/ui/widgets/shimmer_loding_search.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -47,30 +48,6 @@ class _HomescreenState extends State<Homescreen> {
     super.dispose();
   }
 
-  Widget _buildTags(int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedTag = index;
-        });
-        context.read<HomeCubit>().getHomeData(tagIndex: index);
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 5),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(15),
-          border: selectedTag == index ? Border.all(color: ColorsManager.kPrimaryColor, width: 2) : null,
-        ),
-        child: Text(
-          context.read<HomeCubit>().tags[index],
-          style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.secondary),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final cubitState = context.watch<HomeCubit>().state;
@@ -83,7 +60,7 @@ class _HomescreenState extends State<Homescreen> {
       appBar:
           isSearching
               ? AppBar(
-                backgroundColor: ColorsManager.backgroundColor,
+                backgroundColor: Colors.white,
                 elevation: 0,
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back),
@@ -114,7 +91,7 @@ class _HomescreenState extends State<Homescreen> {
               isSearching
                   ? [
                     isLoading
-                        ? Center(child: CircularProgressIndicator())
+                        ? ShimmerLodingSearch()
                         : searchResults.isEmpty && _searchController.text.isNotEmpty
                         ? Expanded(child: Center(child: Text('لا توجد نتائج', style: TextStyle(fontSize: 18))))
                         : Expanded(
@@ -185,6 +162,30 @@ class _HomescreenState extends State<Homescreen> {
                     ),
                     Expanded(child: HomeBlocBuilder()),
                   ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTags(int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedTag = index;
+        });
+        context.read<HomeCubit>().getHomeData(tagIndex: index);
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          border: selectedTag == index ? Border.all(color: ColorsManager.kPrimaryColor, width: 2) : null,
+        ),
+        child: Text(
+          context.read<HomeCubit>().tags[index],
+          style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.secondary),
         ),
       ),
     );

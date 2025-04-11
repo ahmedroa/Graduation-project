@@ -20,10 +20,10 @@ void main() async {
 // like 
 // edit + add post
 // add posts
-// home 
+// home              dane
 // Details
 // favorite
-// settings
+// settings          dane
 // register
 // logout
 
