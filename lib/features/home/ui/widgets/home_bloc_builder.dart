@@ -14,23 +14,24 @@ class HomeBlocBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        return state.when(
-          initial: () => ShimmerGridPostsCars(),
-          loading: () => ShimmerGridPostsCars(),
-          success: (carInformation) => buildGridView(carInformation),
-          error: (error) => Center(child: Text("❌ خطأ: $error")),
-        );
+        if (state.isLoading) {
+          return ShimmerGridPostsCars();
+        } else if (state.error != null) {
+          return Center(child: Text("❌ خطأ: ${state.error}"));
+        } else {
+          return buildGridView(state.carInformation);
+        }
       },
     );
   }
 
-  buildGridView(List<PostCar> carInformation) {
+  Widget buildGridView(List<PostCar> carInformation) {
     return GridView.builder(
       padding: const EdgeInsets.all(12),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 1,
-        childAspectRatio: 0.7,
+        childAspectRatio: 0.8,
       ),
       itemCount: carInformation.length,
       itemBuilder: (context, index) {
@@ -40,3 +41,36 @@ class HomeBlocBuilder extends StatelessWidget {
     );
   }
 }
+// class HomeBlocBuilder extends StatelessWidget {
+//   const HomeBlocBuilder({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<HomeCubit, HomeState>(
+//       builder: (context, state) {
+//         return state.when(
+//           initial: () => ShimmerGridPostsCars(),
+//           loading: () => ShimmerGridPostsCars(),
+//           success: (carInformation) => buildGridView(carInformation),
+//           error: (error) => Center(child: Text("❌ خطأ: $error")),
+//         );
+//       },
+//     );
+//   }
+
+//   buildGridView(List<PostCar> carInformation) {
+//     return GridView.builder(
+//       padding: const EdgeInsets.all(12),
+//       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//         crossAxisCount: 2,
+//         mainAxisSpacing: 1,
+//         childAspectRatio: 0.8,
+//       ),
+//       itemCount: carInformation.length,
+//       itemBuilder: (context, index) {
+//         final carList = carInformation[index];
+//         return BuildItemPostsCars(carList: carList);
+//       },
+//     );
+//   }
+// }

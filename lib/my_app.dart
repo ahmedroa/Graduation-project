@@ -41,9 +41,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         // initialRoute: context.isNotLoggedIn ? Routes.splashView : Routes.bottomNavBar,
-        // initialRoute: Routes.bottomNavBar,
-        // onGenerateRoute: appRouter.generateRoute,
-        home: OnboardingView(),
+        initialRoute: Routes.bottomNavBar,
+        onGenerateRoute: appRouter.generateRoute,
+        // home: OnboardingView(),
       ),
     );
   }

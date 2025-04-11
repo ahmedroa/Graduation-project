@@ -1,12 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/img.dart';
-import 'package:graduation/features/auth/login/logic/cubit/login_cubit.dart';
-import 'package:graduation/features/auth/login/ui/screens/login.dart';
+import 'package:graduation/features/onboarding/onboarding.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -18,10 +16,7 @@ class SplashView extends StatelessWidget {
         PageRouteBuilder(
           transitionDuration: const Duration(seconds: 1),
           pageBuilder: (_, animation, __) {
-            return FadeTransition(
-              opacity: animation,
-              child: BlocProvider(create: (context) => LoginCubit(), child: const LoginScreen()),
-            );
+            return FadeTransition(opacity: animation, child: OnboardingView());
           },
         ),
       );

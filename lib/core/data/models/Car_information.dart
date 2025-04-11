@@ -29,7 +29,6 @@ class PostCar {
   bool? isWhatsapp2;
 
   bool? stolen;
-  bool? foundIt;
 
   PostCar({
     this.id,
@@ -55,7 +54,6 @@ class PostCar {
     this.phone2,
     this.isWhatsapp2,
     this.stolen,
-    this.foundIt,
   });
 
   // 🔹 **تحويل البيانات من Firestore إلى كائن `PostCar`**
@@ -84,7 +82,6 @@ class PostCar {
       phone2: data['phone2'],
       isWhatsapp2: data['isWhatsapp2'] ?? false,
       stolen: data['stolen'] ?? false,
-      foundIt: data['foundIt'] ?? false,
     );
   }
 
@@ -113,7 +110,6 @@ class PostCar {
       'phone2': phone2,
       'isWhatsapp2': isWhatsapp2 ?? false,
       'stolen': stolen ?? false,
-      'foundIt': foundIt ?? false,
     };
   }
 
@@ -142,7 +138,6 @@ class PostCar {
     String? phone2,
     bool? isWhatsapp2,
     bool? stolen,
-    bool? foundIt,
   }) {
     return PostCar(
       id: id ?? this.id,
@@ -168,7 +163,6 @@ class PostCar {
       phone2: phone2 ?? this.phone2,
       isWhatsapp2: isWhatsapp2 ?? this.isWhatsapp2,
       stolen: stolen ?? this.stolen,
-      foundIt: foundIt ?? this.foundIt,
     );
   }
 }

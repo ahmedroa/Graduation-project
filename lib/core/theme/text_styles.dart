@@ -307,7 +307,7 @@ class TextStyles {
   static TextStyle font14DarkMedium = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeightHelper.medium,
-    color: Colors.black,
+    color: ColorsManager.dark,
     fontFamily: 'Tajawal',
   );
   static TextStyle font14GrayMedium = TextStyle(
@@ -326,7 +326,7 @@ class TextStyles {
   static TextStyle font14Darkw500 = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeightHelper.medium,
-    color: Colors.black,
+    color: ColorsManager.dark,
     fontFamily: 'Tajawal',
   );
   static TextStyle font12Redbold = TextStyle(

@@ -14,6 +14,7 @@ class PostsCubit extends Cubit<PostsState> {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   int selectedOption = 1;
+  final formKey = GlobalKey<FormState>();
   final LocationService _locationService = LocationService();
 
   // car information

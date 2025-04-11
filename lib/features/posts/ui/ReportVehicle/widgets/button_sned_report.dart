@@ -6,8 +6,8 @@ import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/widgets/main_button.dart';
 import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
 
-class ButtonSnedPost extends StatelessWidget {
-  const ButtonSnedPost({super.key});
+class ButtonSnedReport extends StatelessWidget {
+  const ButtonSnedReport({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class ButtonSnedPost extends StatelessWidget {
                       description: postsCubit.descriptionController.text,
                       isWhatsapp: postsCubit.whats,
                       isWhatsapp2: postsCubit.whats2,
-                      stolen: true,
+                      stolen: false,
                     );
 
                     context.read<PostsCubit>().addPostCar(postCar);
@@ -73,36 +73,3 @@ class ButtonSnedPost extends StatelessWidget {
     );
   }
 }
-
-
-  // car information
-                    // name: 'haval H9',
-                    // typeCar: 'haval',
-                    // color: 'white',
-                    // model: '2025',
-                    // chassisNumber: '123456789',
-                    // plateNumber: '123456789',
-                    // image:
-                    //     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnU6sqdcgr8Y1uXsxiYBwR4rgT8rVJJ-rPMg&s',
-                    // images: [
-                    //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnU6sqdcgr8Y1uXsxiYBwR4rgT8rVJJ-rPMg&s',
-                    //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnU6sqdcgr8Y1uXsxiYBwR4rgT8rVJJ-rPMg&s',
-                    //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnU6sqdcgr8Y1uXsxiYBwR4rgT8rVJJ-rPMg&s',
-                    //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnU6sqdcgr8Y1uXsxiYBwR4rgT8rVJJ-rPMg&s',
-                    // ],
-                    // carTheftHistory: 'تم العثور عليها',
-
-                    // // location information
-                    // city: 'الخرطوم',
-                    // neighborhood: 'المنشية',
-                    // street: 'شارع النيل',
-
-                    // nameOwner: 'ahmed',
-                    // phone: '0912345678',
-                    // phone2: '0912345678',
-                    // description: 'سيارة مسروقة',
-                    // isWhatsapp: true,
-                    // isWhatsapp2: true,
-                    // stolen: true,
-                    // foundIt: false,
-                    // // car information

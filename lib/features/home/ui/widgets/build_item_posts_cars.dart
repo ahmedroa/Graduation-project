@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
+import 'package:graduation/core/helpers/spacing.dart';
+import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/widgets/build_divider.dart';
 import 'package:graduation/features/home/ui/screens/details.dart';
-import 'package:shimmer/shimmer.dart';
 
 class BuildItemPostsCars extends StatelessWidget {
   final PostCar carList;
@@ -14,10 +15,7 @@ class BuildItemPostsCars extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Details(carList: carList)),
-          );
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Details(carList: carList)));
         },
         child: Container(
           decoration: BoxDecoration(
@@ -29,25 +27,20 @@ class BuildItemPostsCars extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                 child: Image.network(
                   carList.image ?? '',
                   width: double.infinity,
-                  height: 140,
+                  height: 130,
                   fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child: Container(
-                        width: double.infinity,
-                        height: 140,
-                        color: Colors.white,
-                      ),
-                    );
-                  },
+                  // loadingBuilder: (context, child, loadingProgress) {
+                  //   if (loadingProgress == null) return child;
+                  //   return Shimmer.fromColors(
+                  //     baseColor: Colors.grey[300]!,
+                  //     highlightColor: Colors.grey[00]!,
+                  //     child: Container(width: double.infinity, height: 140, color: Colors.white),
+                  //   );
+                  // },
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
                       width: double.infinity,
@@ -64,11 +57,38 @@ class BuildItemPostsCars extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      carList.name ?? "اسم غير متوفر",
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    Row(
+                      children: [
+                        Text(
+                          carList.name ?? "اسم غير متوفر",
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Spacer(),
+
+                        carList.stolen == true
+                            ? Container(
+                              decoration: BoxDecoration(
+                                color: const Color(0xffFF4D4D).withOpacity(0.16),
+                                borderRadius: const BorderRadius.all(Radius.circular(6)),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8, right: 8),
+                                child: Text("مفقود", style: TextStyle(fontSize: 16, color: Color(0xffFF4D4D))),
+                              ),
+                            )
+                            : Container(
+                              decoration: BoxDecoration(
+                                color: const Color(0xff0070D1).withOpacity(0.16),
+                                borderRadius: const BorderRadius.all(Radius.circular(6)),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8, right: 8),
+                                child: Text("موجود", style: TextStyle(fontSize: 16, color: Color(0xff0070D1))),
+                              ),
+                            ),
+                      ],
                     ),
                     Text(
                       carList.description ?? "وصف غير متوفر",
@@ -76,14 +96,18 @@ class BuildItemPostsCars extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 12, color: Colors.black54),
                     ),
+                    verticalSpace(4),
                     BuildDivider(),
-                    const Row(
+                    Row(
                       children: [
-                        Icon(Icons.location_on_outlined, size: 16),
+                        Icon(Icons.location_on_outlined, size: 16, color: ColorsManager.kPrimaryColor),
                         SizedBox(width: 4),
-                        Text("الموقع", style: TextStyle(fontSize: 12)),
+                        Text(carList.city ?? '', style: TextStyle(fontSize: 12)),
+                        Text(' -', style: TextStyle(fontSize: 12)),
+                        Text(carList.neighborhood ?? '', style: TextStyle(fontSize: 12)),
                       ],
                     ),
+                    verticalSpace(4),
                   ],
                 ),
               ),

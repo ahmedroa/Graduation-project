@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
+import 'package:graduation/core/theme/text_styles.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Details extends StatelessWidget {
@@ -20,11 +21,12 @@ class Details extends StatelessWidget {
           buildImage(pageController, context),
           verticalSpace(24),
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(carList?.name ?? "اسم غير متوفر", style: TextStyle(fontSize: 20, color: Colors.black)),
+                Text(carList?.name ?? "اسم غير متوفر", style: TextStyles.font16BlacMedium),
+                Text(carList?.description ?? "اسم غير متوفر", style: TextStyles.font14GrayMedium),
 
                 Container(
                   height: 80,

@@ -36,76 +36,85 @@ class _CarOwnerInformationState extends State<CarOwnerInformation> {
     );
   }
 
-  Column buildAppTextFormField(PostsCubit postsCubit) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('اسم صاحب المركبه', style: TextStyles.font14DarkMedium),
-        verticalSpace(8),
-        AppTextFormField(
-          controller: postsCubit.nameOnerCarController,
-          hintText: 'اكتب الاسم',
-          validator: (v) {
-            return null;
-          },
-        ),
-        verticalSpace(12),
+  buildAppTextFormField(PostsCubit postsCubit) {
+    return Form(
+      key: postsCubit.formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('اسم صاحب المركبه', style: TextStyles.font14DarkMedium),
+          verticalSpace(8),
+          AppTextFormField(
+            controller: postsCubit.nameOnerCarController,
+            hintText: 'اكتب الاسم',
+            validator: (value) {
+              return null;
+            },
+            // validator: (value) {
+            //   if (value == null || value.isEmpty) {
+            //     return 'لا يمكن ترك الحقل فارغ';
+            //   }
+            //   return null;
+            // },
+          ),
+          verticalSpace(12),
 
-        Text('رقم الهاتف', style: TextStyles.font14DarkMedium),
-        verticalSpace(8),
-        AppTextFormField(
-          controller: postsCubit.phoneOnerCarController,
-          hintText: 'اكتب رقم الهاتف',
-          validator: (v) {
-            return null;
-          },
-        ),
-        Row(
-          children: [
-            Checkbox(
-              value: postsCubit.whats,
-              onChanged: (bool? value) {
-                setState(() {
-                  postsCubit.whats = value!;
-                });
-              },
-            ),
-            Text('يحتوي على واتساب', style: TextStyles.font14DarkMedium),
-          ],
-        ),
+          Text('رقم الهاتف', style: TextStyles.font14DarkMedium),
+          verticalSpace(8),
+          AppTextFormField(
+            controller: postsCubit.phoneOnerCarController,
+            hintText: 'اكتب رقم الهاتف',
+            validator: (v) {
+              return null;
+            },
+          ),
+          Row(
+            children: [
+              Checkbox(
+                value: postsCubit.whats,
+                onChanged: (bool? value) {
+                  setState(() {
+                    postsCubit.whats = value!;
+                  });
+                },
+              ),
+              Text('يحتوي على واتساب', style: TextStyles.font14DarkMedium),
+            ],
+          ),
 
-        Text('رقم هاتف اخر', style: TextStyles.font14DarkMedium),
-        verticalSpace(8),
-        AppTextFormField(
-          controller: postsCubit.phoneOnerCarController2,
-          hintText: 'اكتب رقم هاتف اخر ',
-          validator: (v) {
-            return null;
-          },
-        ), //
-        Row(
-          children: [
-            Checkbox(
-              value: postsCubit.whats2,
-              onChanged: (bool? value) {
-                setState(() {
-                  postsCubit.whats2 = value!;
-                });
-              },
-            ),
-            Text('يحتوي على واتساب', style: TextStyles.font14DarkMedium),
-          ],
-        ),
-        verticalSpace(12),
-        AppTextFormField(
-          controller: postsCubit.descriptionController,
-          hintText: 'كتابة تعليق',
-          validator: (value) {
-            return null;
-          },
-          maxLines: 3,
-        ),
-      ],
+          Text('رقم هاتف اخر', style: TextStyles.font14DarkMedium),
+          verticalSpace(8),
+          AppTextFormField(
+            controller: postsCubit.phoneOnerCarController2,
+            hintText: 'اكتب رقم هاتف اخر ',
+            validator: (v) {
+              return null;
+            },
+          ), //
+          Row(
+            children: [
+              Checkbox(
+                value: postsCubit.whats2,
+                onChanged: (bool? value) {
+                  setState(() {
+                    postsCubit.whats2 = value!;
+                  });
+                },
+              ),
+              Text('يحتوي على واتساب', style: TextStyles.font14DarkMedium),
+            ],
+          ),
+          verticalSpace(12),
+          AppTextFormField(
+            controller: postsCubit.descriptionController,
+            hintText: 'كتابة تعليق',
+            validator: (value) {
+              return null;
+            },
+            maxLines: 3,
+          ),
+        ],
+      ),
     );
   }
 }

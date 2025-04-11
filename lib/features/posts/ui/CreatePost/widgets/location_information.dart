@@ -71,7 +71,7 @@ class LocationInformation extends StatelessWidget {
               readOnly: true,
             ),
             verticalSpace(8),
-          AppTextFormField(
+            AppTextFormField(
               controller: postsCubit.neighborhoodController,
               hintText: 'الحي',
               validator: (value) => null,
@@ -88,8 +88,10 @@ class LocationInformation extends StatelessWidget {
               child: MainButton(
                 text: 'التالي',
                 onTap: () {
-                  if (postsCubit.selectedOption < 3) {
-                    postsCubit.selectOption(postsCubit.selectedOption + 1);
+                  if (postsCubit.formKey.currentState!.validate()) {
+                    if (postsCubit.selectedOption < 3) {
+                      postsCubit.selectOption(postsCubit.selectedOption + 1);
+                    }
                   }
                 },
                 width: MediaQuery.of(context).size.width / 3,

@@ -33,7 +33,7 @@ class AppTextFormField extends StatelessWidget {
   final int? maxLines;
   final bool? readOnly; // 🔹 إضافة متغير readOnly
   final FocusNode? focusNode;
-  
+  final bool? enabled;
 
   const AppTextFormField({
     super.key,
@@ -47,6 +47,7 @@ class AppTextFormField extends StatelessWidget {
     this.isObscureText,
     this.suffixIcon,
     this.backgroundColor,
+    this.enabled,
     this.controller,
     required this.validator,
     this.fillColor,
@@ -68,6 +69,7 @@ class AppTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       focusNode: focusNode,
       textAlign: textAlign ?? TextAlign.start,
       keyboardType: keyboardType,

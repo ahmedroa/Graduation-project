@@ -112,7 +112,7 @@ class CarInformation extends StatelessWidget {
                 verticalSpace(20),
                 Text('اكتب اسم و وصف السياره', style: TextStyles.font16BlacMedium),
                 verticalSpace(8),
-                buildAppTextFormField(postsCubit, showCarTypeSelectionSheet, showSelectionSheet),
+                buildAppTextFormField(postsCubit, context, showCarTypeSelectionSheet, showSelectionSheet),
 
                 verticalSpace(24),
 
@@ -124,8 +124,10 @@ class CarInformation extends StatelessWidget {
                     child: MainButton(
                       text: 'التالي',
                       onTap: () {
-                        if (postsCubit.selectedOption < 3) {
-                          postsCubit.selectOption(postsCubit.selectedOption + 1);
+                        if (postsCubit.formKey.currentState!.validate()) {
+                          if (postsCubit.selectedOption < 3) {
+                            postsCubit.selectOption(postsCubit.selectedOption + 1);
+                          }
                         }
                       },
                       width: MediaQuery.of(context).size.width / 3,
@@ -139,85 +141,96 @@ class CarInformation extends StatelessWidget {
     );
   }
 
-  Column buildAppTextFormField(
+  buildAppTextFormField(
     PostsCubit postsCubit,
+    BuildContext context,
     void Function() showCarTypeSelectionSheet,
+
     void Function(List<String> items, TextEditingController controller, String title) showSelectionSheet,
   ) {
-    return Column(
-      children: [
-        AppTextFormField(
-          hintText: 'اسم السياره',
-          controller: postsCubit.carNameController,
-          keyboardType: TextInputType.text,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'لا يمكن ترك الحقل فارغ';
-            }
-            return null;
-          },
-        ),
+    return Form(
+      key: context.read<PostsCubit>().formKey,
+      child: Column(
+        children: [
+          AppTextFormField(
+            hintText: 'اسم السياره',
+            controller: postsCubit.carNameController,
+            keyboardType: TextInputType.text,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'لا يمكن ترك الحقل فارغ';
+              }
+              return null;
+            },
+          ),
 
-        verticalSpace(16),
-        AppTextFormField(
-          hintText: "اختر نوع السيارة",
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'لا يمكن ترك الحقل فارغ';
-            }
-            return null;
-          },
-          controller: postsCubit.carTypeController,
-          onTap: showCarTypeSelectionSheet,
-          suffixIcon: Icon(Icons.arrow_drop_down),
-          readOnly: true,
-        ),
+          verticalSpace(16),
+          AppTextFormField(
+            hintText: "اختر نوع السيارة",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'لا يمكن ترك الحقل فارغ';
+              }
+              return null;
+            },
+            controller: postsCubit.carTypeController,
+            onTap: showCarTypeSelectionSheet,
+            suffixIcon: Icon(Icons.arrow_drop_down),
+            readOnly: true,
+          ),
 
-        verticalSpace(16),
-        AppTextFormField(
-          hintText: "اختر لون السيارة",
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'لا يمكن ترك الحقل فارغ';
-            }
-            return null;
-          },
-          controller: postsCubit.carColorController,
-          onTap: () => showSelectionSheet(postsCubit.carColors, postsCubit.carColorController, "اختر لون السيارة"),
-          suffixIcon: Icon(Icons.arrow_drop_down),
-          readOnly: true,
-        ),
-        verticalSpace(16),
-        AppTextFormField(
-          hintText: "اختر موديل السيارة",
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'لا يمكن ترك الحقل فارغ';
-            }
-            return null;
-          },
-          controller: postsCubit.carModelController,
-          onTap: () => showSelectionSheet(postsCubit.carModels, postsCubit.carModelController, "اختر موديل السيارة"),
-          suffixIcon: Icon(Icons.arrow_drop_down),
-          readOnly: true,
-        ),
-        verticalSpace(16),
-        AppTextFormField(
-          hintText: 'رقم الهيكل',
-          controller: postsCubit.chassisNumberController,
-          validator: (value) {
-            return null;
-          },
-        ),
-        verticalSpace(16),
-        AppTextFormField(
-          hintText: 'رقم اللوحة',
-          controller: postsCubit.plateNumberController,
-          validator: (value) {
-            return null;
-          },
-        ),
-      ],
+          verticalSpace(16),
+          AppTextFormField(
+            hintText: "اختر لون السيارة",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'لا يمكن ترك الحقل فارغ';
+              }
+              return null;
+            },
+            controller: postsCubit.carColorController,
+            onTap: () => showSelectionSheet(postsCubit.carColors, postsCubit.carColorController, "اختر لون السيارة"),
+            suffixIcon: Icon(Icons.arrow_drop_down),
+            readOnly: true,
+          ),
+          verticalSpace(16),
+          AppTextFormField(
+            hintText: "اختر موديل السيارة",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'لا يمكن ترك الحقل فارغ';
+              }
+              return null;
+            },
+            controller: postsCubit.carModelController,
+            onTap: () => showSelectionSheet(postsCubit.carModels, postsCubit.carModelController, "اختر موديل السيارة"),
+            suffixIcon: Icon(Icons.arrow_drop_down),
+            readOnly: true,
+          ),
+          verticalSpace(16),
+          AppTextFormField(
+            hintText: 'رقم الهيكل',
+            controller: postsCubit.chassisNumberController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'لا يمكن ترك الحقل فارغ';
+              }
+              return null;
+            },
+          ),
+          verticalSpace(16),
+          AppTextFormField(
+            hintText: 'رقم اللوحة',
+            controller: postsCubit.plateNumberController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'لا يمكن ترك الحقل فارغ';
+              }
+              return null;
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -245,27 +258,6 @@ class CarInformation extends StatelessWidget {
             ],
           ),
         ),
-        // horizontalSpace(12),
-        // Expanded(
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       GestureDetector(
-        //         onTap: pickSecondImage,
-        //         child: Container(
-        //           height: 200,
-        //           width: double.infinity,
-        //           color: ColorsManager.lighterGray,
-        //           child:
-        //               postsCubit.secondCarImage != null
-        //                   ? Image.file(postsCubit.secondCarImage!, fit: BoxFit.cover)
-        //                   : Icon(Icons.add_a_photo),
-        //         ),
-        //       ),
-        //       Text('الصورة الثانية', style: TextStyles.font14DarkRegular),
-        //     ],
-        //   ),
-        // ),
       ],
     );
   }

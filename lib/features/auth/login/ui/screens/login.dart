@@ -59,84 +59,102 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
           ),
         ),
       ),
-      body: SafeArea(
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    children: [
-                      // verticalSpace(20),
-                      Text(
-                        'تسجيل الدخول',
-                        style: TextStyles.font34BlackBold.copyWith(color: Theme.of(context).colorScheme.secondary),
-                      ),
-                      // verticalSpace(25),
-                      Text('كتابة البريد الإلكتروني او رقم الجوال وكلمة المرور', style: TextStyles.font14GraySemiBold),
-                      verticalSpace(25),
-                      const EmailAndPassword(),
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: TextButton(
-                          onPressed: () {
-                            context.pushNamed(Routes.forgotPassword);
-                          },
-                          child: Text(
-                            'نسيت كلمة المرور؟',
-                            style: TextStyles.font12lBlacBold.copyWith(color: ColorsManager.kPrimaryColor),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      children: [
+                        // verticalSpace(20),
+                        Text(
+                          'تسجيل الدخول',
+                          style: TextStyles.font34BlackBold.copyWith(color: Theme.of(context).colorScheme.secondary),
+                        ),
+                        // verticalSpace(25),
+                        Text(
+                          'كتابة البريد الإلكتروني او رقم الجوال وكلمة المرور',
+                          style: TextStyles.font14GraySemiBold,
+                        ),
+                        verticalSpace(25),
+                        const EmailAndPassword(),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: TextButton(
+                            onPressed: () {
+                              context.pushNamed(Routes.forgotPassword);
+                            },
+                            child: Text(
+                              'نسيت كلمة المرور؟',
+                              style: TextStyles.font12lBlacBold.copyWith(color: ColorsManager.kPrimaryColor),
+                            ),
                           ),
                         ),
-                      ),
-                      BlocBuilder<LoginCubit, LoginState>(
-                        builder: (context, state) {
-                          final isLoading = state is Loading;
+                        BlocBuilder<LoginCubit, LoginState>(
+                          builder: (context, state) {
+                            final isLoading = state is Loading;
 
-                          if (isLoading) {
-                            return const Center(child: CircularProgressIndicator(color: ColorsManager.kPrimaryColor));
-                          }
+                            if (isLoading) {
+                              return const Center(child: CircularProgressIndicator(color: ColorsManager.kPrimaryColor));
+                            }
 
-                          return SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (context.read<LoginCubit>().formKey.currentState!.validate()) {
-                                  context.read<LoginCubit>().login(
-                                    email: context.read<LoginCubit>().emailController.text,
-                                    password: context.read<LoginCubit>().passwordController.text,
-                                  );
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ColorsManager.kPrimaryColor,
-                                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            return SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (context.read<LoginCubit>().formKey.currentState!.validate()) {
+                                    context.read<LoginCubit>().login(
+                                      email: context.read<LoginCubit>().emailController.text,
+                                      password: context.read<LoginCubit>().passwordController.text,
+                                    );
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: ColorsManager.kPrimaryColor,
+                                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                ),
+                                child: const Text('تسجيل الدخول', style: TextStyle(fontSize: 16, color: Colors.white)),
                               ),
-                              child: const Text('تسجيل الدخول', style: TextStyle(fontSize: 16, color: Colors.white)),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                LoginBlocListener(),
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 120, right: 120),
-                //   child: MainButton(
-                //     color: ColorsManager.backgroundColorDark,
-                //     int: 40,
-                //     text: 'الدخول كزائر',
-                //     onTap: () {
-                //       context.pushNamed(Routes.bottomNavBar);
-                //     },
-                //   ),
-                // ),
-                verticalSpace(20),
-              ],
+                  verticalSpace(20),
+                  Align(
+                    child: TextButton(
+                      onPressed: () {
+                        context.pushNamed(Routes.register);
+                      },
+                      child: Text(
+                        'انشاء حساب جديد',
+                        style: TextStyles.font16DarkBold.copyWith(color: ColorsManager.kPrimaryColor),
+                      ),
+                    ),
+                  ),
+                  verticalSpace(20),
+                  LoginBlocListener(),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 120, right: 120),
+                  //   child: MainButton(
+                  //     color: ColorsManager.backgroundColorDark,
+                  //     int: 40,
+                  //     text: 'الدخول كزائر',
+                  //     onTap: () {
+                  //       context.pushNamed(Routes.bottomNavBar);
+                  //     },
+                  //   ),
+                  // ),
+                  verticalSpace(20),
+                ],
+              ),
             ),
           ),
         ),

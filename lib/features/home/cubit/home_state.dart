@@ -1,14 +1,56 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
-part 'home_state.freezed.dart';
+// part 'home_state.freezed.dart';
 
-@freezed
-class HomeState with _$HomeState {
-  const factory HomeState.initial() = _Initial;
+// Home State
+class HomeState {
+  final bool isLoading;
+  final List<PostCar> carInformation;
+  final String? error;
+  final List<QueryDocumentSnapshot> searchResults;
+  final bool isSearching;
 
-  const factory HomeState.loading() = Loading;
+  HomeState({
+    required this.isLoading,
+    required this.carInformation,
+    this.error,
+    this.searchResults = const [],
+    this.isSearching = false,
+  });
 
-  const factory HomeState.success({required List<PostCar> carInformation}) = Success;
+  factory HomeState.initial() => HomeState(isLoading: false, carInformation: []);
 
-  const factory HomeState.error({required String error}) = Error;
+  factory HomeState.loading() => HomeState(isLoading: true, carInformation: []);
+
+  factory HomeState.success({required List<PostCar> carInformation}) =>
+      HomeState(isLoading: false, carInformation: carInformation);
+
+  factory HomeState.error({required String error}) => HomeState(isLoading: false, carInformation: [], error: error);
+
+  factory HomeState.searching({
+    required bool isSearching,
+    List<QueryDocumentSnapshot> searchResults = const [],
+    required List<PostCar> carInformation,
+  }) => HomeState(
+    isLoading: false,
+    carInformation: carInformation,
+    searchResults: searchResults,
+    isSearching: isSearching,
+  );
+
+  HomeState copyWith({
+    bool? isLoading,
+    List<PostCar>? carInformation,
+    String? error,
+    List<QueryDocumentSnapshot>? searchResults,
+    bool? isSearching,
+  }) {
+    return HomeState(
+      isLoading: isLoading ?? this.isLoading,
+      carInformation: carInformation ?? this.carInformation,
+      error: error ?? this.error,
+      searchResults: searchResults ?? this.searchResults,
+      isSearching: isSearching ?? this.isSearching,
+    );
+  }
 }
