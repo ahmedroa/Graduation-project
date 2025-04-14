@@ -1,20 +1,112 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
+import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class Details extends StatelessWidget {
+
+class Details extends StatefulWidget {
   final PostCar? carList;
   const Details({super.key, this.carList});
 
   @override
-  Widget build(BuildContext context) {
-    PageController pageController = PageController();
+  State<Details> createState() => _DetailsState();
+}
 
+class _DetailsState extends State<Details> {
+  late PageController pageController;
+  bool isLiked = false;
+  bool isLoading = true;
+  late HomeCubit _homeCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController();
+    _homeCubit = BlocProvider.of<HomeCubit>(context);
+    _checkIfLiked();
+  }
+
+  Future<void> _checkIfLiked() async {
+    if (widget.carList == null) {
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
+
+    final liked = await _homeCubit.checkIfCarLiked(widget.carList!.id);
+    setState(() {
+      isLiked = liked;
+      isLoading = false;
+    });
+  }
+
+  Future<void> _toggleLike() async {
+    if (widget.carList == null) return;
+
+    // التحقق ما إذا كان المستخدم مسجل دخوله
+    final userId = _homeCubit.getCurrentUserId();
+    if (userId == null) {
+      // عرض نافذة حوار لتسجيل الدخول
+      _showLoginDialog();
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    // محاولة تبديل حالة الإعجاب
+    final success = await _homeCubit.toggleLike(widget.carList!);
+
+    // تحديث حالة الإعجاب المحلية بعد التبديل إذا نجحت العملية
+    if (success) {
+      final newLikeStatus = await _homeCubit.checkIfCarLiked(widget.carList!.id);
+      setState(() {
+        isLiked = newLikeStatus;
+      });
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  // عرض نافذة حوار لتسجيل الدخول
+  void _showLoginDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('تسجيل الدخول مطلوب'),
+          content: Text('يجب عليك تسجيل الدخول أولاً لتتمكن من الإعجاب بالسيارة'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('إلغاء'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+             
+              },
+              child: Text('تسجيل الدخول'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
@@ -25,9 +117,29 @@ class Details extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(carList?.name ?? "اسم غير متوفر", style: TextStyles.font16BlacMedium),
-                Text(carList?.description ?? "اسم غير متوفر", style: TextStyles.font14GrayMedium),
-
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(widget.carList?.name ?? "اسم غير متوفر", style: TextStyles.font16BlacMedium),
+                    // زر الإعجاب
+                    isLoading
+                        ? SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(strokeWidth: 2, color: ColorsManager.kPrimaryColor),
+                        )
+                        : IconButton(
+                          icon: Icon(
+                            isLiked ? Icons.favorite : Icons.favorite_border,
+                            color: isLiked ? Colors.red : Colors.grey,
+                            size: 28,
+                          ),
+                          onPressed: _toggleLike,
+                        ),
+                  ],
+                ),
+                Text(widget.carList?.description ?? "وصف غير متوفر", style: TextStyles.font14GrayMedium),
+                SizedBox(height: 16),
                 Container(
                   height: 80,
                   decoration: BoxDecoration(color: ColorsManager.grayBorder, borderRadius: BorderRadius.circular(20)),
@@ -42,38 +154,41 @@ class Details extends StatelessWidget {
   }
 
   SizedBox buildImage(PageController pageController, BuildContext context) {
+    // Same as your original code
     return SizedBox(
       height: 400,
       child: Stack(
         children: [
           PageView.builder(
             controller: pageController,
-            itemCount: carList?.images.length,
+            itemCount: widget.carList?.images.length ?? 0,
             itemBuilder: (context, index) {
               return Container(
                 decoration: BoxDecoration(
                   borderRadius:
-                      index == carList!.images.length - 1
+                      index == (widget.carList?.images.length ?? 0) - 1
                           ? BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
-                          : BorderRadius.zero, // تضيف التدوير للصورة الأخيرة فقط
+                          : BorderRadius.zero,
                   boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.3), offset: Offset(0, 4), blurRadius: 8)],
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(index == carList!.images.length - 1 ? 20 : 0),
-                    bottomRight: Radius.circular(index == carList!.images.length - 1 ? 20 : 0),
+                    bottomLeft: Radius.circular(index == (widget.carList?.images.length ?? 0) - 1 ? 20 : 0),
+                    bottomRight: Radius.circular(index == (widget.carList?.images.length ?? 0) - 1 ? 20 : 0),
                   ),
                   child: Image.network(
-                    carList?.images[index] ?? '',
+                    widget.carList?.images[index] ?? '',
                     width: double.infinity,
                     height: 300,
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(color: Colors.grey[300], child: Icon(Icons.error, color: Colors.red));
+                    },
                   ),
                 ),
               );
             },
           ),
-
           Positioned(
             top: 40,
             right: 16,
@@ -87,21 +202,21 @@ class Details extends StatelessWidget {
               ),
             ),
           ),
-
-          Positioned(
-            bottom: 20,
-            left: MediaQuery.of(context).size.width / 2 - 30,
-            child: SmoothPageIndicator(
-              controller: pageController,
-              count: carList!.images.length,
-              effect: ExpandingDotsEffect(
-                dotHeight: 8,
-                dotWidth: 8,
-                activeDotColor: Colors.white,
-                dotColor: Colors.grey,
+          if (widget.carList?.images.length != null && widget.carList!.images.length > 1)
+            Positioned(
+              bottom: 20,
+              left: MediaQuery.of(context).size.width / 2 - 30,
+              child: SmoothPageIndicator(
+                controller: pageController,
+                count: widget.carList!.images.length,
+                effect: ExpandingDotsEffect(
+                  dotHeight: 8,
+                  dotWidth: 8,
+                  activeDotColor: Colors.white,
+                  dotColor: Colors.grey,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

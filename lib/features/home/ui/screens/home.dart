@@ -5,10 +5,10 @@ import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/core/widgets/app_text_form_field.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
-import 'package:graduation/features/home/ui/screens/build_search_result_item.dart';
+import 'package:graduation/features/home/search%20/build_search_result_item.dart';
 import 'package:graduation/features/home/ui/widgets/add_post_bottom_sheet.dart';
 import 'package:graduation/features/home/ui/widgets/home_bloc_builder.dart';
-import 'package:graduation/features/home/ui/widgets/shimmer_loding_search.dart';
+import 'package:graduation/features/home/search%20/shimmer_loding_search.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});

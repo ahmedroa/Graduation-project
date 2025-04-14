@@ -1,4 +1,365 @@
 
+
+// class Details extends StatefulWidget {
+//   final PostCar? carList;
+//   const Details({super.key, this.carList});
+
+//   @override
+//   State<Details> createState() => _DetailsState();
+// }
+
+// class _DetailsState extends State<Details> {
+//   late PageController pageController;
+//   bool isLiked = false;
+//   bool isLoading = true;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     pageController = PageController();
+//     checkIfLiked();
+//   }
+
+//   // Check if the current user has liked this post
+//   Future<void> checkIfLiked() async {
+//     try {
+//       final currentUser = 'XCEcZ6CcraVPsP4nMRGVVxQ4Oyl2';
+//       if (widget.carList == null) {
+//         setState(() {
+//           isLoading = false;
+//         });
+//         return;
+//       }
+
+//       final docSnapshot =
+//           await FirebaseFirestore.instance
+//               .collection('users')
+//               .doc('XCEcZ6CcraVPsP4nMRGVVxQ4Oyl2')
+//               .collection('liked_cars')
+//               .doc(widget.carList!.id)
+//               .get();
+
+//       setState(() {
+//         isLiked = docSnapshot.exists;
+//         isLoading = false;
+//       });
+//     } catch (e) {
+//       print('Error checking like status: $e');
+//       setState(() {
+//         isLoading = false;
+//       });
+//     }
+//   }
+
+//   // Toggle like status in Firestore
+//   Future<void> toggleLike() async {
+//     try {
+//       final currentUser = 'XCEcZ6CcraVPsP4nMRGVVxQ4Oyl2';
+//       if (widget.carList == null) return;
+
+//       final userLikesRef = FirebaseFirestore.instance
+//           .collection('users')
+//           .doc('XCEcZ6CcraVPsP4nMRGVVxQ4Oyl2')
+//           .collection('liked_cars');
+
+//       setState(() {
+//         isLoading = true;
+//       });
+
+//       if (isLiked) {
+//         // Remove like
+//         await userLikesRef.doc(widget.carList!.id).delete();
+//       } else {
+//         // Add like
+//         await userLikesRef.doc(widget.carList!.id).set({
+//           'carId': widget.carList!.id,
+//           'likedAt': FieldValue.serverTimestamp(),
+//           'carName': widget.carList!.name,
+//           'carImage': widget.carList!.images.isNotEmpty ? widget.carList!.images[0] : null,
+//           'carDescription': widget.carList!.description,
+//         });
+//       }
+
+//       // Update car's likes count in the main collection (optional)
+//       final carRef = FirebaseFirestore.instance.collection('cars').doc(widget.carList!.id);
+//       await FirebaseFirestore.instance.runTransaction((transaction) async {
+//         final carDoc = await transaction.get(carRef);
+//         if (carDoc.exists) {
+//           int currentLikes = carDoc.data()?['likesCount'] ?? 0;
+//           transaction.update(carRef, {'likesCount': isLiked ? currentLikes - 1 : currentLikes + 1});
+//         }
+//       });
+
+//       setState(() {
+//         isLiked = !isLiked;
+//         isLoading = false;
+//       });
+//     } catch (e) {
+//       print('Error toggling like: $e');
+//       setState(() {
+//         isLoading = false;
+//       });
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Column(
+//         children: [
+//           buildImage(pageController, context),
+//           verticalSpace(24),
+//           Padding(
+//             padding: EdgeInsets.all(12.0),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   children: [
+//                     Text(widget.carList?.name ?? "اسم غير متوفر", style: TextStyles.font16BlacMedium),
+//                     // Like button
+//                     isLoading
+//                         ? SizedBox(
+//                           width: 24,
+//                           height: 24,
+//                           child: CircularProgressIndicator(strokeWidth: 2, color: ColorsManager.kPrimaryColor),
+//                         )
+//                         : IconButton(
+//                           icon: Icon(
+//                             isLiked ? Icons.favorite : Icons.favorite_border,
+//                             color: isLiked ? Colors.red : Colors.grey,
+//                             size: 28,
+//                           ),
+//                           onPressed: toggleLike,
+//                         ),
+//                   ],
+//                 ),
+//                 Text(widget.carList?.description ?? "وصف غير متوفر", style: TextStyles.font14GrayMedium),
+//                 SizedBox(height: 16),
+//                 Container(
+//                   height: 80,
+//                   decoration: BoxDecoration(color: ColorsManager.grayBorder, borderRadius: BorderRadius.circular(20)),
+//                   child: Row(children: [Icon(Icons.person, color: ColorsManager.kPrimaryColor), horizontalSpace(20)]),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   SizedBox buildImage(PageController pageController, BuildContext context) {
+//     return SizedBox(
+//       height: 400,
+//       child: Stack(
+//         children: [
+//           PageView.builder(
+//             controller: pageController,
+//             itemCount: widget.carList?.images.length ?? 0,
+//             itemBuilder: (context, index) {
+//               return Container(
+//                 decoration: BoxDecoration(
+//                   borderRadius:
+//                       index == (widget.carList?.images.length ?? 0) - 1
+//                           ? BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
+//                           : BorderRadius.zero,
+//                   boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.3), offset: Offset(0, 4), blurRadius: 8)],
+//                 ),
+//                 child: ClipRRect(
+//                   borderRadius: BorderRadius.only(
+//                     bottomLeft: Radius.circular(index == (widget.carList?.images.length ?? 0) - 1 ? 20 : 0),
+//                     bottomRight: Radius.circular(index == (widget.carList?.images.length ?? 0) - 1 ? 20 : 0),
+//                   ),
+//                   child: Image.network(
+//                     widget.carList?.images[index] ?? '',
+//                     width: double.infinity,
+//                     height: 300,
+//                     fit: BoxFit.cover,
+//                     errorBuilder: (context, error, stackTrace) {
+//                       return Container(color: Colors.grey[300], child: Icon(Icons.error, color: Colors.red));
+//                     },
+//                   ),
+//                 ),
+//               );
+//             },
+//           ),
+//           Positioned(
+//             top: 40,
+//             right: 16,
+//             child: CircleAvatar(
+//               backgroundColor: Colors.black.withOpacity(0.5),
+//               child: IconButton(
+//                 icon: Icon(Icons.arrow_back, color: Colors.white),
+//                 onPressed: () {
+//                   Navigator.pop(context);
+//                 },
+//               ),
+//             ),
+//           ),
+//           if (widget.carList?.images.length != null && widget.carList!.images.length > 1)
+//             Positioned(
+//               bottom: 20,
+//               left: MediaQuery.of(context).size.width / 2 - 30,
+//               child: SmoothPageIndicator(
+//                 controller: pageController,
+//                 count: widget.carList!.images.length,
+//                 effect: ExpandingDotsEffect(
+//                   dotHeight: 8,
+//                   dotWidth: 8,
+//                   activeDotColor: Colors.white,
+//                   dotColor: Colors.grey,
+//                 ),
+//               ),
+//             ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+
+
+// class Details extends StatelessWidget {
+//   final PostCar? carList;
+//   const Details({super.key, this.carList});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     PageController pageController = PageController();
+//     // final homeCunit = context.read<HomeCubit>(); 
+
+//     return Scaffold(
+//       body: Column(
+//         children: [
+//           buildImage(pageController, context),
+//           verticalSpace(24),
+//           Padding(
+//             padding: EdgeInsets.all(12.0),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Text(carList?.name ?? "اسم غير متوفر", style: TextStyles.font16BlacMedium),
+//                 Text(carList?.description ?? "اسم غير متوفر", style: TextStyles.font14GrayMedium),
+
+//                 Container(
+//                   height: 80,
+//                   decoration: BoxDecoration(color: ColorsManager.grayBorder, borderRadius: BorderRadius.circular(20)),
+//                   child: Row(children: [Icon(Icons.person, color: ColorsManager.kPrimaryColor), horizontalSpace(20)]),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   SizedBox buildImage(PageController pageController, BuildContext context) {
+//     return SizedBox(
+//       height: 400,
+//       child: Stack(
+//         children: [
+//           PageView.builder(
+//             controller: pageController,
+//             itemCount: carList?.images.length,
+//             itemBuilder: (context, index) {
+//               return Container(
+//                 decoration: BoxDecoration(
+//                   borderRadius:
+//                       index == carList!.images.length - 1
+//                           ? BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
+//                           : BorderRadius.zero, // تضيف التدوير للصورة الأخيرة فقط
+//                   boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.3), offset: Offset(0, 4), blurRadius: 8)],
+//                 ),
+//                 child: ClipRRect(
+//                   borderRadius: BorderRadius.only(
+//                     bottomLeft: Radius.circular(index == carList!.images.length - 1 ? 20 : 0),
+//                     bottomRight: Radius.circular(index == carList!.images.length - 1 ? 20 : 0),
+//                   ),
+//                   child: Image.network(
+//                     carList?.images[index] ?? '',
+//                     width: double.infinity,
+//                     height: 300,
+//                     fit: BoxFit.cover,
+//                   ),
+//                 ),
+//               );
+//             },
+//           ),
+
+//           Positioned(
+//             top: 40,
+//             right: 16,
+//             child: CircleAvatar(
+//               backgroundColor: Colors.black.withOpacity(0.5),
+//               child: IconButton(
+//                 icon: Icon(Icons.arrow_back, color: Colors.white),
+//                 onPressed: () {
+//                   Navigator.pop(context);
+//                 },
+//               ),
+//             ),
+//           ),
+
+//           Positioned(
+//             bottom: 20,
+//             left: MediaQuery.of(context).size.width / 2 - 30,
+//             child: SmoothPageIndicator(
+//               controller: pageController,
+//               count: carList!.images.length,
+//               effect: ExpandingDotsEffect(
+//                 dotHeight: 8,
+//                 dotWidth: 8,
+//                 activeDotColor: Colors.white,
+//                 dotColor: Colors.grey,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+
+// Future<void> toggleLike(String carId) async {
+//   final user = FirebaseAuth.instance.currentUser;
+//   final docRef = FirebaseFirestore.instance
+//       .collection('users')
+//       .doc(user!.uid)
+//       .collection('likedCars')
+//       .doc(carId);
+
+//   final doc = await docRef.get();
+
+//   if (doc.exists) {
+//     // إذا السيارة موجودة نحذف اللايك
+//     await docRef.delete();
+//   } else {
+//     // إذا مش موجودة نضيفها للايكات
+//     await docRef.set({
+//       'carId': carId,
+//       'likedAt': Timestamp.now(),
+//     });
+//   }
+// }
+
+// Future<bool> isCarLiked(String carId) async {
+//   final user = FirebaseAuth.instance.currentUser;
+//   final docRef = FirebaseFirestore.instance
+//       .collection('users')
+//       .doc(user!.uid)
+//       .collection('likedCars')
+//       .doc(carId);
+
+//   final doc = await docRef.get();
+//   return doc.exists;
+// }
+
+
+
 // class HomeCubit extends Cubit<HomeState> {
 //   HomeCubit() : super(HomeState.initial());
 //   final List<String> tags = ['الكل', "السيارات اللتي تم العثور عليها", "السيارات المبلغ عنها"];

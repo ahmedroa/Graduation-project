@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/widgets/build_divider.dart';
+import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:graduation/features/home/ui/screens/details.dart';
 
 class BuildItemPostsCars extends StatelessWidget {
@@ -15,7 +17,12 @@ class BuildItemPostsCars extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Details(carList: carList)));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BlocProvider(create: (context) => HomeCubit(), child: Details(carList: carList)),
+            ),
+          );
         },
         child: Container(
           decoration: BoxDecoration(

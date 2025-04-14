@@ -35,8 +35,9 @@ class MyApp extends StatelessWidget {
         locale: const Locale("ar", "AE"),
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
-        initialRoute: Routes.bottomNavBar,
         onGenerateRoute: appRouter.generateRoute,
+        initialRoute: Routes.bottomNavBar,
+        // initialRoute: context.isNotLoggedIn ? Routes.splashView : Routes.bottomNavBar,
         // home: OnboardingView(),
       ),
     );

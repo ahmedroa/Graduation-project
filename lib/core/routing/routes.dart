@@ -37,7 +37,7 @@ class AppRouter {
           builder: (_) => BlocProvider(create: (context) => HomeCubit()..getHomeData(), child: BottomNavBar()),
         );
       case Routes.details:
-        return MaterialPageRoute(builder: (_) => Details());
+        return MaterialPageRoute(builder: (_) => BlocProvider(create: (context) => HomeCubit(), child: Details()));
       case Routes.createPost:
         return MaterialPageRoute(builder: (_) => CreatePost());
       case Routes.section:

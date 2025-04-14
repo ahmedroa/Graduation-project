@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
 import 'package:graduation/features/home/cubit/home_state.dart';
 
@@ -8,6 +9,13 @@ class HomeCubit extends Cubit<HomeState> {
 
   final List<String> tags = ['الكل', "السيارات اللتي تم العثور عليها", "السيارات المبلغ عنها"];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  String? getCurrentUserId() {
+    // return null;
+
+    // return '2ErilIOosxWI6jid8ZTdwXjXi4M2';
+    return FirebaseAuth.instance.currentUser?.uid;
+  }
 
   void getHomeData({int tagIndex = 0}) async {
     try {
@@ -72,12 +80,83 @@ class HomeCubit extends Cubit<HomeState> {
           (data['neighborhood']?.toString().toLowerCase() ?? '').contains(query);
     }).toList();
   }
+
+  // بقية الدوال التي كانت موجودة...
+
+  // التحقق إذا كان المستخدم قد سجل إعجابه بالسيارة
+  Future<bool> checkIfCarLiked(String? carId) async {
+    if (carId == null) return false;
+
+    // التحقق من تسجيل دخول المستخدم
+    final userId = getCurrentUserId();
+    if (userId == null) {
+      return false; // لا نبعث بحدث هنا، فقط نُرجع false
+    }
+
+    try {
+      emit(state.copyWith(isLikeLoading: true));
+
+      final docSnapshot = await firestore.collection('users').doc(userId).collection('liked_cars').doc(carId).get();
+
+      final isLiked = docSnapshot.exists;
+      emit(state.copyWith(isLikeLoading: false));
+      return isLiked;
+    } catch (e) {
+      print('Error checking like status: $e');
+      emit(state.copyWith(isLikeLoading: false, error: e.toString()));
+      return false;
+    }
+  }
+
+  // تبديل حالة الإعجاب للسيارة
+  Future<bool> toggleLike(PostCar car) async {
+    if (car.id == null) return false;
+
+    // التحقق من تسجيل دخول المستخدم
+    final userId = getCurrentUserId();
+    if (userId == null) {
+      return false; // إرجاع false يعني المستخدم غير مسجل
+    }
+
+    try {
+      // التحقق أولاً مما إذا كانت السيارة محبوبة حالياً
+      final isCurrentlyLiked = await checkIfCarLiked(car.id);
+
+      emit(state.copyWith(isLikeLoading: true));
+
+      final userLikesRef = firestore.collection('users').doc(userId).collection('liked_cars');
+
+      if (isCurrentlyLiked) {
+        // إزالة الإعجاب
+        await userLikesRef.doc(car.id).delete();
+      } else {
+        // إضافة إعجاب
+        await userLikesRef.doc(car.id).set({
+          'carId': car.id,
+          'likedAt': FieldValue.serverTimestamp(),
+          'carName': car.name,
+          'carImage': car.images.isNotEmpty ? car.images[0] : null,
+          'carDescription': car.description,
+        });
+      }
+
+      // تحديث عدد الإعجابات في مجموعة السيارات الرئيسية
+      final carRef = firestore.collection('cars').doc(car.id);
+      await firestore.runTransaction((transaction) async {
+        final carDoc = await transaction.get(carRef);
+        if (carDoc.exists) {
+          int currentLikes = carDoc.data()?['likesCount'] ?? 0;
+          transaction.update(carRef, {'likesCount': isCurrentlyLiked ? currentLikes - 1 : currentLikes + 1});
+        }
+      });
+
+      // تحديث الحالة لتعكس حالة الإعجاب الجديدة
+      emit(state.copyWith(isLikeLoading: false));
+      return true; // نجحت العملية
+    } catch (e) {
+      print('Error toggling like: $e');
+      emit(state.copyWith(isLikeLoading: false, error: e.toString()));
+      return false;
+    }
+  }
 }
-
-
-
-
-
-
-
-

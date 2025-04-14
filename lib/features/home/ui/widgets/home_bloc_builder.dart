@@ -25,6 +25,8 @@ class HomeBlocBuilder extends StatelessWidget {
     );
   }
 
+}
+
   Widget buildGridView(List<PostCar> carInformation) {
     return GridView.builder(
       padding: const EdgeInsets.all(12),
@@ -40,8 +42,6 @@ class HomeBlocBuilder extends StatelessWidget {
       },
     );
   }
-}
-
 // class HomeBlocBuilder extends StatelessWidget {
 //   const HomeBlocBuilder({super.key});
 
