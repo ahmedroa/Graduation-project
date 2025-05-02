@@ -7,13 +7,10 @@ import 'package:graduation/features/home/cubit/home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeState.initial());
 
-  final List<String> tags = ['الكل', "السيارات اللتي تم العثور عليها", "السيارات المبلغ عنها"];
+  final List<String> tags = ['الكل', 'سيارات معثور عليها', 'سيارات مفقودة'];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   String? getCurrentUserId() {
-    // return null;
-
-    // return '2ErilIOosxWI6jid8ZTdwXjXi4M2';
     return FirebaseAuth.instance.currentUser?.uid;
   }
 
@@ -81,8 +78,6 @@ class HomeCubit extends Cubit<HomeState> {
     }).toList();
   }
 
-  // بقية الدوال التي كانت موجودة...
-
   // التحقق إذا كان المستخدم قد سجل إعجابه بالسيارة
   Future<bool> checkIfCarLiked(String? carId) async {
     if (carId == null) return false;
@@ -115,11 +110,10 @@ class HomeCubit extends Cubit<HomeState> {
     // التحقق من تسجيل دخول المستخدم
     final userId = getCurrentUserId();
     if (userId == null) {
-      return false; // إرجاع false يعني المستخدم غير مسجل
+      return false;
     }
 
     try {
-      // التحقق أولاً مما إذا كانت السيارة محبوبة حالياً
       final isCurrentlyLiked = await checkIfCarLiked(car.id);
 
       emit(state.copyWith(isLikeLoading: true));
@@ -127,20 +121,11 @@ class HomeCubit extends Cubit<HomeState> {
       final userLikesRef = firestore.collection('users').doc(userId).collection('liked_cars');
 
       if (isCurrentlyLiked) {
-        // إزالة الإعجاب
         await userLikesRef.doc(car.id).delete();
       } else {
-        // إضافة إعجاب
-        await userLikesRef.doc(car.id).set({
-          'carId': car.id,
-          'likedAt': FieldValue.serverTimestamp(),
-          'carName': car.name,
-          'carImage': car.images.isNotEmpty ? car.images[0] : null,
-          'carDescription': car.description,
-        });
+        await userLikesRef.doc(car.id).set(car.toMap());
       }
 
-      // تحديث عدد الإعجابات في مجموعة السيارات الرئيسية
       final carRef = firestore.collection('cars').doc(car.id);
       await firestore.runTransaction((transaction) async {
         final carDoc = await transaction.get(carRef);

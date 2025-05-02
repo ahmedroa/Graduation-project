@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
-import 'package:graduation/core/widgets/build_divider.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:graduation/features/home/ui/screens/details.dart';
 
@@ -17,10 +16,22 @@ class BuildItemPostsCars extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
+          // انتقال مع أنيميشن
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => BlocProvider(create: (context) => HomeCubit(), child: Details(carList: carList)),
+            PageRouteBuilder(
+              transitionDuration: Duration(milliseconds: 500),
+              pageBuilder:
+                  (context, animation, secondaryAnimation) =>
+                      BlocProvider(create: (context) => HomeCubit(), child: Details(carList: carList)),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                var curve = Curves.easeInOut;
+                var curveTween = CurveTween(curve: curve);
+
+                var fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(animation.drive(curveTween));
+
+                return FadeTransition(opacity: fadeAnimation, child: child);
+              },
             ),
           );
         },
@@ -29,25 +40,19 @@ class BuildItemPostsCars extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(width: .1),
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: Offset(0, 5))],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // صورة السيارة
               ClipRRect(
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                 child: Image.network(
                   carList.image ?? '',
                   width: double.infinity,
-                  height: 130,
+                  height: 145,
                   fit: BoxFit.cover,
-                  // loadingBuilder: (context, child, loadingProgress) {
-                  //   if (loadingProgress == null) return child;
-                  //   return Shimmer.fromColors(
-                  //     baseColor: Colors.grey[300]!,
-                  //     highlightColor: Colors.grey[00]!,
-                  //     child: Container(width: double.infinity, height: 140, color: Colors.white),
-                  //   );
-                  // },
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
                       width: double.infinity,
@@ -73,7 +78,6 @@ class BuildItemPostsCars extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Spacer(),
-
                         carList.stolen == true
                             ? Container(
                               decoration: BoxDecoration(
@@ -104,13 +108,12 @@ class BuildItemPostsCars extends StatelessWidget {
                       style: const TextStyle(fontSize: 12, color: Colors.black54),
                     ),
                     verticalSpace(4),
-                    BuildDivider(),
                     Row(
                       children: [
                         Icon(Icons.location_on_outlined, size: 16, color: ColorsManager.kPrimaryColor),
                         SizedBox(width: 4),
                         Text(carList.city ?? '', style: TextStyle(fontSize: 12)),
-                        Text(' -', style: TextStyle(fontSize: 12)),
+                        Text(' - ', style: TextStyle(fontSize: 12)),
                         Text(carList.neighborhood ?? '', style: TextStyle(fontSize: 12)),
                       ],
                     ),

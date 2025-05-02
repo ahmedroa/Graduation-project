@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: appRouter.generateRoute,
         initialRoute: Routes.bottomNavBar,
         // initialRoute: context.isNotLoggedIn ? Routes.splashView : Routes.bottomNavBar,
-        // home: OnboardingView(),
+        // home: Notifications(),
       ),
     );
   }

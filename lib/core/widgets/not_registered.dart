@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:graduation/core/helpers/extension.dart';
 import 'package:graduation/core/helpers/spacing.dart';
+import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/core/widgets/main_button.dart';
 
@@ -12,7 +14,9 @@ void notRegistered(BuildContext context) {
           content: Text('يجب عليك تسجيل الدخول أولاً', style: TextStyles.font14DarkMedium, textAlign: TextAlign.center),
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                context.pushNamed(Routes.loginScreen);
+              },
               child: Center(
                 child: Column(
                   children: [

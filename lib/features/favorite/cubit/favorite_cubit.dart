@@ -12,13 +12,10 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   void getFavoriteCars() async {
     try {
       emit(LoadingFavoriteState());
-
       QuerySnapshot snapshot =
           await FirebaseFirestore.instance.collection('users').doc(uid).collection('liked_cars').get();
-
       List<PostCar> likedCars =
           snapshot.docs.map((doc) => PostCar.fromMap(doc.data() as Map<String, dynamic>, doc.id)).toList();
-
       emit(SuccessFavoriteState(likedCars));
     } catch (e) {
       emit(Error(e.toString()));

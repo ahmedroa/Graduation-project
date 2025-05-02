@@ -1,67 +1,145 @@
 import 'package:flutter/material.dart';
-import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
-import 'package:graduation/core/theme/text_styles.dart';
-import 'package:graduation/core/widgets/app_text_form_field.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation/features/profile/cubit/profile_cubit.dart';
+import 'package:graduation/features/profile/cubit/profile_state.dart';
+import 'dart:async';
 
-class Profile extends StatelessWidget {
+import 'package:graduation/features/profile/ui/widgets/animated_form_fields.dart';
+
+class Profile extends StatefulWidget {
   const Profile({super.key});
 
   @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _cardOpacity;
+  late Animation<Offset> _cardSlide;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
+
+    _cardOpacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: const Interval(0.0, 0.65, curve: Curves.easeOut)));
+
+    _cardSlide = Tween<Offset>(
+      begin: const Offset(0, 0.35),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: const Interval(0.0, 0.65, curve: Curves.easeOut)));
+
+    Timer(const Duration(milliseconds: 150), () {
+      _controller.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorsManager.backgroundColor,
-      appBar: AppBar(
-        title: const Text('الملف الشخصي'),
-        backgroundColor: Colors.white,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Text('حفظ', style: TextStyles.font16PrimaryColorBold),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
-        child: Container(
-          width: double.infinity,
-          height: 180,
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 6, right: 6, top: 20),
-            child: Column(
-              children: [
-                Row(
+    return BlocProvider(
+      create: (context) => ProfileCubit(),
+      child: Scaffold(
+        backgroundColor: ColorsManager.backgroundColor,
+        appBar: AppBar(title: const Text('الملف الشخصي'), backgroundColor: Colors.white, elevation: 0),
+        body: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            if (state is ProfileStateLoading) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: AppTextFormField(
-                        hintText: 'اسمك الاول',
-                        validator: (v) {
-                          return null;
-                        },
+                    SizedBox(
+                      width: 80,
+                      height: 80,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(ColorsManager.kPrimaryColor),
+                        strokeWidth: 3,
                       ),
                     ),
-                    horizontalSpace(12),
-                    Expanded(
-                      child: AppTextFormField(
-                        hintText: 'اسمك الاول',
-                        validator: (v) {
-                          return null;
-                        },
+                    const SizedBox(height: 20),
+                    const Text('جاري تحميل البيانات...', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                  ],
+                ),
+              );
+            } else if (state is ProfileStateError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error_outline, color: Colors.red, size: 60),
+                    const SizedBox(height: 16),
+                    Text(
+                      state.message,
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<ProfileCubit>().getUserData();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorsManager.kPrimaryColor,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
+                      child: const Text('إعادة المحاولة'),
                     ),
                   ],
                 ),
-                verticalSpace(12),
-                AppTextFormField(
-                  hintText: 'الايميل',
-                  validator: (v) {
-                    return null;
+              );
+            } else if (state is ProfileStateLoaded) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                    return FadeTransition(
+                      opacity: _cardOpacity,
+                      child: SlideTransition(
+                        position: _cardSlide,
+                        child: Container(
+                          width: double.infinity,
+                          height: 220,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 15,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: AnimatedFormFields(
+                              name: state.name,
+                              phoneNumber: state.phoneNumber,
+                              email: state.email,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
                   },
                 ),
-              ],
-            ),
-          ),
+              );
+            }
+            return const Center(child: Text('جاري تحميل البيانات...'));
+          },
         ),
       ),
     );

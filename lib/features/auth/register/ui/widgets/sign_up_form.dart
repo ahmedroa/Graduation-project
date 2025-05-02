@@ -89,8 +89,10 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
             ),
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'لا يمكن  ترك الحقل فارغ';
+              if (value == null || value.isEmpty
+              // || !AppRegex.isPasswordValid(value)
+              ) {
+                return 'كلمة المرور يجب أن تحتوي على حروف كبيرة وصغيرة وأرقام ورموز وطول لا يقل عن 8 أحرف';
               }
               return null;
             },

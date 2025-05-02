@@ -68,7 +68,6 @@ class _OnboardingViewState extends State<OnboardingView> with SingleTickerProvid
                   onPageChanged: (value) {
                     setState(() {
                       currentPage = value;
-                      // إعادة تشغيل الحركة
                       _animationController.reset();
                       _animationController.forward();
                     });

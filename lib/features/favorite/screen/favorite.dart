@@ -1,80 +1,208 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation/core/helpers/extension.dart';
+import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
+import 'package:graduation/core/widgets/main_button.dart';
 import 'package:graduation/features/favorite/cubit/favorite_cubit.dart';
 import 'package:graduation/features/home/ui/widgets/build_item_posts_cars.dart';
 import 'package:graduation/features/home/ui/widgets/shimmer_grid_posts_cars.dart';
+// import 'package:graduation/features/home/ui/widgets/shimmer_grid_posts_cars.dart';
 
-class Favorite extends StatelessWidget {
+class Favorite extends StatefulWidget {
   const Favorite({super.key});
+
+  @override
+  State<Favorite> createState() => _FavoriteState();
+}
+
+class _FavoriteState extends State<Favorite> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(duration: const Duration(milliseconds: 800), vsync: this);
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsManager.backgroundColor,
       appBar: AppBar(),
-      body:
-      // context.isNotLoggedIn
-      //     ? Padding(
-      //       padding: const EdgeInsets.all(8.0),
-      //       child: Column(
-      //         mainAxisAlignment: MainAxisAlignment.center,
-      //         children: [
-      //           Icon(Icons.person_add_alt_outlined, size: 100, color: ColorsManager.kPrimaryColor),
-      //           verticalSpace(12),
-      //           Text('سجل دخولك', style: TextStyles.font30BlackBold),
-      //           Text('لإضافة السيارات إلى المفضلة', style: TextStyles.font12GreyRegular),
-      //           verticalSpace(20),
-      //           MainButton(text: 'سجل دخول؛', onTap: () {}),
-      //           verticalSpace(70),
-      //         ],
-      //       ),
-      //     )
-      //     :
-      BlocProvider(
-        create: (context) => FavoriteCubit()..getFavoriteCars(),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              BlocBuilder<FavoriteCubit, FavoriteState>(
-                builder: (context, state) {
-                  if (state is LoadingFavoriteState) {
-                    return ShimmerGridPostsCars();
-                  } else if (state is Error) {
-                    return Center(child: Text("❌ خطأ: ${state.message}"));
-                  } else {
-                    return Expanded(
-                      child:
-                          state is SuccessFavoriteState
-                              ? state.carInformation.isNotEmpty
-                                  ? GridView.builder(
-                                    padding: const EdgeInsets.all(12),
-                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      mainAxisSpacing: 1,
-                                      childAspectRatio: 0.7,
-                                    ),
-                                    itemCount: state.carInformation.length,
-                                    itemBuilder: (context, index) {
-                                      final carList = state.carInformation[index];
-                                      return BuildItemPostsCars(carList: carList);
-                                    },
-                                  )
-                                  : Center(
-                                    child: Text('لا توجد سيارات مفضلة', style: TextStyles.font12PrimaryColorRegular),
-                                  )
-                              : const SizedBox(),
-                    );
-                  }
-                },
-              ),
-            ],
+      body: context.isNotLoggedIn ? _buildNotLoggedInView() : _buildLoggedInView(),
+    );
+  }
+
+  Widget _buildNotLoggedInView() {
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return FadeTransition(
+          opacity: _animationController,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, 0.2),
+              end: Offset.zero,
+            ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOutCubic)),
+            child: child,
           ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.person_add_alt_outlined, size: 100, color: ColorsManager.kPrimaryColor),
+            verticalSpace(12),
+            Text('سجل دخولك', style: TextStyles.font30BlackBold),
+            Text('لإضافة السيارات إلى المفضلة', style: TextStyles.font12GreyRegular),
+            verticalSpace(20),
+            MainButton(text: 'سجل دخول؛', onTap: () {}),
+            verticalSpace(70),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildLoggedInView() {
+    return BlocProvider(
+      create: (context) => FavoriteCubit()..getFavoriteCars(),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16),
+        child: BlocBuilder<FavoriteCubit, FavoriteState>(
+          builder: (context, state) {
+            if (state is LoadingFavoriteState) {
+              return const SafeFixedHeightShimmer();
+            } else if (state is Error) {
+              return Center(child: Text("❌ خطأ: ${state.message}"));
+            } else if (state is SuccessFavoriteState) {
+              if (state.carInformation.isEmpty) {
+                return Center(
+                  child: Container(
+                    width: 270,
+                    height: 270,
+                    decoration: BoxDecoration(border: Border.all(color: ColorsManager.kPrimaryColor)),
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: ColorsManager.lighterGray,
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                            ),
+
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(Icons.favorite, color: ColorsManager.kPrimaryColor),
+                            ),
+                          ),
+                          Text('لا توجة تفضيلات', style: TextStyles.font14DarkMedium),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              return AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  return FadeTransition(opacity: _animationController, child: child);
+                },
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(12),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 0.7,
+                  ),
+                  itemCount: state.carInformation.length,
+                  itemBuilder: (context, index) {
+                    final carList = state.carInformation[index];
+                    return AnimatedBuilder(
+                      animation: _animationController,
+                      builder: (context, child) {
+                        // حساب تأخير للعناصر ليظهروا بشكل متسلسل
+                        final double delay = (index * 0.1).clamp(0.0, 0.9);
+                        final Animation<double> delayedAnimation = CurvedAnimation(
+                          parent: _animationController,
+                          curve: Interval(delay, 1.0, curve: Curves.easeOutQuad),
+                        );
+
+                        return Transform.scale(
+                          scale: 0.8 + (0.2 * delayedAnimation.value),
+                          child: Opacity(opacity: delayedAnimation.value, child: child),
+                        );
+                      },
+                      child: BuildItemPostsCars(carList: carList),
+                    );
+                  },
+                ),
+              );
+            }
+
+            // حالة افتراضية
+            return const SizedBox();
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class SafeFixedHeightShimmer extends StatelessWidget {
+  const SafeFixedHeightShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.7,
+      child: GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.8,
+        ),
+        itemCount: 4,
+        itemBuilder: (context, index) => const ShimmerPostsCars(),
+      ),
+    );
+  }
+}
+
+class ShimmerGridPostsCars extends StatelessWidget {
+  const ShimmerGridPostsCars({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.7,
+      child: GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.8,
+        ),
+        itemCount: 6,
+        itemBuilder: (context, index) => const ShimmerPostsCars(),
       ),
     );
   }

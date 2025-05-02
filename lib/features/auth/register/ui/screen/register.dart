@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
@@ -63,16 +64,10 @@ class _RegisterState extends State<Register> {
 
                         return SizedBox(
                           width: double.infinity,
+                          height: 50.h,
                           child: ElevatedButton(
                             onPressed: () {
-                              if (context.read<RegisterCubit>().formKey.currentState!.validate()) {
-                                context.read<RegisterCubit>().register(
-                                  email: context.read<RegisterCubit>().emailController.text,
-                                  password: context.read<RegisterCubit>().passwordController.text,
-                                  name: context.read<RegisterCubit>().nameController.text,
-                                  phone: context.read<RegisterCubit>().phoneController.text,
-                                );
-                              }
+                              validateThenDoSignup(context);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: ColorsManager.kPrimaryColor,
@@ -93,5 +88,16 @@ class _RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+
+  void validateThenDoSignup(BuildContext context) {
+    if (context.read<RegisterCubit>().formKey.currentState!.validate()) {
+      context.read<RegisterCubit>().register(
+        email: context.read<RegisterCubit>().emailController.text,
+        password: context.read<RegisterCubit>().passwordController.text,
+        name: context.read<RegisterCubit>().nameController.text,
+        phone: context.read<RegisterCubit>().phoneController.text,
+      );
+    }
   }
 }

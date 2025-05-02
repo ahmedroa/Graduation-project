@@ -99,6 +99,8 @@ class HomeState {
     );
   }
 }
+
+
 // class HomeState {
 //   final bool isLoading;
 //   final bool isLikeLoading;

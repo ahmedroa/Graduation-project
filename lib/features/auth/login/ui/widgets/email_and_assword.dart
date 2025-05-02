@@ -91,7 +91,6 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
             //   return null;
             // },
           ),
-      
         ],
       ),
     );

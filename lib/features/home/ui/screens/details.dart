@@ -5,9 +5,9 @@ import 'package:graduation/core/data/models/Car_information.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
+import 'package:graduation/core/widgets/not_registered.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 
 class Details extends StatefulWidget {
   final PostCar? carList;
@@ -49,11 +49,9 @@ class _DetailsState extends State<Details> {
   Future<void> _toggleLike() async {
     if (widget.carList == null) return;
 
-    // التحقق ما إذا كان المستخدم مسجل دخوله
     final userId = _homeCubit.getCurrentUserId();
     if (userId == null) {
-      // عرض نافذة حوار لتسجيل الدخول
-      _showLoginDialog();
+      notRegistered(context);
       return;
     }
 
@@ -75,34 +73,6 @@ class _DetailsState extends State<Details> {
     setState(() {
       isLoading = false;
     });
-  }
-
-  // عرض نافذة حوار لتسجيل الدخول
-  void _showLoginDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('تسجيل الدخول مطلوب'),
-          content: Text('يجب عليك تسجيل الدخول أولاً لتتمكن من الإعجاب بالسيارة'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('إلغاء'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-             
-              },
-              child: Text('تسجيل الدخول'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override

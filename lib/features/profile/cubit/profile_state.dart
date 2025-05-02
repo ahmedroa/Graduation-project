@@ -1,10 +1,23 @@
-// part of 'profile_cubit.dart';
+abstract class ProfileState {}
 
-// @freezed
-// class ProfileState with _$ProfileState {
-//   const factory ProfileState.initial() = _Initial;
+class ProfileStateInitial extends ProfileState {}
 
-//   const factory ProfileState.loading() = _Loading;
+class ProfileStateLoading extends ProfileState {}
 
-  
-// }
+class ProfileStateLoaded extends ProfileState {
+  final String name;
+  final String phoneNumber;
+  final String email;
+
+  ProfileStateLoaded({
+    required this.name,
+    required this.phoneNumber,
+    required this.email,
+  });
+}
+
+class ProfileStateError extends ProfileState {
+  final String message;
+
+  ProfileStateError({required this.message});
+}

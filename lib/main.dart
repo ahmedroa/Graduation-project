@@ -17,22 +17,18 @@ void main() async {
 
 
 // shere app         dane
-// like 
+// like              dane
 // edit + add post
 // add posts
 // home              dane
 // Details
-// favorite
+// favorite          dane
 // settings          dane
-// register
-// logout
+// register          dane
+// logout            dane
 
 
-// اسم السياره
-// اللوكيشن 
-// Description
-// phone 
-// commit
+
 
 
 

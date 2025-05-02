@@ -38,7 +38,6 @@ class ReportedCarsCubit extends Cubit<ReportedCarsState> {
       await firestore.collection('users').doc(uid).collection('posts').doc(postId).delete();
       emit(ReportedCarsState.success(carInformation: []));
     } catch (e) {
-      // FirebaseFailure failure = FirebaseErrorHandler.handleError(e);
       emit(ReportedCarsState.error(e.toString()));
     }
   }

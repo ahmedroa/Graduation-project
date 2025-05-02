@@ -14,6 +14,7 @@ class AppTextFormField extends StatelessWidget {
   final TextStyle? inputTextStyle;
   final TextStyle? hintStyle;
   final String hintText;
+  final String? initialValue;
   final bool? isObscureText;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -63,12 +64,13 @@ class AppTextFormField extends StatelessWidget {
     this.maxLines,
     this.textAlign,
     this.readOnly,
-    this.focusNode,
+    this.focusNode, this.initialValue,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       enabled: enabled,
       focusNode: focusNode,
       textAlign: textAlign ?? TextAlign.start,
@@ -114,7 +116,7 @@ class AppTextFormField extends StatelessWidget {
         helperStyle: const TextStyle(color: Color(0xffA2A2A2)),
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
-        fillColor: fillColor ?? Theme.of(context).colorScheme.primaryContainer,
+        fillColor: fillColor ?? ColorsManager.textFormField,
         filled: true,
       ),
     );
