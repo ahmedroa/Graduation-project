@@ -10,22 +10,12 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Bloc. observer = MyBlocObserver();
 
-  NetworkMonitor().startMonitoring();
+  // NetworkMonitor().startMonitoring();
 
   runApp(MyApp(appRouter: AppRouter()));
 }
 
 
-// shere app         dane
-// like              dane
-// edit + add post
-// add posts
-// home              dane
-// Details
-// favorite          dane
-// settings          dane
-// register          dane
-// logout            dane
 
 
 

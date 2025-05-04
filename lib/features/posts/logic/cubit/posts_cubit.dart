@@ -14,6 +14,18 @@ class PostsCubit extends Cubit<PostsState> {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   int selectedOption = 1;
+  final List<String> tags = ["صغيره", "كبيره", "بيكأب", "باص"];
+  final List<String> tagImages = ['img/sedan.png', 'img/crossover.png', 'img/pickup.png', 'img/bus.png'];
+  String selectedTagName = "صغيره"; // إضافة متغير لحفظ اسم التاج المختار
+  int selectedTag = 0;
+
+  void updateSelectedTag(int index) {
+    selectedTag = index;
+    selectedTagName = tags[index]; 
+    print(selectedTagName);
+    emit(TagUpdated());
+  }
+
   final formKey = GlobalKey<FormState>();
   final LocationService _locationService = LocationService();
 
@@ -39,6 +51,59 @@ class PostsCubit extends Cubit<PostsState> {
   bool whats = true;
   bool whats2 = true;
 
+  // إضافة طريقة للتحقق من اكتمال البيانات في الصفحة المحددة
+  bool validatePage(int pageIndex) {
+    switch (pageIndex) {
+      case 1: // التحقق من صفحة معلومات السيارة
+        return carNameController.text.isNotEmpty &&
+            carTypeController.text.isNotEmpty &&
+            carColorController.text.isNotEmpty &&
+            carModelController.text.isNotEmpty &&
+            plateNumberController.text.isNotEmpty &&
+            chassisNumberController.text.isNotEmpty &&
+            firstCarImage != null; // التأكد من وجود صورة للسيارة
+
+      case 2: // التحقق من صفحة موقع السيارة
+        return cityController.text.isNotEmpty &&
+            neighborhoodController.text.isNotEmpty &&
+            streetController.text.isNotEmpty;
+
+      case 3: // التحقق من صفحة معلومات المالك
+        return nameOnerCarController.text.isNotEmpty &&
+            phoneOnerCarController.text.isNotEmpty &&
+            (phoneOnerCarController.text.length >= 9); // تحقق من طول رقم الهاتف
+
+      default:
+        return true;
+    }
+  }
+
+  // التحقق من جميع الصفحات
+  bool validateAllPages() {
+    // التحقق من كل صفحة على حدة
+    bool page1Valid = validatePage(1);
+    bool page2Valid = validatePage(2);
+    bool page3Valid = validatePage(3);
+
+    // إرجاع النتيجة مع رسالة توضح أي صفحة بها مشكلة
+    if (!page1Valid) {
+      emit(PageValidationError("الرجاء إكمال جميع بيانات السيارة في الصفحة الأولى"));
+      return false;
+    }
+
+    if (!page2Valid) {
+      emit(PageValidationError("الرجاء إكمال جميع بيانات الموقع في الصفحة الثانية"));
+      return false;
+    }
+
+    if (!page3Valid) {
+      emit(PageValidationError("الرجاء إكمال جميع بيانات المالك في الصفحة الثالثة"));
+      return false;
+    }
+
+    return true;
+  }
+
   Future<void> addPostCar(PostCar postCar) async {
     try {
       emit(PostsLoading());
@@ -54,45 +119,26 @@ class PostsCubit extends Cubit<PostsState> {
   String? firstCarImageUrl;
   String? secondCarImageUrl;
   String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
-Future<String?> uploadImageToStorage(File imageFile, String path) async {
-  try {
-    if (!path.startsWith("cars/")) {
-      throw FirebaseException(plugin: "firebase_storage", code: "invalid-path", message: "مسار التخزين غير صحيح.");
+  Future<String?> uploadImageToStorage(File imageFile, String path) async {
+    try {
+      if (!path.startsWith("cars/")) {
+        throw FirebaseException(plugin: "firebase_storage", code: "invalid-path", message: "مسار التخزين غير صحيح.");
+      }
+
+      final storageRef = FirebaseStorage.instance.ref().child(path);
+      final uploadTask = storageRef.putFile(imageFile);
+
+      final snapshot = await uploadTask.whenComplete(() => null);
+      final imageUrl = await snapshot.ref.getDownloadURL();
+      return imageUrl;
+    } on FirebaseException catch (e) {
+      print("🔥 Firebase Storage Error: ${e.code} - ${e.message}");
+      return null;
+    } catch (e) {
+      print("❌ Unknown Error: $e");
+      return null;
     }
-
-    final storageRef = FirebaseStorage.instance.ref().child(path);
-    final uploadTask = storageRef.putFile(imageFile);
-
-    final snapshot = await uploadTask.whenComplete(() => null);
-    final imageUrl = await snapshot.ref.getDownloadURL();
-    return imageUrl;
-  } on FirebaseException catch (e) {
-    print("🔥 Firebase Storage Error: ${e.code} - ${e.message}");
-    return null;
-  } catch (e) {
-    print("❌ Unknown Error: $e");
-    return null;
   }
-}
-
-  // Future<String?> uploadImageToStorage(File imageFile, String path) async {
-  //   try {
-  //     // تحديد مسار الصورة في Firebase Storage
-  //     final storageRef = FirebaseStorage.instance.ref().child(path);
-
-  //     // رفع الصورة إلى Storage
-  //     final uploadTask = storageRef.putFile(imageFile);
-
-  //     // انتظار إكمال عملية الرفع والحصول على رابط الصورة
-  //     final snapshot = await uploadTask.whenComplete(() => null);
-  //     final imageUrl = await snapshot.ref.getDownloadURL();
-
-  //     return imageUrl;
-  //   } catch (e) {
-  //     print("Error uploading image: $e");
-  //     return null;
-  //   }
-  // }
 
   Future<void> getLocation() async {
     emit(LocationLoading());

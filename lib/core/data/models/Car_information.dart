@@ -29,6 +29,7 @@ class PostCar {
   bool? isWhatsapp2;
 
   bool? stolen;
+  String? carSize;
 
   PostCar({
     this.id,
@@ -48,6 +49,7 @@ class PostCar {
     this.carTheftHistory,
     this.nameOwner,
     this.userId,
+    this.carSize,
     this.tokinNotification,
     this.phone,
     this.isWhatsapp,
@@ -64,6 +66,7 @@ class PostCar {
       timestamp: data['timestamp'],
       typeCar: data['typeCar'],
       model: data['model'],
+      carSize: data['carSize'],
       color: data['color'],
       chassisNumber: data['chassisNumber'],
       plateNumber: data['plateNumber'],
@@ -101,6 +104,7 @@ class PostCar {
       'neighborhood': neighborhood,
       'street': street,
       'description': description,
+      'carSize': carSize,
       'carTheftHistory': carTheftHistory,
       'nameOwner': nameOwner,
       'userId': userId,
@@ -130,6 +134,7 @@ class PostCar {
     String? street,
     String? description,
     String? carTheftHistory,
+    String? carSize,
     String? nameOwner,
     String? userId,
     String? tokinNotification,
@@ -150,6 +155,7 @@ class PostCar {
       plateNumber: plateNumber ?? this.plateNumber,
       image: image ?? this.image,
       images: images ?? this.images,
+      carSize: carSize ?? this.carSize,
       city: city ?? this.city,
       neighborhood: neighborhood ?? this.neighborhood,
       street: street ?? this.street,
@@ -168,6 +174,4 @@ class PostCar {
 }
 
 // 🔹 **دالة `fromJson` لتحويل البيانات من JSON إلى كائن `PostCar`*
-// 
-
-
+//

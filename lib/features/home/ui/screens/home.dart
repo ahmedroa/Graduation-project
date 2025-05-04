@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation/core/helpers/extension.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/core/widgets/app_text_form_field.dart';
+import 'package:graduation/core/widgets/not_registered.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:graduation/features/home/search%20/build_search_result_item.dart';
 import 'package:graduation/features/home/ui/widgets/add_post_bottom_sheet.dart';
@@ -119,11 +121,13 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
         child: FloatingActionButton(
           backgroundColor: ColorsManager.kPrimaryColor,
           onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              builder: (context) => AddPostBottomSheet(),
-            );
+            context.isNotLoggedIn
+                ? notRegistered(context)
+                : showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (context) => AddPostBottomSheet(),
+                );
           },
           child: const Icon(Icons.add, color: Colors.white),
         ),

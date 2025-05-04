@@ -70,7 +70,8 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            BuildSignInHeader(headerAnimation: _headerAnimation),
+            context.isNotLoggedIn ? BuildSignInHeader(headerAnimation: _headerAnimation) : verticalSpace(90),
+
             verticalSpace(20),
             _buildReportSection(),
             verticalSpace(20),
@@ -107,11 +108,13 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: GestureDetector(
           onTap: () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              builder: (context) => AddPostBottomSheet(),
-            );
+            context.isNotLoggedIn
+                ? notRegistered(context)
+                : showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (context) => AddPostBottomSheet(),
+                );
           },
           child: Container(
             height: 120,
@@ -178,7 +181,10 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
                 _buildAnimatedListTile(
                   title: 'الملف الشخصي',
                   icon: Icons.person,
-                  onTap: () => context.pushNamed(Routes.profile),
+                  onTap: () {
+                    context.isNotLoggedIn ? notRegistered(context) : context.pushNamed(Routes.profile);
+                  },
+                  // context.pushNamed(Routes.profile),
                   index: 0,
                 ),
                 BuildDivider(),

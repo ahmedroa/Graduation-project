@@ -36,10 +36,20 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: Routes.bottomNavBar,
+        initialRoute: Routes.loginScreen,
         // initialRoute: context.isNotLoggedIn ? Routes.splashView : Routes.bottomNavBar,
         // home: Notifications(),
       ),
     );
   }
 }
+
+// favorite          dane
+// settings          dane
+// register          dane
+// like              dane
+// logout            dane
+// edit + add post
+// add posts
+// Details
+// shere app

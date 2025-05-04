@@ -37,3 +37,10 @@ class LocationError extends PostsState {
 }
 
 class LocationLoading extends PostsState {}
+
+class TagUpdated extends PostsState {}
+
+class PageValidationError extends PostsState {
+  final String message;
+  PageValidationError(this.message);
+}
