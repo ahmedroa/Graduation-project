@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
@@ -68,7 +68,7 @@ class ReportVehicleLocationInformation extends StatelessWidget {
                   text: 'تحديد الموقع الحالي',
                   onTap: () => context.read<PostsCubit>().getLocation(),
                   height: 35,
-                  width: 145.w,
+                  width: 145,
                   color: ColorsManager.dark,
                   icon: Icon(Icons.location_on, color: Colors.white),
                 ),
@@ -77,7 +77,7 @@ class ReportVehicleLocationInformation extends StatelessWidget {
             verticalSpace(12),
             BlocBuilder<PostsCubit, PostsState>(
               builder: (context, state) {
-                if (state is LocationLoading) {
+                if (state is PostsLoading) {
                   return buildShimmerEffect();
                 } else {
                   return buildLocationFields();
@@ -94,7 +94,7 @@ class ReportVehicleLocationInformation extends StatelessWidget {
               maxLines: 3,
             ),
             verticalSpace(70),
-            Align(alignment: Alignment.topLeft, child: MainButton(text: 'نشر', onTap: () {}, width: 120.w)),
+            Align(alignment: Alignment.topLeft, child: MainButton(text: 'نشر', onTap: () {}, width: 120)),
           ],
         ),
       ),

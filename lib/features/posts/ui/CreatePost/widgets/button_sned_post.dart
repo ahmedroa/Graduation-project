@@ -23,7 +23,6 @@ class ButtonSnedPost extends StatelessWidget {
           } else if (state is PostsError) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("خطأ: ${state.message}")));
           } else if (state is PageValidationError) {
-            // إضافة معالجة لحالة خطأ التحقق من الحقول
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
@@ -43,12 +42,8 @@ class ButtonSnedPost extends StatelessWidget {
                         model: postsCubit.carModelController.text,
                         chassisNumber: postsCubit.chassisNumberController.text,
                         plateNumber: postsCubit.plateNumberController.text,
-                        image:
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnU6sqdcgr8Y1uXsxiYBwR4rgT8rVJJ-rPMg&s',
-                        images: [
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnU6sqdcgr8Y1uXsxiYBwR4rgT8rVJJ-rPMg&s',
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnU6sqdcgr8Y1uXsxiYBwR4rgT8rVJJ-rPMg&s',
-                        ],
+                        image: '',
+                        images: [],
 
                         city: postsCubit.cityController.text,
                         neighborhood: postsCubit.neighborhoodController.text,

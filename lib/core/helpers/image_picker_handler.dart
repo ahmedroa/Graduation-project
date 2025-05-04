@@ -19,7 +19,7 @@ class ImagePickerHandler {
       );
 
       if (image != null) {
-        postsCubit.setFirstCarImage(File(image.path));
+        // postsCubit.setFirstCarImage(File(image.path));
       }
     } catch (e) {
       print('خطأ في التقاط الصورة الأولى: $e');
@@ -32,7 +32,7 @@ class ImagePickerHandler {
       final XFile? image = await picker.pickImage(source: ImageSource.gallery, imageQuality: 80);
 
       if (image != null) {
-        postsCubit.setSecondCarImage(File(image.path));
+        // postsCubit.setSecondCarImage(File(image.path));
       }
     } catch (e) {
       print('خطأ في التقاط الصورة الثانية: $e');
@@ -45,7 +45,7 @@ class ImagePickerHandler {
       final XFile? image = await picker.pickImage(source: ImageSource.camera, imageQuality: 80);
 
       if (image != null) {
-        postsCubit.setFirstCarImage(File(image.path));
+        // postsCubit.setFirstCarImage(File(image.path));
       }
     } catch (e) {
       print('خطأ في التقاط الصورة بالكاميرا: $e');
@@ -58,7 +58,7 @@ class ImagePickerHandler {
       final XFile? image = await picker.pickImage(source: ImageSource.camera, imageQuality: 80);
 
       if (image != null) {
-        postsCubit.setSecondCarImage(File(image.path));
+        // postsCubit.setSecondCarImage(File(image.path));
       }
     } catch (e) {
       print('خطأ في التقاط الصورة بالكاميرا: $e');

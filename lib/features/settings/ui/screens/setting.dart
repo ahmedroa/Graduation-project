@@ -191,7 +191,12 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
                 _buildAnimatedListTile(
                   title: 'السيارات المبلغ عنها',
                   icon: Icons.car_crash_outlined,
-                  onTap: () => notRegistered(context),
+                  onTap: () {
+                    context.isNotLoggedIn ? notRegistered(context) : context.pushNamed(Routes.reportedCars);
+
+                    // ReportedCarsCubit
+                    // context.pushNamed(Routes.profile)
+                  },
                   index: 1,
                 ),
                 BuildDivider(),
@@ -269,10 +274,5 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
     return BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8));
   }
 
-  //   Widget _buildDeleteAccountButton() {
-  //   return TextButton(
-  //     onPressed: () => context.read<SettingsCubit>().deleteAccount(),
-  //     child: Text('حذف الحساب', style: TextStyles.font16DarkBold.copyWith(color: ColorsManager.red)),
-  //   );
-  // }
+  
 }

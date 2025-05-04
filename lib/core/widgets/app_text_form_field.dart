@@ -1,11 +1,11 @@
 // ignore_for_file: non_constant_identifier_names, file_names
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
-
+ 
 class AppTextFormField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final BorderRadius? borderRadius;
@@ -64,7 +64,8 @@ class AppTextFormField extends StatelessWidget {
     this.maxLines,
     this.textAlign,
     this.readOnly,
-    this.focusNode, this.initialValue,
+    this.focusNode,
+    this.initialValue,
   });
 
   @override
@@ -90,7 +91,7 @@ class AppTextFormField extends StatelessWidget {
         suffixText: prefixText,
         counter: counter,
         isDense: true,
-        contentPadding: contentPadding ?? EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
+        contentPadding: contentPadding ?? EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         focusedBorder:
             focusedBorder ??
             OutlineInputBorder(

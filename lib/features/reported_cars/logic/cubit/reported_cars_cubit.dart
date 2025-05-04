@@ -9,22 +9,26 @@ part 'reported_cars_cubit.freezed.dart';
 
 class ReportedCarsCubit extends Cubit<ReportedCarsState> {
   ReportedCarsCubit() : super(ReportedCarsState.initial());
-  String uid = 'test';
+  String uid = 'pIr55Pgm5kPn5Nkhdh5uCNExerU2';
   final firestore = FirebaseFirestore.instance;
 
   void getReportedCars() async {
     try {
       emit(ReportedCarsState.loading());
+
       QuerySnapshot snapshot = await firestore.collection('users').doc(uid).collection('posts').get();
+
       List<PostCar> posts = [];
-      //     snapshot.docs.map((doc) {
-      //       final data = doc.data();
-      //       if (data != null && data is Map<String, dynamic>) {
-      //         return PostCar.fromJson(data);
-      //       } else {
-      //         throw Exception("Invalid document format");
-      //       }
-      //     }).toList();
+
+      // تحويل البيانات من Firestore إلى قائمة من كائنات PostCar
+      for (var doc in snapshot.docs) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+        // استخدام PostCar.fromMap بدلاً من PostCar.fromJson
+        PostCar postCar = PostCar.fromMap(data, doc.id);
+
+        posts.add(postCar);
+      }
 
       emit(ReportedCarsState.success(carInformation: posts));
     } catch (e) {

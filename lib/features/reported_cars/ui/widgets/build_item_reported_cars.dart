@@ -18,13 +18,31 @@ class BuildItemReportedCars extends StatelessWidget {
                     itemCount: cars.length,
                     itemBuilder: (context, index) {
                       final car = cars[index];
-                      return ListTile(
-                        leading:
-                            car.image != null
-                                ? Image.network(car.image!, width: 50, height: 50, fit: BoxFit.cover)
-                                : const Icon(Icons.directions_car),
-                        title: Text(car.name ?? "سيارة مجهولة"),
-                        subtitle: Text(car.description ?? "لا يوجد وصف"),
+                      // return ListTile(
+                      // leading:
+                      // car.image != null
+                      //     ? Image.network(car.image!, width: 50, height: 50, fit: BoxFit.cover)
+                      //     : const Icon(Icons.directions_car),
+                      //   title: Text(car.name ?? "سيارة مجهولة"),
+                      //   subtitle: Text(car.description ?? "لا يوجد وصف"),
+                      // );
+                      return Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Container(
+                          width: double.infinity,
+                          height: 160,
+                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              children: [
+                                car.image != null
+                                    ? Image.network(car.image!, width: 120, height: 120, fit: BoxFit.cover)
+                                    : const Icon(Icons.directions_car),
+                              ],
+                            ),
+                          ),
+                        ),
                       );
                     },
                   ),
@@ -35,4 +53,3 @@ class BuildItemReportedCars extends StatelessWidget {
     );
   }
 }
-

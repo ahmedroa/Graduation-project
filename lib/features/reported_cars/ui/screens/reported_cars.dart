@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/features/reported_cars/ui/widgets/build_item_reported_cars.dart';
 
 class ReportedCars extends StatelessWidget {
@@ -7,18 +8,9 @@ class ReportedCars extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(' السيارات المبلغ عنها'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.refresh),
-            onPressed: () {
-              // context.read<ReportedCarsCubit>().getReportedCars();
-            },
-          ),
-        ],
-      ),
+      backgroundColor: ColorsManager.backgroundColor,
+
+      appBar: AppBar(backgroundColor: Colors.white, title: Text(' السيارات المبلغ عنها'), centerTitle: true),
       body: BuildItemReportedCars(),
     );
   }

@@ -7,6 +7,7 @@ import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/core/widgets/app_text_form_field.dart';
 import 'package:graduation/core/widgets/not_registered.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
+import 'package:graduation/features/home/cubit/home_state.dart';
 import 'package:graduation/features/home/search%20/build_search_result_item.dart';
 import 'package:graduation/features/home/ui/widgets/add_post_bottom_sheet.dart';
 import 'package:graduation/features/home/ui/widgets/home_bloc_builder.dart';
@@ -189,12 +190,19 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
       _animationController.status == AnimationStatus.forward
           ? FadeTransition(
             opacity: _fadeAnimation,
-            child: AnimatedBuilder(
-              animation: _animationController,
-              builder: (context, child) {
-                return Transform.translate(offset: Offset(0, 20 * (1 - _animationController.value)), child: child);
+            child: BlocConsumer<HomeCubit, HomeState>(
+              listener: (context, state) {
+                // TODO: implement listener
               },
-              child: _buildTagsList(),
+              builder: (context, state) {
+                return AnimatedBuilder(
+                  animation: _animationController,
+                  builder: (context, child) {
+                    return Transform.translate(offset: Offset(0, 20 * (1 - _animationController.value)), child: child);
+                  },
+                  child: _buildTagsList(),
+                );
+              },
             ),
           )
           : _buildTagsList(),

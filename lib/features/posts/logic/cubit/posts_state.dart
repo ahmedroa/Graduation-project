@@ -24,10 +24,10 @@ class PostsSelectedOption extends PostsState {}
 
 class CarImagesUpdated extends PostsState {}
 
-class PostsCreated extends PostsState {
-  final PostCar post;
-  PostsCreated(this.post);
-}
+// class PostsCrdeated extends PostsState {
+//   final PostCar post;
+//   PostsCreated(this.post);
+// }
 
 class LocationFetched extends PostsState {}
 
@@ -36,9 +36,15 @@ class LocationError extends PostsState {
   LocationError(this.message);
 }
 
-class LocationLoading extends PostsState {}
+// class LocationLoading extends PostsState {}
 
 class TagUpdated extends PostsState {}
+
+// حالة رفع الصور
+class UploadingImages extends PostsState {
+  final int progress;
+  UploadingImages(this.progress);
+}
 
 class PageValidationError extends PostsState {
   final String message;
