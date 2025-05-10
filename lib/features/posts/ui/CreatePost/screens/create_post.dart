@@ -64,14 +64,14 @@ class _CreatePostState extends State<CreatePost> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('رفع بلاغ')),
+      appBar: AppBar(title: const Text('رفع بلاغ'), centerTitle: true),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              verticalSpace(80),
+              SizedBox(height: MediaQuery.of(context).size.height * .08),
               FadeTransition(
                 opacity: _fadeInAnimation,
                 child: RichText(
@@ -118,7 +118,6 @@ class _CreatePostState extends State<CreatePost> with SingleTickerProviderStateM
                 ),
               ),
               verticalSpace(20),
-              // تطبيق حركة الانزلاق على الخطوة الثالثة
               SlideTransition(
                 position: _slideAnimation3,
                 child: _buildStep(
@@ -129,7 +128,6 @@ class _CreatePostState extends State<CreatePost> with SingleTickerProviderStateM
                   icon: Icon(Icons.contact_phone),
                 ),
               ),
-              verticalSpace(40),
               const Spacer(),
               ScaleTransition(
                 scale: _scaleAnimation,
@@ -140,7 +138,7 @@ class _CreatePostState extends State<CreatePost> with SingleTickerProviderStateM
                   },
                 ),
               ),
-              verticalSpace(20),
+              verticalSpace(60),
             ],
           ),
         ),

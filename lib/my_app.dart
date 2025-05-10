@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation/core/extensions/auth_extensions.dart';
 import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/routing/routes.dart';
 import 'package:graduation/core/theme/app_theme.dart';
@@ -36,20 +37,14 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: Routes.loginScreen,
-        // initialRoute: context.isNotLoggedIn ? Routes.splashView : Routes.bottomNavBar,
+        // initialRoute: Routes.splashView,
+        initialRoute: context.isNotLoggedIn ? Routes.splashView : Routes.bottomNavBar,
         // home: Notifications(),
       ),
     );
   }
 }
 
-// favorite          dane
-// settings          dane
-// register          dane
-// like              dane
-// logout            dane
-// edit + add post
-// add posts
-// Details
-// shere app
+// logout
+// detalis 
+// add post

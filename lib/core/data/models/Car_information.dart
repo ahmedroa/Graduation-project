@@ -15,6 +15,7 @@ class PostCar {
   String? neighborhood;
   String? street;
 
+String? note;
   String? description;
   String? carTheftHistory;
 
@@ -50,6 +51,7 @@ class PostCar {
     this.nameOwner,
     this.userId,
     this.carSize,
+    this.note,
     this.tokinNotification,
     this.phone,
     this.isWhatsapp,
@@ -67,6 +69,7 @@ class PostCar {
       typeCar: data['typeCar'] ?? '',
       model: data['model'] ?? '',
       carSize: data['carSize'] ?? '',
+      note: data['note'] ?? '',
       color: data['color'] ?? '',
       chassisNumber: data['chassisNumber'] ?? '',
       plateNumber: data['plateNumber'] ?? '',
@@ -103,6 +106,7 @@ class PostCar {
       'city': city,
       'neighborhood': neighborhood,
       'street': street,
+      'note': note,
       'description': description,
       'carSize': carSize,
       'carTheftHistory': carTheftHistory,
@@ -139,6 +143,7 @@ class PostCar {
     String? userId,
     String? tokinNotification,
     String? phone,
+    String? note,
     bool? isWhatsapp,
     String? phone2,
     bool? isWhatsapp2,
@@ -157,6 +162,7 @@ class PostCar {
       images: images ?? this.images,
       carSize: carSize ?? this.carSize,
       city: city ?? this.city,
+      note: note ?? this.note,
       neighborhood: neighborhood ?? this.neighborhood,
       street: street ?? this.street,
       description: description ?? this.description,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation/core/helpers/extension.dart';
+import 'package:graduation/core/extensions/auth_extensions.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
@@ -315,7 +315,8 @@ class _HomescreenState extends State<Homescreen> with SingleTickerProviderStateM
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
-          border: selectedTag == index ? Border.all(color: ColorsManager.kPrimaryColor, width: 2) : null,
+          border:
+              selectedTag == index ? Border.all(color: ColorsManager.kPrimaryColor.withOpacity(.6), width: 3) : null,
         ),
         child: Text(
           context.read<HomeCubit>().tags[index],

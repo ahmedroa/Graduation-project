@@ -78,14 +78,12 @@ class HomeCubit extends Cubit<HomeState> {
     }).toList();
   }
 
-  // التحقق إذا كان المستخدم قد سجل إعجابه بالسيارة
   Future<bool> checkIfCarLiked(String? carId) async {
     if (carId == null) return false;
 
-    // التحقق من تسجيل دخول المستخدم
     final userId = getCurrentUserId();
     if (userId == null) {
-      return false; // لا نبعث بحدث هنا، فقط نُرجع false
+      return false; 
     }
 
     try {
@@ -137,7 +135,7 @@ class HomeCubit extends Cubit<HomeState> {
 
       // تحديث الحالة لتعكس حالة الإعجاب الجديدة
       emit(state.copyWith(isLikeLoading: false));
-      return true; // نجحت العملية
+      return true;
     } catch (e) {
       print('Error toggling like: $e');
       emit(state.copyWith(isLikeLoading: false, error: e.toString()));

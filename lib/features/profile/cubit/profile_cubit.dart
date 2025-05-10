@@ -19,11 +19,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       emit(ProfileStateLoading());
 
-      // الحصول على المستخدم الحالي
       final User? currentUser = _auth.currentUser;
 
       if (currentUser != null) {
-        // الحصول على بيانات المستخدم من Firestore
         final DocumentSnapshot userDoc = await _firestore.collection('users').doc(currentUser.uid).get();
 
         if (userDoc.exists) {
@@ -35,7 +33,6 @@ class ProfileCubit extends Cubit<ProfileState> {
 
           emit(ProfileStateLoaded(name: name!, phoneNumber: phoneNumber!, email: email!));
         } else {
-          // إذا لم يكن للمستخدم وثيقة في Firestore، استخدم بيانات المصادقة فقط
           name = currentUser.displayName ?? '';
           phoneNumber = '';
           email = currentUser.email ?? '';

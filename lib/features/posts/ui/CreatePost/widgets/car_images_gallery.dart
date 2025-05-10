@@ -1,4 +1,3 @@
-// إنشاء كلاس منفصل لعرض الصور
 import 'dart:io';
 
 import 'package:flutter/material.dart';

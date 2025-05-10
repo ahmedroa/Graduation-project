@@ -6,6 +6,7 @@ import 'package:graduation/features/profile/cubit/profile_state.dart';
 import 'dart:async';
 
 import 'package:graduation/features/profile/ui/widgets/animated_form_fields.dart';
+import 'package:graduation/features/profile/ui/widgets/profile_shimmer.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -55,23 +56,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
         body: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, state) {
             if (state is ProfileStateLoading) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 80,
-                      height: 80,
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(ColorsManager.kPrimaryColor),
-                        strokeWidth: 3,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text('جاري تحميل البيانات...', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                  ],
-                ),
-              );
+              return ProfileShimmer();
             } else if (state is ProfileStateError) {
               return Center(
                 child: Column(

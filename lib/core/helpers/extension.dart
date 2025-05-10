@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 
 extension Navigation on BuildContext {
@@ -33,9 +32,4 @@ extension ListExtension<T> on List<T>? {
 
 // }
 
-extension AuthExtensions on BuildContext {
-  bool get isNotLoggedIn {
-    final user = FirebaseAuth.instance.currentUser;
-    return user == null;
-  }
-}
+

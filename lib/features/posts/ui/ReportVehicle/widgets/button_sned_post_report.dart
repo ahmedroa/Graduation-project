@@ -7,8 +7,8 @@ import 'package:graduation/core/widgets/main_button.dart';
 import 'package:graduation/core/widgets/show_error.dart';
 import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
 
-class ButtonSnedPost extends StatelessWidget {
-  const ButtonSnedPost({super.key});
+class ButtonSnedPostReport extends StatelessWidget {
+  const ButtonSnedPostReport({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +49,8 @@ class ButtonSnedPost extends StatelessWidget {
                         neighborhood: postsCubit.neighborhoodController.text,
                         street: postsCubit.streetController.text,
 
-                        nameOwner: postsCubit.nameOnerCarController.text,
-                        phone: postsCubit.phoneOnerCarController.text,
-                        phone2: postsCubit.phoneOnerCarController2.text,
                         description: postsCubit.descriptionController.text,
-                        isWhatsapp: postsCubit.whats,
-                        isWhatsapp2: postsCubit.whats2,
-                        stolen: true,
+                        stolen: false,
                         carSize: postsCubit.selectedTagName,
                         timestamp: DateTime.now().millisecondsSinceEpoch.toString(),
                       );
@@ -86,10 +81,7 @@ class ButtonSnedPost extends StatelessWidget {
       showError(context, "الرجاء إدخال لون السيارة");
       return false;
     }
-    if (postsCubit.carModelController.text.isEmpty) {
-      showError(context, "الرجاء إدخال موديل السيارة");
-      return false;
-    }
+ 
     if (postsCubit.plateNumberController.text.isEmpty) {
       showError(context, "الرجاء إدخال رقم اللوحة");
       return false;
@@ -117,20 +109,7 @@ class ButtonSnedPost extends StatelessWidget {
       return false;
     }
 
-    // التحقق من حقول صفحة معلومات المالك
-    if (postsCubit.nameOnerCarController.text.isEmpty) {
-      showError(context, "الرجاء إدخال اسم المالك");
-      return false;
-    }
-    if (postsCubit.phoneOnerCarController.text.isEmpty) {
-      showError(context, "الرجاء إدخال رقم الهاتف");
-      return false;
-    }
-    if (postsCubit.phoneOnerCarController.text.length < 9) {
-      showError(context, "رقم الهاتف غير صالح");
-      return false;
-    }
-
+ 
     return true;
   }
 }

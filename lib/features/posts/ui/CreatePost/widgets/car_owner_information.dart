@@ -48,14 +48,11 @@ class _CarOwnerInformationState extends State<CarOwnerInformation> {
             controller: postsCubit.nameOnerCarController,
             hintText: 'اكتب الاسم',
             validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'لا يمكن ترك الحقل فارغ';
+              }
               return null;
             },
-            // validator: (value) {
-            //   if (value == null || value.isEmpty) {
-            //     return 'لا يمكن ترك الحقل فارغ';
-            //   }
-            //   return null;
-            // },
           ),
           verticalSpace(12),
 
@@ -63,8 +60,12 @@ class _CarOwnerInformationState extends State<CarOwnerInformation> {
           verticalSpace(8),
           AppTextFormField(
             controller: postsCubit.phoneOnerCarController,
+            keyboardType: TextInputType.number,
             hintText: 'اكتب رقم الهاتف',
-            validator: (v) {
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'لا يمكن ترك الحقل فارغ';
+              }
               return null;
             },
           ),
@@ -86,8 +87,12 @@ class _CarOwnerInformationState extends State<CarOwnerInformation> {
           verticalSpace(8),
           AppTextFormField(
             controller: postsCubit.phoneOnerCarController2,
+            keyboardType: TextInputType.number,
             hintText: 'اكتب رقم هاتف اخر ',
-            validator: (v) {
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'لا يمكن ترك الحقل فارغ';
+              }
               return null;
             },
           ), //

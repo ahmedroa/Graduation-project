@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation/core/extensions/auth_extensions.dart';
 import 'package:graduation/core/helpers/extension.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/routing/app_router.dart';
@@ -7,6 +9,7 @@ import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/core/widgets/build_divider.dart';
 import 'package:graduation/core/widgets/not_registered.dart';
 import 'package:graduation/features/home/ui/widgets/add_post_bottom_sheet.dart';
+import 'package:graduation/features/settings/logic/cubit/settings_cubit.dart';
 import 'package:graduation/features/settings/ui/widgets/build_delete_account_button.dart';
 import 'package:graduation/features/settings/ui/widgets/build_sign_in_header.dart';
 import 'package:graduation/features/settings/ui/widgets/k_setting_list_tile.dart';
@@ -193,20 +196,11 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
                   icon: Icons.car_crash_outlined,
                   onTap: () {
                     context.isNotLoggedIn ? notRegistered(context) : context.pushNamed(Routes.reportedCars);
-
-                    // ReportedCarsCubit
-                    // context.pushNamed(Routes.profile)
                   },
                   index: 1,
                 ),
                 BuildDivider(),
-                // _buildAnimatedListTile(
-                //   title: 'تغير كلمة المرور',
-                //   icon: Icons.lock,
-                //   onTap: () => notRegistered(context),
-                //   index: 2,
-                // ),
-                // BuildDivider(),
+
                 _buildAnimatedListTile(title: 'مشاركة التطبيق', icon: Icons.share, onTap: () {}, index: 3),
               ],
             ),
@@ -217,21 +211,69 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildLogoutButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        decoration: _buildContainerDecoration(),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            children: [
-              Icon(Icons.logout_outlined, color: ColorsManager.red),
-              horizontalSpace(20),
-              Text('تسجيل الخروج', style: TextStyles.font16DarkBold),
-              const Spacer(),
-              Icon(Icons.arrow_forward_ios, color: ColorsManager.kPrimaryColor),
-            ],
-          ),
+    return BlocProvider(
+      create: (context) => SettingsCubit(),
+      child: BlocListener<SettingsCubit, SettingsState>(
+        listener: (context, state) {
+          state.whenOrNull(
+            logoutSuccess: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(Routes.splashView, (route) => false);
+            },
+            logoutFailure: (error) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('حدث خطأ في تسجيل الخروج: $error'), backgroundColor: Colors.red));
+            },
+          );
+        },
+        child: BlocBuilder<SettingsCubit, SettingsState>(
+          builder: (context, state) {
+            return state.maybeWhen(
+              loggingOut: () => const Center(child: CircularProgressIndicator()),
+              orElse:
+                  () => GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext ctx) {
+                          return AlertDialog(
+                            title: const Text('تأكيد تسجيل الخروج'),
+                            content: const Text('هل أنت متأكد من رغبتك في تسجيل الخروج؟'),
+                            actions: [
+                              TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('إلغاء')),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(ctx).pop();
+                                  context.read<SettingsCubit>().logout();
+                                },
+                                child: Text('تسجيل الخروج', style: TextStyle(color: ColorsManager.red)),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        decoration: _buildContainerDecoration(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.logout_outlined, color: ColorsManager.red),
+                              horizontalSpace(20),
+                              Text('تسجيل الخروج', style: TextStyles.font16DarkBold),
+                              const Spacer(),
+                              Icon(Icons.arrow_forward_ios, color: ColorsManager.kPrimaryColor),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+            );
+          },
         ),
       ),
     );
@@ -273,6 +315,4 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
   BoxDecoration _buildContainerDecoration() {
     return BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8));
   }
-
-  
 }
