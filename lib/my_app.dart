@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
     ErrorWidget.builder = (FlutterErrorDetails error) {
       return ErrorPage();
     };
-
     FlutterNativeSplash.remove();
 
     return ScreenUtilInit(
@@ -37,14 +36,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         onGenerateRoute: appRouter.generateRoute,
-        // initialRoute: Routes.splashView,
-        initialRoute: context.isNotLoggedIn ? Routes.splashView : Routes.bottomNavBar,
+        initialRoute: context.isNotLoggedIn ? Routes.loginScreen : Routes.bottomNavBar,
         // home: Notifications(),
       ),
     );
   }
 }
-
-// logout
-// detalis 
-// add post

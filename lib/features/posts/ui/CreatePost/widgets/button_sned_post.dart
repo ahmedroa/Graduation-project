@@ -134,3 +134,42 @@ class ButtonSnedPost extends StatelessWidget {
     return true;
   }
 }
+
+
+
+// MainButton(
+//                 text: 'التالي',
+//                 width: MediaQuery.of(context).size.width / 3,
+//                 onTap: () {
+//                   PostCar postCar = PostCar(
+//                     name: 'Haval H6 ',
+//                     typeCar: '',
+//                     color: 'احمر',
+//                     model: '2023',
+//                     chassisNumber: '9490490032',
+//                     plateNumber: '47492',
+//                     image:
+//                         'https://i1.wp.com/saudiauto.com.sa/wp-content/uploads/2024/10/haval-h9-cn-reveal-my24-1001x565-4.webp',
+//                     images: [
+//                       'https://i1.wp.com/saudiauto.com.sa/wp-content/uploads/2024/10/haval-h9-cn-reveal-my24-1001x565-4.webp',
+//                       'https://i1.wp.com/saudiauto.com.sa/wp-content/uploads/2024/10/haval-h9-cn-reveal-my24-1001x565-4.webp',
+//                       'https://i1.wp.com/saudiauto.com.sa/wp-content/uploads/2024/10/haval-h9-cn-reveal-my24-1001x565-4.webp',
+//                     ],
+
+//                     city: 'الخرطوم',
+//                     neighborhood: 'المعمورة',
+//                     street: 'اخر محطة',
+
+//                     nameOwner: 'احمد خالد رمضان',
+//                     phone: '0548828730',
+//                     phone2: '0548828730',
+//                     description: 'سرقت سيارتي من المعموره اخر محطه من قبل الدعم السريع ',
+//                     isWhatsapp: postsCubit.whats,
+//                     isWhatsapp2: postsCubit.whats2,
+//                     stolen: false,
+//                     carSize: 'كبيره',
+//                     timestamp: DateTime.now().millisecondsSinceEpoch.toString(),
+//                   );
+//                   context.read<PostsCubit>().addPostCar(postCar);
+//                 },
+//               );

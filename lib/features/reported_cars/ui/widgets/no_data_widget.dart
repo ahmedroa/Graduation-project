@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:graduation/core/theme/colors.dart';
 
 class NoDataWidget extends StatelessWidget {
-  const NoDataWidget({super.key});
+  final String? message;
+  const NoDataWidget({super.key, this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +13,12 @@ class NoDataWidget extends StatelessWidget {
         children: [
           Icon(Icons.directions_car_filled, size: 80, color: ColorsManager.kPrimaryColor),
           const SizedBox(height: 16),
-          const Text(
-            "لا توجد سيارات مبلغ عنها",
+          Text(
+            message ?? "لا توجد سيارات مبلغ عنها",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),
           ),
           const SizedBox(height: 8),
-          const Text("اسحب لأسفل للتحديث", style: TextStyle(fontSize: 14, color: Colors.grey)),
+          // const Text("اسحب لأسفل للتحديث", style: TextStyle(fontSize: 14, color: Colors.grey)),
         ],
       ),
     );

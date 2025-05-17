@@ -18,7 +18,7 @@ import 'package:graduation/features/reported_cars/logic/cubit/reported_cars_cubi
 import 'package:graduation/features/reported_cars/ui/screens/reported_cars.dart';
 import 'package:graduation/features/splach/splach.dart';
 import '../../features/auth/login/logic/cubit/login_cubit.dart';
-import '../../features/home/ui/widgets/bottom_vav_bar.dart';
+import '../../app/widgets/bottom_vav_bar.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {

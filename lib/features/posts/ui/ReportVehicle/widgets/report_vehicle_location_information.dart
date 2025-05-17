@@ -71,7 +71,7 @@ class ReportVehicleLocationInformation extends StatelessWidget {
                 Spacer(),
                 MainButton(
                   text: 'تحديد الموقع الحالي',
-                  onTap: () => context.read<PostsCubit>().getLocation(),
+                  onTap: () => context.read<PostsCubit>().getLocation(context),
                   height: 35,
                   width: 145.h,
                   color: ColorsManager.dark,
@@ -82,7 +82,7 @@ class ReportVehicleLocationInformation extends StatelessWidget {
             verticalSpace(12),
             BlocBuilder<PostsCubit, PostsState>(
               builder: (context, state) {
-                if (state is PostsLoading) {
+                if (state is PostsLoadingLoctation) {
                   return buildShimmerEffect();
                 } else {
                   return buildLocationFields();

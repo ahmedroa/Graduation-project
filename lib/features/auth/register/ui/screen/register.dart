@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
@@ -27,8 +26,7 @@ class _RegisterState extends State<Register> {
         backgroundColor: Colors.white,
         title: Hero(
           tag: "logo",
-          child: Padding(
-            padding: EdgeInsets.all(80),
+          child: Center(
             child: SvgPicture.asset(ImgManager.logo, color: ColorsManager.kPrimaryColor, width: 50, height: 50),
           ),
         ),

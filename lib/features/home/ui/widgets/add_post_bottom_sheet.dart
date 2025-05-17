@@ -36,9 +36,7 @@ class AddPostBottomSheet extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   verticalSpace(12),
-                  Text('أضف بلاغ', style: TextStyles.font16BlacMedium.copyWith(fontSize: 20)),
                   verticalSpace(12),
-                  // 🟢 الخيار الأول مع أنيميشن
                   TweenAnimationBuilder(
                     duration: Duration(milliseconds: 400),
                     curve: Curves.easeOut,
@@ -50,7 +48,8 @@ class AddPostBottomSheet extends StatelessWidget {
                       );
                     },
                     child: buildItem(
-                      title: 'السيارات المفقودة',
+                      title: 'أبلغ عن سيارة مفقودة',
+                      titlee: 'قم بنشر بلاغ لسيارتك المفقودة',
                       onTap: () {
                         context.pushNamed(Routes.createPost);
                       },
@@ -68,7 +67,8 @@ class AddPostBottomSheet extends StatelessWidget {
                       );
                     },
                     child: buildItem(
-                      title: 'السيارات المبلغ عنها',
+                      title: 'أبلغ عن سيارة تم العثور عليها',
+                      titlee: 'شارك معلومات عن سيارة وجدتها',
                       onTap: () {
                         context.pushNamed(Routes.sectionReportVehicle);
                       },
@@ -83,18 +83,24 @@ class AddPostBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget buildItem({required String title, required Function() onTap}) {
+  Widget buildItem({required String title, required String titlee, required Function() onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
           border: Border.all(color: ColorsManager.grayBorder, width: 1),
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text(title, style: TextStyles.font16BlacMedium.copyWith(fontSize: 20)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: TextStyles.font16BlacMedium.copyWith(fontSize: 20)),
+              Text(titlee, style: TextStyles.font14GraySemiBold),
+            ],
+          ),
         ),
       ),
     );

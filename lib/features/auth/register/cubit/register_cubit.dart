@@ -25,7 +25,6 @@ class RegisterCubit extends Cubit<RegisterState> {
           await FirebaseFirestore.instance.collection('users').doc(value.user!.uid).set({
             'name': name,
             'email': email,
-            'password': password,
             'phone': phone,
             'uid': value.user!.uid,
           });

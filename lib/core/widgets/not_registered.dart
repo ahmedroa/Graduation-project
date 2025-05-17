@@ -22,7 +22,13 @@ void notRegistered(BuildContext context) {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: MainButton(text: 'سجل', fontSize: 12, onTap: () {}),
+                      child: MainButton(
+                        text: 'سجل',
+                        fontSize: 12,
+                        onTap: () {
+                          context.pushReplacementNamed(Routes.loginScreen);
+                        },
+                      ),
                     ),
                     verticalSpace(15),
                   ],

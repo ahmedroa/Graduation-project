@@ -66,16 +66,12 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
     super.dispose();
   }
 
-  // تحديد اتجاه التنقل
   void _determineAnimationDirection(int newIndex) {
     bool forward = newIndex > _selectedIndex;
-
-    // للغة العربية، نعكس الاتجاه
     if (_isRtl) {
       forward = !forward;
     }
 
-    // إعادة تعيين الأنيميشن بناءً على الاتجاه
     _slideAnimation = Tween<Offset>(
       begin: Offset(forward ? 1.0 : -1.0, 0.0),
       end: Offset.zero,
@@ -90,10 +86,8 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
       _selectedIndex = index;
     });
 
-    // تحديد اتجاه الأنيميشن
     _determineAnimationDirection(index);
 
-    // إعادة تشغيل الأنيميشن
     _fadeController.reset();
     _slideController.reset();
     _scaleController.reset();
@@ -105,7 +99,6 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    // الحصول على تفضيلات اللغة من النظام
     _isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Scaffold(
@@ -139,7 +132,6 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
     );
   }
 
-  // دالة لإنشاء أيقونة متحركة
   Widget _buildAnimatedIcon(IconData icon, int index) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -157,54 +149,3 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
   }
 }
 
-
-// class BottomNavBar extends StatefulWidget {
-//   const BottomNavBar({super.key});
-
-//   @override
-//   State<BottomNavBar> createState() => _BottomNavBarState();
-// }
-
-// class _BottomNavBarState extends State<BottomNavBar> {
-//   int _selectedIndex = 0;
-
-//   final List _widgetOptions = [Homescreen(), Favorite(), Setting()];
-
-//   void _onItemTapped(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       bottomNavigationBar: BottomNavigationBar(
-//         backgroundColor: Theme.of(context).colorScheme.onPrimary,
-//         // backgroundColor: ColorsManager.backgroundColor,
-//         unselectedItemColor: const Color(0xffA2A2A2),
-//         showUnselectedLabels: true,
-//         elevation: 10,
-//         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-//         items: [
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.home, color: _selectedIndex == 0 ? ColorsManager.kPrimaryColor : ColorsManager.gray),
-//             label: 'الرئيسية',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.favorite, color: _selectedIndex == 1 ? ColorsManager.kPrimaryColor : ColorsManager.gray),
-//             label: 'المفضلة',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.settings, color: _selectedIndex == 2 ? ColorsManager.kPrimaryColor : ColorsManager.gray),
-//             label: 'الإعدادات',
-//           ),
-//         ],
-//         currentIndex: _selectedIndex,
-//         selectedItemColor: ColorsManager.kPrimaryColor,
-//         onTap: _onItemTapped,
-//       ),
-//       body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
-//     );
-//   }
-// }

@@ -93,11 +93,7 @@ class _OnboardingViewState extends State<OnboardingView> with SingleTickerProvid
                           'إذا لاحظت سيارة مشبوهة، قم برفع صورها وتحديد موقعها، فقد تكون السيارة مفقودة ويبحث عنها صاحبها.',
                       image: 'img/error.png',
                     ),
-                    // OnboardingContent(
-                    //   title: 'راقب أرباح سكنك',
-                    //   subtitle: 'يمكنك متابعة الأرباح وإنشاء التقارير للسكن بكل سرعة وسهولة ',
-                    //   image: 'img/error.png',
-                    // ),
+                  
                   ],
                 ),
               ),

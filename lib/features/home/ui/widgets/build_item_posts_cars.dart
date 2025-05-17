@@ -6,6 +6,9 @@ import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:graduation/features/home/ui/screens/details.dart';
 
+
+
+
 class BuildItemPostsCars extends StatelessWidget {
   final PostCar carList;
   const BuildItemPostsCars({super.key, required this.carList});
@@ -16,7 +19,6 @@ class BuildItemPostsCars extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
-          // انتقال مع أنيميشن
           Navigator.push(
             context,
             PageRouteBuilder(

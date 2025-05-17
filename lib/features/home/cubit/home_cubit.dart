@@ -18,7 +18,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       emit(HomeState.loading());
 
-      Query query = firestore.collection('posts');
+      Query query = firestore.collection('posts').orderBy('timestamp', descending: true);
 
       if (tagIndex == 1) {
         query = query.where('stolen', isEqualTo: false);
@@ -83,7 +83,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     final userId = getCurrentUserId();
     if (userId == null) {
-      return false; 
+      return false;
     }
 
     try {

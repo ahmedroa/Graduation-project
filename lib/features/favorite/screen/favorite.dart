@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/extensions/auth_extensions.dart';
+import 'package:graduation/core/helpers/extension.dart';
 import 'package:graduation/core/helpers/spacing.dart';
+import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/core/widgets/main_button.dart';
 import 'package:graduation/features/favorite/cubit/favorite_cubit.dart';
 import 'package:graduation/features/home/ui/widgets/build_item_posts_cars.dart';
 import 'package:graduation/features/home/ui/widgets/shimmer_grid_posts_cars.dart';
-// import 'package:graduation/features/home/ui/widgets/shimmer_grid_posts_cars.dart';
 
 class Favorite extends StatefulWidget {
   const Favorite({super.key});
@@ -35,10 +36,9 @@ class _FavoriteState extends State<Favorite> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorsManager.backgroundColor,
-      appBar: AppBar(),
-      body: context.isNotLoggedIn ? _buildNotLoggedInView() : _buildLoggedInView(),
+    return Container(
+      color: ColorsManager.backgroundColor,
+      child: context.isNotLoggedIn ? _buildNotLoggedInView() : _buildLoggedInView(),
     );
   }
 
@@ -67,7 +67,12 @@ class _FavoriteState extends State<Favorite> with SingleTickerProviderStateMixin
             Text('سجل دخولك', style: TextStyles.font30BlackBold),
             Text('لإضافة السيارات إلى المفضلة', style: TextStyles.font12GreyRegular),
             verticalSpace(20),
-            MainButton(text: 'سجل دخول؛', onTap: () {}),
+            MainButton(
+              text: 'سجل دخولك',
+              onTap: () {
+                context.pushNamed(Routes.loginScreen);
+              },
+            ),
             verticalSpace(70),
           ],
         ),
@@ -83,7 +88,7 @@ class _FavoriteState extends State<Favorite> with SingleTickerProviderStateMixin
         child: BlocBuilder<FavoriteCubit, FavoriteState>(
           builder: (context, state) {
             if (state is LoadingFavoriteState) {
-              return const SafeFixedHeightShimmer();
+              return ShimmerGridPostsCars();
             } else if (state is Error) {
               return Center(child: Text("❌ خطأ: ${state.message}"));
             } else if (state is SuccessFavoriteState) {
@@ -136,7 +141,6 @@ class _FavoriteState extends State<Favorite> with SingleTickerProviderStateMixin
                     return AnimatedBuilder(
                       animation: _animationController,
                       builder: (context, child) {
-                        // حساب تأخير للعناصر ليظهروا بشكل متسلسل
                         final double delay = (index * 0.1).clamp(0.0, 0.9);
                         final Animation<double> delayedAnimation = CurvedAnimation(
                           parent: _animationController,
@@ -154,55 +158,9 @@ class _FavoriteState extends State<Favorite> with SingleTickerProviderStateMixin
                 ),
               );
             }
-
-            // حالة افتراضية
             return const SizedBox();
           },
         ),
-      ),
-    );
-  }
-}
-
-class SafeFixedHeightShimmer extends StatelessWidget {
-  const SafeFixedHeightShimmer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.7,
-      child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 0.8,
-        ),
-        itemCount: 4,
-        itemBuilder: (context, index) => const ShimmerPostsCars(),
-      ),
-    );
-  }
-}
-
-class ShimmerGridPostsCars extends StatelessWidget {
-  const ShimmerGridPostsCars({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.7,
-      child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 0.8,
-        ),
-        itemCount: 6,
-        itemBuilder: (context, index) => const ShimmerPostsCars(),
       ),
     );
   }

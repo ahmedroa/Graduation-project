@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:graduation/core/helpers/extension.dart';
-import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
@@ -63,84 +62,149 @@ class _CreatePostState extends State<CreatePost> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // Determine if we're on a small device
+    final isSmallScreen = screenWidth < 360;
+
+    // Responsive spacing values
+    final topSpacing = screenHeight * 0.05;
+    final stepSpacing = screenHeight * 0.02;
+    final bottomSpacing = screenHeight * 0.04;
+
+    // Responsive step container height
+    final stepHeight = screenHeight * 0.12;
+
+    // Responsive font sizes
+    final titleFontSize = isSmallScreen ? 20.0 : 24.0;
+    final subtitleFontSize = isSmallScreen ? 14.0 : 16.0;
+    final stepTitleFontSize = isSmallScreen ? 12.0 : 14.0;
+
+    // Responsive padding
+    final mainPadding = screenWidth * 0.04;
+    final stepPadding = screenWidth * 0.05;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('رفع بلاغ'), centerTitle: true),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height * .08),
-              FadeTransition(
-                opacity: _fadeInAnimation,
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(text: '3 ', style: TextStyles.font13BlueSemiBold.copyWith(fontSize: 24)),
-                      TextSpan(
-                        text: 'خطوات سهلة',
-                        style: TextStyles.font24BlueBold.copyWith(color: Theme.of(context).colorScheme.secondary),
-                      ),
-                    ],
+      appBar: AppBar(title: const Text('رفع بلاغ'), centerTitle: true, toolbarHeight: screenHeight * 0.08),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: EdgeInsets.all(mainPadding),
+                    child: Column(
+                      children: [
+                        SizedBox(height: topSpacing),
+                        FadeTransition(
+                          opacity: _fadeInAnimation,
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: '3 ',
+                                  style: TextStyles.font13BlueSemiBold.copyWith(fontSize: titleFontSize),
+                                ),
+                                TextSpan(
+                                  text: 'خطوات سهلة',
+                                  style: TextStyles.font24BlueBold.copyWith(
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    fontSize: titleFontSize,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: stepSpacing),
+                        FadeTransition(
+                          opacity: _fadeInAnimation,
+                          child: Text(
+                            'لرفع بلاغ سيارتك',
+                            style: TextStyles.font16DarkRegular.copyWith(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontSize: subtitleFontSize,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: stepSpacing * 2),
+
+                        // Step 1
+                        SlideTransition(
+                          position: _slideAnimation1,
+                          child: _buildStep(
+                            context: context,
+                            int: 1,
+                            title: 'معلومات السيارة',
+                            supTitle: '6 مراحل',
+                            icon: Icon(Icons.directions_car, size: isSmallScreen ? 20 : 24),
+                            height: stepHeight,
+                            horizontalPadding: stepPadding,
+                            fontSize: stepTitleFontSize,
+                          ),
+                        ),
+                        SizedBox(height: stepSpacing),
+
+                        // Step 2
+                        SlideTransition(
+                          position: _slideAnimation2,
+                          child: _buildStep(
+                            context: context,
+                            int: 2,
+                            title: 'معلومات الموقع',
+                            supTitle: '3 مراحل',
+                            icon: Icon(Icons.location_on, size: isSmallScreen ? 20 : 24),
+                            height: stepHeight,
+                            horizontalPadding: stepPadding,
+                            fontSize: stepTitleFontSize,
+                          ),
+                        ),
+                        SizedBox(height: stepSpacing),
+
+                        // Step 3
+                        SlideTransition(
+                          position: _slideAnimation3,
+                          child: _buildStep(
+                            context: context,
+                            int: 3,
+                            title: 'معلومات التواصل',
+                            supTitle: '4 مراحل',
+                            icon: Icon(Icons.contact_phone, size: isSmallScreen ? 20 : 24),
+                            height: stepHeight,
+                            horizontalPadding: stepPadding,
+                            fontSize: stepTitleFontSize,
+                          ),
+                        ),
+
+                        // Flexible spacer that adjusts based on screen size
+                        Expanded(child: SizedBox(height: screenHeight * 0.05)),
+
+                        // Start button
+                        ScaleTransition(
+                          scale: _scaleAnimation,
+                          child: SizedBox(
+                            width: screenWidth * 0.9,
+                            child: MainButton(
+                              text: 'البدء',
+                              onTap: () {
+                                context.pushNamed(Routes.section);
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: bottomSpacing),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              verticalSpace(20),
-              FadeTransition(
-                opacity: _fadeInAnimation,
-                child: Text(
-                  'لرفع بلاغ سيارتك',
-                  style: TextStyles.font16DarkRegular.copyWith(color: Theme.of(context).colorScheme.secondary),
-                ),
-              ),
-              verticalSpace(40),
-              SlideTransition(
-                position: _slideAnimation1,
-                child: _buildStep(
-                  context: context,
-                  int: 1,
-                  title: 'معلومات السيارة',
-                  supTitle: '6 مراحل',
-                  icon: Icon(Icons.directions_car),
-                ),
-              ),
-              verticalSpace(20),
-              SlideTransition(
-                position: _slideAnimation2,
-                child: _buildStep(
-                  context: context,
-                  int: 2,
-                  title: 'معلومات الموقع',
-                  supTitle: '3 مراحل',
-                  icon: Icon(Icons.location_on),
-                ),
-              ),
-              verticalSpace(20),
-              SlideTransition(
-                position: _slideAnimation3,
-                child: _buildStep(
-                  context: context,
-                  int: 3,
-                  title: 'معلومات التواصل',
-                  supTitle: '4 مراحل',
-                  icon: Icon(Icons.contact_phone),
-                ),
-              ),
-              const Spacer(),
-              ScaleTransition(
-                scale: _scaleAnimation,
-                child: MainButton(
-                  text: 'البدء',
-                  onTap: () {
-                    context.pushNamed(Routes.section);
-                  },
-                ),
-              ),
-              verticalSpace(60),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -152,16 +216,19 @@ class _CreatePostState extends State<CreatePost> with SingleTickerProviderStateM
     required String title,
     required String supTitle,
     required Icon icon,
+    required double height,
+    required double horizontalPadding,
+    required double fontSize,
   }) {
     return GestureDetector(
       child: Container(
-        height: 100,
+        height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: ColorsManager.gray, width: 0.4),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
           child: Row(
             children: [
               Container(
@@ -181,10 +248,13 @@ class _CreatePostState extends State<CreatePost> with SingleTickerProviderStateM
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconTheme(data: IconThemeData(color: Theme.of(context).colorScheme.secondary), child: icon),
-                  verticalSpace(5),
+                  const SizedBox(height: 5),
                   Text(
                     title,
-                    style: TextStyles.font14DarkMedium.copyWith(color: Theme.of(context).colorScheme.secondary),
+                    style: TextStyles.font14DarkMedium.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: fontSize,
+                    ),
                   ),
                   // Text(supTitle, style: TextStyles.font12greyMedium),
                 ],
@@ -197,3 +267,4 @@ class _CreatePostState extends State<CreatePost> with SingleTickerProviderStateM
     );
   }
 }
+

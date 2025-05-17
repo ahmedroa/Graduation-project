@@ -6,6 +6,8 @@ class PostsInitial extends PostsState {}
 
 class PostsLoading extends PostsState {}
 
+class PostsLoadingLoctation extends PostsState {}
+
 // class CarInfoCleared extends PostsState {}
 
 // class PostsSuccess extends PostsState {

@@ -26,31 +26,25 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
   void initState() {
     super.initState();
 
-    // إنشاء متحكم الأنيميشن مع مدة 2 ثانية
     _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
 
-    // أنيميشن الدوران
     _rotationAnimation = Tween<double>(
       begin: 0,
       end: 2 * math.pi,
     ).animate(CurvedAnimation(parent: _controller, curve: Interval(0.0, 0.7, curve: Curves.easeInOut)));
 
-    // أنيميشن التكبير
     _scaleAnimation = Tween<double>(
       begin: 0.5,
       end: 1.2,
     ).animate(CurvedAnimation(parent: _controller, curve: Interval(0.0, 0.8, curve: Curves.elasticOut)));
 
-    // أنيميشن الشفافية
     _opacityAnimation = Tween<double>(
       begin: 0.3,
       end: 1.0,
     ).animate(CurvedAnimation(parent: _controller, curve: Interval(0.0, 0.5, curve: Curves.easeIn)));
 
-    // بدء الأنيميشن
     _controller.forward();
 
-    // الانتقال للشاشة التالية بعد انتهاء الأنيميشن
     Future.delayed(const Duration(milliseconds: 2500), () {
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
@@ -77,7 +71,6 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
       backgroundColor: ColorsManager.kPrimaryColor,
       body: Stack(
         children: [
-          // خلفية متحركة (أمواج)
           Positioned.fill(
             child: AnimatedBuilder(
               animation: _controller,
@@ -89,7 +82,6 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
             ),
           ),
 
-          // الشعار مع أنيميشن
           Center(
             child: AnimatedBuilder(
               animation: _controller,
@@ -124,7 +116,6 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
             ),
           ),
 
-          // نص أو معلومات تظهر بالتدريج
           Positioned(
             bottom: size.height * 0.15,
             left: 0,
@@ -152,7 +143,6 @@ class _SplashViewState extends State<SplashView> with SingleTickerProviderStateM
   }
 }
 
-// رسام خلفية الأمواج
 class WaveBackgroundPainter extends CustomPainter {
   final double progress;
   final Color color;
@@ -168,7 +158,6 @@ class WaveBackgroundPainter extends CustomPainter {
 
     final path = Path();
 
-    // رسم موجة متحركة في الخلفية
     path.moveTo(0, size.height * 0.7);
 
     for (int i = 0; i < size.width.toInt(); i++) {

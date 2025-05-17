@@ -21,51 +21,7 @@ class Setting extends StatefulWidget {
   State<Setting> createState() => _SettingState();
 }
 
-class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _headerAnimation;
-  late Animation<double> _opacityAnimation;
-  late Animation<Offset> _slideAnimation;
-  late Animation<double> _deleteButtonAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _initAnimations();
-  }
-
-  void _initAnimations() {
-    _controller = AnimationController(duration: const Duration(milliseconds: 1200), vsync: this);
-
-    _headerAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: const Interval(0.0, 0.6, curve: Curves.easeOut)));
-
-    _opacityAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: const Interval(0.4, 0.8, curve: Curves.easeIn)));
-
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(1.0, 0.0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller, curve: const Interval(0.4, 0.9, curve: Curves.easeOutCubic)));
-
-    _deleteButtonAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: const Interval(0.9, 1.0, curve: Curves.easeOut)));
-
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+class _SettingState extends State<Setting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,20 +29,16 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            context.isNotLoggedIn ? BuildSignInHeader(headerAnimation: _headerAnimation) : verticalSpace(90),
+            context.isNotLoggedIn ? BuildSignInHeader() : verticalSpace(90),
 
             verticalSpace(20),
             _buildReportSection(),
             verticalSpace(20),
             _buildSettingsMenu(),
             verticalSpace(20),
-            _buildLogoutButton(),
+            context.isNotLoggedIn ? SizedBox() : _buildLogoutButton(),
             verticalSpace(20),
-            BuildDeleteAccountButton(
-              deleteButtonAnimation: _deleteButtonAnimation,
-              controller: _controller,
-              context: context,
-            ),
+            context.isNotLoggedIn ? SizedBox() : BuildDeleteAccountButton(),
           ],
         ),
       ),
@@ -94,75 +46,42 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildReportSection() {
-    return AnimatedBuilder(
-      animation: _opacityAnimation,
-      builder: (context, child) {
-        return FadeTransition(
-          opacity: _opacityAnimation,
-          child: SlideTransition(
-            position: Tween<Offset>(begin: const Offset(0.5, 0.0), end: Offset.zero).animate(
-              CurvedAnimation(parent: _controller, curve: const Interval(0.6, 0.9, curve: Curves.easeOutCubic)),
-            ),
-            child: child,
-          ),
-        );
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: GestureDetector(
-          onTap: () {
-            context.isNotLoggedIn
-                ? notRegistered(context)
-                : showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) => AddPostBottomSheet(),
-                );
-          },
-          child: Container(
-            height: 120,
-            decoration: _buildContainerDecoration(),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  TweenAnimationBuilder<double>(
-                    duration: const Duration(milliseconds: 500),
-                    tween: Tween<double>(begin: 0.0, end: 1.0),
-                    curve: Curves.elasticOut,
-                    builder: (context, value, child) {
-                      return Transform.scale(scale: value, child: child);
-                    },
-                    child: Icon(Icons.car_crash, color: ColorsManager.kPrimaryColor),
-                  ),
-                  horizontalSpace(12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('أبلغ عن سيارتك المفقودة', style: TextStyles.font16DarkBold),
-                      verticalSpace(4),
-                      Text(
-                        'قم بإدخال تفاصيل سيارتك المفقودة ،\n وسنساعدك في البحث عنها.',
-                        style: TextStyles.font14GrayMedium,
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  TweenAnimationBuilder<double>(
-                    duration: const Duration(milliseconds: 700),
-                    tween: Tween<double>(begin: 0.0, end: 1.0),
-                    curve: Curves.elasticOut,
-                    builder: (context, value, child) {
-                      return Transform.translate(
-                        offset: Offset(8.0 * (1.0 - value), 0.0),
-                        child: Opacity(opacity: value.clamp(0.0, 1.0), child: child),
-                      );
-                    },
-                    child: Icon(Icons.arrow_forward_ios, color: ColorsManager.kPrimaryColor),
-                  ),
-                ],
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: GestureDetector(
+        onTap: () {
+          context.isNotLoggedIn
+              ? notRegistered(context)
+              : showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => AddPostBottomSheet(),
+              );
+        },
+        child: Container(
+          height: 120,
+          decoration: _buildContainerDecoration(),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: [
+                Icon(Icons.car_crash, color: ColorsManager.kPrimaryColor),
+                horizontalSpace(12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('أبلغ عن سيارتك المفقودة', style: TextStyles.font16DarkBold),
+                    verticalSpace(4),
+                    Text(
+                      'قم بإدخال تفاصيل سيارتك المفقودة ،\n وسنساعدك في البحث عنها.',
+                      style: TextStyles.font14GrayMedium,
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Icon(Icons.arrow_forward_ios, color: ColorsManager.kPrimaryColor),
+              ],
             ),
           ),
         ),
@@ -171,40 +90,30 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildSettingsMenu() {
-    return FadeTransition(
-      opacity: _opacityAnimation,
-      child: SlideTransition(
-        position: _slideAnimation,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Container(
-            decoration: _buildContainerDecoration(),
-            child: Column(
-              children: [
-                _buildAnimatedListTile(
-                  title: 'الملف الشخصي',
-                  icon: Icons.person,
-                  onTap: () {
-                    context.isNotLoggedIn ? notRegistered(context) : context.pushNamed(Routes.profile);
-                  },
-                  // context.pushNamed(Routes.profile),
-                  index: 0,
-                ),
-                BuildDivider(),
-                _buildAnimatedListTile(
-                  title: 'السيارات المبلغ عنها',
-                  icon: Icons.car_crash_outlined,
-                  onTap: () {
-                    context.isNotLoggedIn ? notRegistered(context) : context.pushNamed(Routes.reportedCars);
-                  },
-                  index: 1,
-                ),
-                BuildDivider(),
-
-                _buildAnimatedListTile(title: 'مشاركة التطبيق', icon: Icons.share, onTap: () {}, index: 3),
-              ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Container(
+        decoration: _buildContainerDecoration(),
+        child: Column(
+          children: [
+            _buildListTile(
+              title: 'الملف الشخصي',
+              icon: Icons.person,
+              onTap: () {
+                context.isNotLoggedIn ? notRegistered(context) : context.pushNamed(Routes.profile);
+              },
             ),
-          ),
+            BuildDivider(),
+            _buildListTile(
+              title: 'السيارات المبلغ عنها',
+              icon: Icons.car_crash_outlined,
+              onTap: () {
+                context.isNotLoggedIn ? notRegistered(context) : context.pushNamed(Routes.reportedCars);
+              },
+            ),
+            BuildDivider(),
+            _buildListTile(title: 'مشاركة التطبيق', icon: Icons.share, onTap: () {}),
+          ],
         ),
       ),
     );
@@ -279,40 +188,12 @@ class _SettingState extends State<Setting> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildAnimatedListTile({
-    required String title,
-    required IconData icon,
-    required VoidCallback onTap,
-    required int index,
-  }) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        final double maxEnd = 0.9;
-        final double itemsCount = 5.0;
-
-        final double startBase = 0.5;
-        final double totalDuration = maxEnd - startBase;
-        final double step = totalDuration / itemsCount;
-
-        final double start = startBase + (index * step);
-        final double end = (start + step).clamp(0.0, maxEnd);
-
-        final Animation<double> itemAnimation = Tween<double>(
-          begin: 0.0,
-          end: 1.0,
-        ).animate(CurvedAnimation(parent: _controller, curve: Interval(start, end, curve: Curves.easeOut)));
-
-        return Transform.translate(
-          offset: Offset(50 * (1 - itemAnimation.value), 0),
-          child: Opacity(opacity: itemAnimation.value.clamp(0.0, 1.0), child: child),
-        );
-      },
-      child: KSettingListTile(title: title, icon: Icon(icon), onTap: onTap),
-    );
+  Widget _buildListTile({required String title, required IconData icon, required VoidCallback onTap}) {
+    return KSettingListTile(title: title, icon: Icon(icon), onTap: onTap);
   }
 
   BoxDecoration _buildContainerDecoration() {
     return BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8));
   }
 }
+

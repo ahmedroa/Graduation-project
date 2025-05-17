@@ -38,13 +38,9 @@ class ShimmerPostsCars extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              // borderRadius: BorderRadius.circular(20),
               borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
               child: Shimmer.fromColors(
-                // baseColor: Colors.grey[300]!,
-                // highlightColor: Colors.grey[100]!,
-                // baseColor: ColorsManager.kPrimaryColor.withOpacity(.05),
-                // highlightColor: Colors.white,
+          
                 baseColor: Colors.grey[300]!,
                 highlightColor: Colors.grey[100]!,
                 child: Container(width: double.infinity, height: 140, color: Colors.white),

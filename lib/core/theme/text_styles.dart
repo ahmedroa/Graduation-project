@@ -171,12 +171,12 @@ class TextStyles {
     color: Colors.white,
     fontFamily: 'Tajawal',
   );
-  static TextStyle titleyellow = TextStyle(
-    fontSize: 12,
-    fontWeight: FontWeight.bold,
-    color: ColorsManager.yellow,
-    fontFamily: 'Tajawal',
-  );
+  // static TextStyle titleyellow = TextStyle(
+  //   fontSize: 12,
+  //   fontWeight: FontWeight.bold,
+  //   color: ColorsManager.yellow,
+  //   fontFamily: 'Tajawal',
+  // );
 
   static TextStyle font13DarkBlueRegular = TextStyle(
     fontSize: 13,

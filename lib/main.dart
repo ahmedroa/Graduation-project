@@ -1,11 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart' show ScreenUtil;
 import 'package:graduation/core/routing/routes.dart';
 import 'package:graduation/core/shared/bloc_observer.dart';
-// import 'package:graduation/core/shared/bloc_observer.dart' show MyBlocObserver;
 import 'package:graduation/firebase_options.dart';
 import 'package:graduation/my_app.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -19,18 +17,6 @@ void main() async {
 
   runApp(MyApp(appRouter: AppRouter()));
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

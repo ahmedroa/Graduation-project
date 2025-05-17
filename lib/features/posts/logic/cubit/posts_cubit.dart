@@ -21,7 +21,7 @@ class PostsCubit extends Cubit<PostsState> {
 
   final List<String> tags = CarData.tags;
   final List<String> tagImages = CarData.tagImages;
-  String selectedTagName = CarData.tags[0]; 
+  String selectedTagName = CarData.tags[0];
   int selectedTag = 0;
 
   void updateSelectedTag(int index) {
@@ -139,11 +139,25 @@ class PostsCubit extends Cubit<PostsState> {
     }
   }
 
-  Future<void> getLocation() async {
-    emit(PostsLoading());
+  // Future<void> getLocation() async {
+  //   emit(PostsLoading());
 
+  //   try {
+  //     final locationData = await _locationService.getCurrentLocation();
+  //     neighborhoodController.text = locationData['neighborhood']!;
+  //     cityController.text = locationData['city']!;
+  //     streetController.text = locationData['street']!;
+  //     emit(LocationFetched());
+  //   } catch (e) {
+  //     print("خطأ في جلب الموقع: $e");
+  //     emit(LocationError("حدث خطأ أثناء جلب الموقع"));
+  //   }
+  // }
+  // في PostsCubit:
+  Future<void> getLocation(BuildContext context) async {
+    emit(PostsLoadingLoctation());
     try {
-      final locationData = await _locationService.getCurrentLocation();
+      final locationData = await _locationService.getCurrentLocation(context);
       neighborhoodController.text = locationData['neighborhood']!;
       cityController.text = locationData['city']!;
       streetController.text = locationData['street']!;
@@ -167,4 +181,3 @@ class PostsCubit extends Cubit<PostsState> {
   List<String> get carTypes => CarData.carTypes;
   List<String> get carColors => CarData.carColors;
 }
-
