@@ -16,15 +16,7 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMixin {
   int _selectedIndex = 0;
   int _previousIndex = 0;
-  bool _isRtl = true; 
-
-  late AnimationController _fadeController;
-  late AnimationController _slideController;
-  late AnimationController _scaleController;
-
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
-  late Animation<double> _scaleAnimation;
+  bool _isRtl = true;
 
   late final List<Widget> _screens;
 
@@ -32,38 +24,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
   void initState() {
     super.initState();
 
-    _fadeController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
-    _slideController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
-    _scaleController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
-
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut));
-
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(1.0, 0.0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic));
-
-    _scaleAnimation = Tween<double>(
-      begin: 0.8,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _scaleController, curve: Curves.easeOutBack));
-
     _screens = [Homescreen(), const Favorite(), const Setting()];
-
-    _fadeController.forward();
-    _slideController.forward();
-    _scaleController.forward();
-  }
-
-  @override
-  void dispose() {
-    _fadeController.dispose();
-    _slideController.dispose();
-    _scaleController.dispose();
-    super.dispose();
   }
 
   void _determineAnimationDirection(int newIndex) {
@@ -71,11 +32,6 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
     if (_isRtl) {
       forward = !forward;
     }
-
-    _slideAnimation = Tween<Offset>(
-      begin: Offset(forward ? 1.0 : -1.0, 0.0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic));
   }
 
   void _onItemTapped(int index) {
@@ -85,16 +41,6 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
       _previousIndex = _selectedIndex;
       _selectedIndex = index;
     });
-
-    _determineAnimationDirection(index);
-
-    _fadeController.reset();
-    _slideController.reset();
-    _scaleController.reset();
-
-    _fadeController.forward();
-    _slideController.forward();
-    _scaleController.forward();
   }
 
   @override
@@ -103,6 +49,8 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         unselectedItemColor: const Color(0xffA2A2A2),
         showUnselectedLabels: true,
@@ -117,18 +65,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
         selectedItemColor: ColorsManager.kPrimaryColor,
         onTap: _onItemTapped,
       ),
-      body: AnimatedBuilder(
-        animation: Listenable.merge([_fadeController, _slideController, _scaleController]),
-        builder: (context, child) {
-          return FadeTransition(
-            opacity: _fadeAnimation,
-            child: SlideTransition(
-              position: _slideAnimation,
-              child: ScaleTransition(scale: _scaleAnimation, child: _screens[_selectedIndex]),
-            ),
-          );
-        },
-      ),
+      body: _screens[_selectedIndex],
     );
   }
 
@@ -148,4 +85,3 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
     );
   }
 }
-

@@ -28,7 +28,7 @@ void showCarTypeSelectionSheet(BuildContext context, PostsCubit postsCubit) {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
-                  const Text('اختر ماركة السيارة', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  const Text('اختر نوع السيارة', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   const SizedBox(width: 48),
                 ],
               ),

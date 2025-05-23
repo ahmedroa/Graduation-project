@@ -139,21 +139,6 @@ class PostsCubit extends Cubit<PostsState> {
     }
   }
 
-  // Future<void> getLocation() async {
-  //   emit(PostsLoading());
-
-  //   try {
-  //     final locationData = await _locationService.getCurrentLocation();
-  //     neighborhoodController.text = locationData['neighborhood']!;
-  //     cityController.text = locationData['city']!;
-  //     streetController.text = locationData['street']!;
-  //     emit(LocationFetched());
-  //   } catch (e) {
-  //     print("خطأ في جلب الموقع: $e");
-  //     emit(LocationError("حدث خطأ أثناء جلب الموقع"));
-  //   }
-  // }
-  // في PostsCubit:
   Future<void> getLocation(BuildContext context) async {
     emit(PostsLoadingLoctation());
     try {

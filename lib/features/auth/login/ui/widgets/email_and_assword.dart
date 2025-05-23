@@ -53,7 +53,7 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
         children: [
           AppTextFormField(
             controller: context.read<LoginCubit>().emailController,
-            hintText: 'البريد الإلكتروني او رقم الجوال',
+            hintText: 'البريد الإلكتروني',
             validator: (value) {
               if (value == null || value.isEmpty || !AppRegex.isEmailValid(value)) {
                 return 'لا يمكن  ترك الحقل فارغ';

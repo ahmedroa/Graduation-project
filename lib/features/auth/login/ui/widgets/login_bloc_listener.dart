@@ -19,11 +19,10 @@ class LoginBlocListener extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           loading: () {
-            Center(child: CircularProgressIndicator());
             loading();
           },
           success: (loginResponse) {
-            Center(child: CircularProgressIndicator());
+            loading();
             Navigator.pop(context);
             context.pushNamed(Routes.bottomNavBar);
           },

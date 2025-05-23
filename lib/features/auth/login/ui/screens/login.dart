@@ -167,21 +167,22 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                           verticalSpace(25),
                           SlideTransition(position: _formSlideAnimation, child: const EmailAndPassword()),
                           verticalSpace(30),
-                          // SlideTransition(
-                          //   position: _formSlideAnimation,
-                          //   child: Align(
-                          //     alignment: Alignment.topRight,
-                          //     child: TextButton(
-                          //       onPressed: () {
-                          //         context.pushNamed(Routes.forgotPassword);
-                          //       },
-                          //       child: Text(
-                          //         'نسيت كلمة المرور؟',
-                          //         style: TextStyles.font12lBlacBold.copyWith(color: ColorsManager.kPrimaryColor),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
+                          SlideTransition(
+                            position: _formSlideAnimation,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: TextButton(
+                                onPressed: () {
+                                  // context.pushNamed(Routes.forgotPassword);
+                                  setupErrorState(context, 'هذه الميزة غير متاحة حاليا');
+                                },
+                                child: Text(
+                                  'نسيت كلمة المرور؟',
+                                  style: TextStyles.font12lBlacBold.copyWith(color: ColorsManager.kPrimaryColor),
+                                ),
+                              ),
+                            ),
+                          ),
                           BlocBuilder<LoginCubit, LoginState>(
                             builder: (context, state) {
                               final isLoading = state is Loading;

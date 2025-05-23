@@ -36,9 +36,7 @@ class BuildSignInHeader extends StatelessWidget {
                   MainButton(
                     text: 'سجل دخول',
                     onTap: () {
-                      // Handle sign-in action
-                      // For example, navigate to the sign-in page or perform sign-in logic
-                      context.pushNamed(Routes.loginScreen);
+                     context.pushNamed(Routes.loginScreen);
                     },
                   ),
                 ],

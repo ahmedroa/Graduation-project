@@ -1,5 +1,6 @@
 // دالة showCarTypeSelectionSheet خارج الكلاس
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
 
@@ -11,7 +12,7 @@ void showarTypeSelectionSheet(BuildContext context, PostsCubit postsCubit) {
     builder: (context) {
       return Container(
         color: Colors.white,
-        height: 350,
+        height: 350.h,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
