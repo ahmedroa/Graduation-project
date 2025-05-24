@@ -101,45 +101,49 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  // تبديل حالة الإعجاب للسيارة
-  Future<bool> toggleLike(PostCar car) async {
-    if (car.id == null) return false;
-
-    // التحقق من تسجيل دخول المستخدم
-    final userId = getCurrentUserId();
-    if (userId == null) {
-      return false;
-    }
-
-    try {
-      final isCurrentlyLiked = await checkIfCarLiked(car.id);
-
-      emit(state.copyWith(isLikeLoading: true));
-
-      final userLikesRef = firestore.collection('users').doc(userId).collection('liked_cars');
-
-      if (isCurrentlyLiked) {
-        await userLikesRef.doc(car.id).delete();
-      } else {
-        await userLikesRef.doc(car.id).set(car.toMap());
-      }
-
-      final carRef = firestore.collection('cars').doc(car.id);
-      await firestore.runTransaction((transaction) async {
-        final carDoc = await transaction.get(carRef);
-        if (carDoc.exists) {
-          int currentLikes = carDoc.data()?['likesCount'] ?? 0;
-          transaction.update(carRef, {'likesCount': isCurrentlyLiked ? currentLikes - 1 : currentLikes + 1});
-        }
-      });
-
-      // تحديث الحالة لتعكس حالة الإعجاب الجديدة
-      emit(state.copyWith(isLikeLoading: false));
-      return true;
-    } catch (e) {
-      print('Error toggling like: $e');
-      emit(state.copyWith(isLikeLoading: false, error: e.toString()));
-      return false;
-    }
-  }
 }
+
+
+
+
+  // تبديل حالة الإعجاب للسيارة
+  // Future<bool> toggleLike(PostCar car) async {
+  //   if (car.id == null) return false;
+
+  //   // التحقق من تسجيل دخول المستخدم
+  //   final userId = getCurrentUserId();
+  //   if (userId == null) {
+  //     return false;
+  //   }
+
+  //   try {
+  //     final isCurrentlyLiked = await checkIfCarLiked(car.id);
+
+  //     emit(state.copyWith(isLikeLoading: true));
+
+  //     final userLikesRef = firestore.collection('users').doc(userId).collection('liked_cars');
+
+  //     if (isCurrentlyLiked) {
+  //       await userLikesRef.doc(car.id).delete();
+  //     } else {
+  //       await userLikesRef.doc(car.id).set(car.toMap());
+  //     }
+
+  //     final carRef = firestore.collection('cars').doc(car.id);
+  //     await firestore.runTransaction((transaction) async {
+  //       final carDoc = await transaction.get(carRef);
+  //       if (carDoc.exists) {
+  //         int currentLikes = carDoc.data()?['likesCount'] ?? 0;
+  //         transaction.update(carRef, {'likesCount': isCurrentlyLiked ? currentLikes - 1 : currentLikes + 1});
+  //       }
+  //     });
+
+  //     // تحديث الحالة لتعكس حالة الإعجاب الجديدة
+  //     emit(state.copyWith(isLikeLoading: false));
+  //     return true;
+  //   } catch (e) {
+  //     print('Error toggling like: $e');
+  //     emit(state.copyWith(isLikeLoading: false, error: e.toString()));
+  //     return false;
+  //   }
+  // }

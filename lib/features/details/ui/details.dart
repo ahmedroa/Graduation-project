@@ -1,0 +1,93 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+import 'package:flutter/material.dart';
+import 'package:graduation/core/data/models/Car_information.dart';
+import 'package:graduation/core/helpers/spacing.dart';
+import 'package:graduation/core/theme/colors.dart';
+import 'package:graduation/core/theme/text_styles.dart';
+import 'package:graduation/features/details/cubit/details_cubit.dart';
+import 'package:graduation/features/details/ui/widgets/build_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation/features/details/ui/widgets/car_information.dart';
+import 'package:graduation/features/details/ui/widgets/comments_section.dart';
+import 'package:graduation/features/details/ui/widgets/person_Information.dart';
+
+class Details extends StatefulWidget {
+  final PostCar? carList;
+  const Details({super.key, this.carList});
+
+  @override
+  State<Details> createState() => _DetailsState();
+}
+
+class _DetailsState extends State<Details> {
+  late PageController pageController;
+  final TextEditingController _commentController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.carList?.id != null) {
+        context.read<DetailsCubit>().checkIfCarLiked(widget.carList!.id);
+        context.read<DetailsCubit>().getLastThreeComments(widget.carList!.id!);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _commentController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: ColorsManager.backgroundColor,
+      body: BlocListener<DetailsCubit, DetailsState>(
+        listener: (context, state) {
+          if (state.error != null) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error!)));
+            // مسح الخطأ بعد عرضه
+            context.read<DetailsCubit>().clearError();
+          }
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              BuildImagesCar(pageController: pageController, widget: widget),
+              CarInformationWidget(widget: widget),
+              verticalSpace(20),
+              PersonInformation(widget: widget),
+              verticalSpace(20),
+              description(),
+              verticalSpace(20),
+              Comments(commentController: _commentController, widget: widget),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container description() {
+    return Container(
+      width: double.infinity,
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('وصف', style: TextStyles.font16DarkBold),
+            verticalSpace(8),
+            Text(widget.carList?.description ?? "وصف غير متوفر", style: TextStyles.font14DarkRegular),
+          ],
+        ),
+      ),
+    );
+  }
+}
+

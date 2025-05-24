@@ -5,8 +5,9 @@ import 'package:graduation/features/auth/login/ui/screens/forgot_password.dart';
 import 'package:graduation/features/auth/login/ui/screens/login.dart';
 import 'package:graduation/features/auth/register/cubit/register_cubit.dart';
 import 'package:graduation/features/auth/register/ui/screen/register.dart';
+import 'package:graduation/features/details/cubit/details_cubit.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
-import 'package:graduation/features/home/ui/screens/details.dart';
+import 'package:graduation/features/details/ui/details.dart';
 import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
 import 'package:graduation/features/posts/ui/CreatePost/widgets/car_information.dart';
 import 'package:graduation/features/posts/ui/CreatePost/screens/create_post.dart';
@@ -39,7 +40,7 @@ class AppRouter {
           builder: (_) => BlocProvider(create: (context) => HomeCubit()..getHomeData(), child: BottomNavBar()),
         );
       case Routes.details:
-        return MaterialPageRoute(builder: (_) => BlocProvider(create: (context) => HomeCubit(), child: Details()));
+        return MaterialPageRoute(builder: (_) => BlocProvider(create: (context) => DetailsCubit(), child: Details()));
       case Routes.createPost:
         return MaterialPageRoute(builder: (_) => CreatePost());
       case Routes.section:

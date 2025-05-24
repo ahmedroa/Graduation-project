@@ -3,11 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
-import 'package:graduation/features/home/cubit/home_cubit.dart';
-import 'package:graduation/features/home/ui/screens/details.dart';
-
-
-
+import 'package:graduation/features/details/cubit/details_cubit.dart';
+import 'package:graduation/features/details/ui/details.dart';
 
 class BuildItemPostsCars extends StatelessWidget {
   final PostCar carList;
@@ -25,7 +22,7 @@ class BuildItemPostsCars extends StatelessWidget {
               transitionDuration: Duration(milliseconds: 500),
               pageBuilder:
                   (context, animation, secondaryAnimation) =>
-                      BlocProvider(create: (context) => HomeCubit(), child: Details(carList: carList)),
+                      BlocProvider(create: (context) => DetailsCubit(), child: Details(carList: carList)),
               transitionsBuilder: (context, animation, secondaryAnimation, child) {
                 var curve = Curves.easeInOut;
                 var curveTween = CurveTween(curve: curve);

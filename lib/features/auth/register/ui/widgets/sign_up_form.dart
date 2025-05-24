@@ -51,7 +51,8 @@ class _SignUpFormState extends State<SignUpForm> {
         children: [
           AppTextFormField(
             controller: context.read<RegisterCubit>().nameController,
-            hintText: 'الاسم الكامل',
+            keyboardType: TextInputType.name,
+            hintText: 'الاسم',
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'لا يمكن  ترك الحقل فارغ';
@@ -63,7 +64,8 @@ class _SignUpFormState extends State<SignUpForm> {
 
           AppTextFormField(
             controller: context.read<RegisterCubit>().emailController,
-            hintText: 'البريد الإلكتروني او رقم الجوال',
+            keyboardType: TextInputType.emailAddress,
+            hintText: 'البريد الإلكتروني',
             validator: (value) {
               if (value == null || value.isEmpty || !AppRegex.isEmailValid(value)) {
                 return 'لا يمكن  ترك الحقل فارغ';
@@ -75,6 +77,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
           AppTextFormField(
             controller: context.read<RegisterCubit>().passwordController,
+            keyboardType: TextInputType.visiblePassword,
             hintText: 'كلمة المرور',
             isObscureText: isObscureText,
             suffixIcon: GestureDetector(
@@ -107,6 +110,7 @@ class _SignUpFormState extends State<SignUpForm> {
           verticalSpace(12),
           AppTextFormField(
             controller: context.read<RegisterCubit>().phoneController,
+            keyboardType: TextInputType.phone,
             hintText: 'رقم الجوال',
             validator: (value) {
               if (value == null || value.isEmpty) {

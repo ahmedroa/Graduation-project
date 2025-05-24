@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/extensions/auth_extensions.dart';
-import 'package:graduation/core/helpers/extension.dart';
-import 'package:graduation/core/helpers/spacing.dart';
-import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
-import 'package:graduation/core/widgets/main_button.dart';
+import 'package:graduation/core/widgets/not_logged_in_view.dart';
 import 'package:graduation/features/favorite/cubit/favorite_cubit.dart';
 import 'package:graduation/features/home/ui/widgets/build_item_posts_cars.dart';
 import 'package:graduation/features/home/ui/widgets/shimmer_grid_posts_cars.dart';
@@ -38,45 +35,7 @@ class _FavoriteState extends State<Favorite> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return Container(
       color: ColorsManager.backgroundColor,
-      child: context.isNotLoggedIn ? _buildNotLoggedInView() : _buildLoggedInView(),
-    );
-  }
-
-  Widget _buildNotLoggedInView() {
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, child) {
-        return FadeTransition(
-          opacity: _animationController,
-          child: SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0, 0.2),
-              end: Offset.zero,
-            ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOutCubic)),
-            child: child,
-          ),
-        );
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.person_add_alt_outlined, size: 100, color: ColorsManager.kPrimaryColor),
-            verticalSpace(12),
-            Text('سجل دخولك', style: TextStyles.font30BlackBold),
-            Text('لإضافة السيارات إلى المفضلة', style: TextStyles.font12GreyRegular),
-            verticalSpace(20),
-            MainButton(
-              text: 'سجل دخولك',
-              onTap: () {
-                context.pushNamed(Routes.loginScreen);
-              },
-            ),
-            verticalSpace(70),
-          ],
-        ),
-      ),
+      child: context.isNotLoggedIn ? buildNotLoggedInView(context) : _buildLoggedInView(),
     );
   }
 

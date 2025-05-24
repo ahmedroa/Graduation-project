@@ -5,6 +5,7 @@ import 'package:graduation/core/helpers/extension.dart';
 import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/widgets/main_button.dart';
 import 'package:graduation/core/widgets/show_error.dart';
+import 'package:graduation/features/auth/register/ui/widgets/register_bloc_listener.dart';
 import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
 
 class ButtonSnedPostReport extends StatelessWidget {
@@ -21,9 +22,9 @@ class ButtonSnedPostReport extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("تمت إضافة بيانات المالك بنجاح!")));
             context.pushNamed(Routes.bottomNavBar);
           } else if (state is PostsError) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("خطأ: ${state.message}")));
+            setupErrorState(context, state.message);
           } else if (state is PageValidationError) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+            setupErrorState(context, state.message);
           }
         },
         builder: (context, state) {
@@ -81,7 +82,7 @@ class ButtonSnedPostReport extends StatelessWidget {
       showError(context, "الرجاء إدخال لون السيارة");
       return false;
     }
- 
+
     if (postsCubit.plateNumberController.text.isEmpty) {
       showError(context, "الرجاء إدخال رقم اللوحة");
       return false;
@@ -109,7 +110,6 @@ class ButtonSnedPostReport extends StatelessWidget {
       return false;
     }
 
- 
     return true;
   }
 }

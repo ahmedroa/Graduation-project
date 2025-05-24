@@ -15,6 +15,7 @@ import 'package:graduation/features/auth/login/logic/cubit/login_state.dart';
 import 'package:graduation/features/auth/login/ui/widgets/email_and_assword.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation/features/auth/login/ui/widgets/login_bloc_listener.dart';
+import 'package:graduation/features/auth/register/ui/widgets/register_bloc_listener.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

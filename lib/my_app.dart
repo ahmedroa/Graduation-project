@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         onGenerateRoute: appRouter.generateRoute,
-        initialRoute: context.isNotLoggedIn ? Routes.loginScreen : Routes.loginScreen,
+        initialRoute: context.isNotLoggedIn ? Routes.loginScreen : Routes.bottomNavBar,
         // home: Notifications(),
       ),
     );
