@@ -15,7 +15,6 @@ import 'package:graduation/features/auth/login/logic/cubit/login_state.dart';
 import 'package:graduation/features/auth/login/ui/widgets/email_and_assword.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:graduation/features/auth/login/ui/widgets/login_bloc_listener.dart';
-import 'package:graduation/features/auth/register/ui/widgets/register_bloc_listener.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -174,8 +173,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                               alignment: Alignment.topRight,
                               child: TextButton(
                                 onPressed: () {
-                                  // context.pushNamed(Routes.forgotPassword);
-                                  setupErrorState(context, 'هذه الميزة غير متاحة حاليا');
+                                  context.pushNamed(Routes.forgotPassword);
+                                  // setupErrorState(context, 'هذه الميزة غير متاحة حاليا');
                                 },
                                 child: Text(
                                   'نسيت كلمة المرور؟',
@@ -256,7 +255,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                               color: ColorsManager.dark,
                               text: 'الدخول كزائر',
                               onTap: () {
-                                context.pushNamed(Routes.bottomNavBar);
+                                context.pushReplacementNamed(Routes.bottomNavBar);
                               },
                             ),
                             // child: ElevatedButton(
@@ -285,154 +284,3 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     );
   }
 }
-// class LoginScreen extends StatefulWidget {
-//   const LoginScreen({super.key});
-
-//   @override
-//   State<LoginScreen> createState() => _LoginScreenState();
-// }
-
-// class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
-//   late AnimationController _controller;
-//   late Animation<double> _fadeAnimation;
-//   // final bool _isLoading = false;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 900));
-
-//     _fadeAnimation = Tween<double>(
-//       begin: 0.0,
-//       end: 4.0,
-//     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
-
-//     _controller.forward();
-//   }
-
-//   @override
-//   void dispose() {
-//     _controller.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         toolbarHeight: 110,
-//         automaticallyImplyLeading: false,
-//         backgroundColor: Colors.white,
-//         title: Hero(
-//           tag: "logo",
-//           child: Padding(
-//             padding: EdgeInsets.all(80),
-//             child: SvgPicture.asset(ImgManager.logo, color: ColorsManager.kPrimaryColor, width: 50, height: 50),
-//           ),
-//         ),
-//       ),
-//       body: SingleChildScrollView(
-//         child: SafeArea(
-//           child: FadeTransition(
-//             opacity: _fadeAnimation,
-//             child: Center(
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.end,
-//                 children: [
-//                   Padding(
-//                     padding: const EdgeInsets.all(12.0),
-//                     child: Column(
-//                       children: [
-//                         // verticalSpace(20),
-//                         Text(
-//                           'تسجيل الدخول',
-//                           style: TextStyles.font34BlackBold.copyWith(color: Theme.of(context).colorScheme.secondary),
-//                         ),
-//                         // verticalSpace(25),
-//                         Text(
-//                           'كتابة البريد الإلكتروني او رقم الجوال وكلمة المرور',
-//                           style: TextStyles.font14GraySemiBold,
-//                         ),
-//                         verticalSpace(25),
-//                         const EmailAndPassword(),
-//                         Align(
-//                           alignment: Alignment.topRight,
-//                           child: TextButton(
-//                             onPressed: () {
-//                               context.pushNamed(Routes.forgotPassword);
-//                             },
-//                             child: Text(
-//                               'نسيت كلمة المرور؟',
-//                               style: TextStyles.font12lBlacBold.copyWith(color: ColorsManager.kPrimaryColor),
-//                             ),
-//                           ),
-//                         ),
-//                         BlocBuilder<LoginCubit, LoginState>(
-//                           builder: (context, state) {
-//                             final isLoading = state is Loading;
-
-//                             if (isLoading) {
-//                               return const Center(child: CircularProgressIndicator(color: ColorsManager.kPrimaryColor));
-//                             }
-
-//                             return SizedBox(
-//                               width: double.infinity,
-//                               height: 50.h,
-
-//                               child: ElevatedButton(
-//                                 onPressed: () {
-//                                   if (context.read<LoginCubit>().formKey.currentState!.validate()) {
-//                                     context.read<LoginCubit>().login(
-//                                       email: context.read<LoginCubit>().emailController.text,
-//                                       password: context.read<LoginCubit>().passwordController.text,
-//                                     );
-//                                   }
-//                                 },
-//                                 style: ElevatedButton.styleFrom(
-//                                   backgroundColor: ColorsManager.kPrimaryColor,
-//                                   padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-//                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-//                                 ),
-//                                 child: const Text('تسجيل الدخول', style: TextStyle(fontSize: 16, color: Colors.white)),
-//                               ),
-//                             );
-//                           },
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                   verticalSpace(20),
-//                   Align(
-//                     child: TextButton(
-//                       onPressed: () {
-//                         context.pushNamed(Routes.register);
-//                       },
-//                       child: Text(
-//                         'انشاء حساب جديد',
-//                         style: TextStyles.font16DarkBold.copyWith(color: ColorsManager.kPrimaryColor),
-//                       ),
-//                     ),
-//                   ),
-//                   verticalSpace(20),
-//                   LoginBlocListener(),
-//                   // Padding(
-//                   //   padding: const EdgeInsets.only(left: 120, right: 120),
-//                   //   child: MainButton(
-//                   //     color: ColorsManager.backgroundColorDark,
-//                   //     int: 40,
-//                   //     text: 'الدخول كزائر',
-//                   //     onTap: () {
-//                   //       context.pushNamed(Routes.bottomNavBar);
-//                   //     },
-//                   //   ),
-//                   // ),
-//                   verticalSpace(20),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

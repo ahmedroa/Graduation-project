@@ -7,6 +7,8 @@ import 'package:graduation/core/data/models/Car_information.dart';
 class HomeState {
   final bool isLoading;
   final bool isLikeLoading;
+  final bool isLoadingMore; // جديد للpagination
+  final bool hasMoreData; // جديد للpagination
   final List<PostCar> carInformation;
   final List<PostCar> likedCars;
   final bool isSearching;
@@ -17,6 +19,8 @@ class HomeState {
   HomeState({
     required this.isLoading,
     required this.isLikeLoading,
+    required this.isLoadingMore,
+    required this.hasMoreData,
     required this.carInformation,
     required this.likedCars,
     required this.isSearching,
@@ -29,6 +33,8 @@ class HomeState {
     return HomeState(
       isLoading: false,
       isLikeLoading: false,
+      isLoadingMore: false,
+      hasMoreData: true,
       carInformation: [],
       likedCars: [],
       isSearching: false,
@@ -42,6 +48,8 @@ class HomeState {
     return HomeState(
       isLoading: true,
       isLikeLoading: false,
+      isLoadingMore: false,
+      hasMoreData: true,
       carInformation: [],
       likedCars: [],
       isSearching: false,
@@ -51,10 +59,16 @@ class HomeState {
     );
   }
 
-  factory HomeState.success({required List<PostCar> carInformation}) {
+  factory HomeState.success({
+    required List<PostCar> carInformation,
+    bool hasMoreData = true,
+    bool isLoadingMore = false,
+  }) {
     return HomeState(
       isLoading: false,
       isLikeLoading: false,
+      isLoadingMore: isLoadingMore,
+      hasMoreData: hasMoreData,
       carInformation: carInformation,
       likedCars: [],
       isSearching: false,
@@ -68,6 +82,8 @@ class HomeState {
     return HomeState(
       isLoading: false,
       isLikeLoading: false,
+      isLoadingMore: false,
+      hasMoreData: false,
       carInformation: [],
       likedCars: [],
       isSearching: false,
@@ -80,6 +96,8 @@ class HomeState {
   HomeState copyWith({
     bool? isLoading,
     bool? isLikeLoading,
+    bool? isLoadingMore,
+    bool? hasMoreData,
     List<PostCar>? carInformation,
     List<PostCar>? likedCars,
     bool? isSearching,
@@ -90,6 +108,8 @@ class HomeState {
     return HomeState(
       isLoading: isLoading ?? this.isLoading,
       isLikeLoading: isLikeLoading ?? this.isLikeLoading,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      hasMoreData: hasMoreData ?? this.hasMoreData,
       carInformation: carInformation ?? this.carInformation,
       likedCars: likedCars ?? this.likedCars,
       isSearching: isSearching ?? this.isSearching,
@@ -99,6 +119,101 @@ class HomeState {
     );
   }
 }
+// class HomeState {
+//   final bool isLoading;
+//   final bool isLikeLoading;
+//   final List<PostCar> carInformation;
+//   final List<PostCar> likedCars;
+//   final bool isSearching;
+//   final List<QueryDocumentSnapshot> searchResults;
+//   final String? error;
+//   final bool isUserLoggedIn;
+
+//   HomeState({
+//     required this.isLoading,
+//     required this.isLikeLoading,
+//     required this.carInformation,
+//     required this.likedCars,
+//     required this.isSearching,
+//     required this.searchResults,
+//     required this.isUserLoggedIn,
+//     this.error,
+//   });
+
+//   factory HomeState.initial() {
+//     return HomeState(
+//       isLoading: false,
+//       isLikeLoading: false,
+//       carInformation: [],
+//       likedCars: [],
+//       isSearching: false,
+//       searchResults: [],
+//       isUserLoggedIn: FirebaseAuth.instance.currentUser != null,
+//       error: null,
+//     );
+//   }
+
+//   factory HomeState.loading() {
+//     return HomeState(
+//       isLoading: true,
+//       isLikeLoading: false,
+//       carInformation: [],
+//       likedCars: [],
+//       isSearching: false,
+//       searchResults: [],
+//       isUserLoggedIn: FirebaseAuth.instance.currentUser != null,
+//       error: null,
+//     );
+//   }
+
+//   factory HomeState.success({required List<PostCar> carInformation}) {
+//     return HomeState(
+//       isLoading: false,
+//       isLikeLoading: false,
+//       carInformation: carInformation,
+//       likedCars: [],
+//       isSearching: false,
+//       searchResults: [],
+//       isUserLoggedIn: FirebaseAuth.instance.currentUser != null,
+//       error: null,
+//     );
+//   }
+
+//   factory HomeState.error({required String error}) {
+//     return HomeState(
+//       isLoading: false,
+//       isLikeLoading: false,
+//       carInformation: [],
+//       likedCars: [],
+//       isSearching: false,
+//       searchResults: [],
+//       isUserLoggedIn: FirebaseAuth.instance.currentUser != null,
+//       error: error,
+//     );
+//   }
+
+//   HomeState copyWith({
+//     bool? isLoading,
+//     bool? isLikeLoading,
+//     List<PostCar>? carInformation,
+//     List<PostCar>? likedCars,
+//     bool? isSearching,
+//     List<QueryDocumentSnapshot>? searchResults,
+//     bool? isUserLoggedIn,
+//     String? error,
+//   }) {
+//     return HomeState(
+//       isLoading: isLoading ?? this.isLoading,
+//       isLikeLoading: isLikeLoading ?? this.isLikeLoading,
+//       carInformation: carInformation ?? this.carInformation,
+//       likedCars: likedCars ?? this.likedCars,
+//       isSearching: isSearching ?? this.isSearching,
+//       searchResults: searchResults ?? this.searchResults,
+//       isUserLoggedIn: isUserLoggedIn ?? this.isUserLoggedIn,
+//       error: error ?? this.error,
+//     );
+//   }
+// }
 
 
 // class HomeState {

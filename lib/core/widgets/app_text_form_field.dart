@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
- 
+
 class AppTextFormField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final BorderRadius? borderRadius;
@@ -91,7 +91,7 @@ class AppTextFormField extends StatelessWidget {
         suffixText: prefixText,
         counter: counter,
         isDense: true,
-        contentPadding: contentPadding ?? EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        contentPadding: contentPadding ?? EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         focusedBorder:
             focusedBorder ??
             OutlineInputBorder(

@@ -83,15 +83,6 @@ class ButtonSnedPostReport extends StatelessWidget {
       return false;
     }
 
-    if (postsCubit.plateNumberController.text.isEmpty) {
-      showError(context, "الرجاء إدخال رقم اللوحة");
-      return false;
-    }
-    if (postsCubit.chassisNumberController.text.isEmpty) {
-      showError(context, "الرجاء إدخال رقم الشاسيه");
-      return false;
-    }
-
     if (postsCubit.carImages.isEmpty) {
       showError(context, "الرجاء إضافة صورة واحدة على الأقل للسيارة");
       return false;

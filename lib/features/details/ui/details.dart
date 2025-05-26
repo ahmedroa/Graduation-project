@@ -49,7 +49,6 @@ class _DetailsState extends State<Details> {
         listener: (context, state) {
           if (state.error != null) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error!)));
-            // مسح الخطأ بعد عرضه
             context.read<DetailsCubit>().clearError();
           }
         },
@@ -90,4 +89,3 @@ class _DetailsState extends State<Details> {
     );
   }
 }
-

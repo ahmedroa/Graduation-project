@@ -6,12 +6,11 @@ import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/features/details/cubit/details_cubit.dart';
 import 'package:graduation/features/details/ui/details.dart';
+import 'package:shimmer/shimmer.dart';
+
 class Comments extends StatelessWidget {
-  const Comments({
-    super.key,
-    required TextEditingController commentController,
-    required this.widget,
-  }) : _commentController = commentController;
+  const Comments({super.key, required TextEditingController commentController, required this.widget})
+    : _commentController = commentController;
 
   final TextEditingController _commentController;
   final Details widget;
@@ -28,7 +27,7 @@ class Comments extends StatelessWidget {
           children: [
             Text('التعليقات', style: TextStyles.font16DarkBold),
             verticalSpace(16),
-    
+
             BlocBuilder<DetailsCubit, DetailsState>(
               builder: (context, state) {
                 return Container(
@@ -42,7 +41,6 @@ class Comments extends StatelessWidget {
                     children: [
                       Expanded(
                         child: TextField(
-                          controller: _commentController,
                           decoration: InputDecoration(
                             hintText: 'اكتب تعليقك هنا...',
                             border: InputBorder.none,
@@ -51,6 +49,7 @@ class Comments extends StatelessWidget {
                           style: TextStyles.font14DarkRegular,
                           maxLines: null,
                           textAlign: TextAlign.right,
+                          controller: _commentController,
                         ),
                       ),
                       horizontalSpace(8),
@@ -58,6 +57,9 @@ class Comments extends StatelessWidget {
                           ? SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2))
                           : IconButton(
                             onPressed: () async {
+                              print('object');
+                              print('object');
+                              print(widget.carList?.id);
                               if (_commentController.text.trim().isNotEmpty && widget.carList?.id != null) {
                                 final success = await context.read<DetailsCubit>().addComment(
                                   widget.carList!.id!,
@@ -66,9 +68,7 @@ class Comments extends StatelessWidget {
                                 if (success) {
                                   _commentController.clear();
                                   FocusScope.of(context).unfocus();
-                                  await context.read<DetailsCubit>().getLastThreeComments(
-                                    widget.carList!.id!,
-                                  );
+                                  await context.read<DetailsCubit>().getLastThreeComments(widget.carList!.id!);
                                 }
                               }
                             },
@@ -80,13 +80,13 @@ class Comments extends StatelessWidget {
               },
             ),
             verticalSpace(16),
-    
+
             BlocBuilder<DetailsCubit, DetailsState>(
               builder: (context, state) {
                 if (state.isCommentsLoading) {
-                  return Center(child: CircularProgressIndicator());
+                  return commentsShimmerList(itemCount: 3, context: context);
                 }
-    
+
                 if (state.lastThreeComments.isEmpty) {
                   return Container(
                     padding: EdgeInsets.all(20),
@@ -99,13 +99,11 @@ class Comments extends StatelessWidget {
                     ),
                   );
                 }
-    
-                // إذا كان هناك تعليقات، عرضها فقط بدون النص
+
                 return Column(
                   children: [
-                    // عرض آخر 3 تعليقات
                     ...state.lastThreeComments.map((comment) => commentWidget(comment)),
-    
+
                     // زر عرض المزيد
                     Padding(
                       padding: const EdgeInsets.only(top: 12),
@@ -167,7 +165,7 @@ void showAllCommentsBottomSheet({required BuildContext context, required PostCar
                   child: BlocBuilder<DetailsCubit, DetailsState>(
                     builder: (context, state) {
                       if (state.isCommentsLoading) {
-                        return Center(child: CircularProgressIndicator());
+                        return commentsShimmerList(itemCount: 3, context: context);
                       }
 
                       if (state.allComments.isEmpty) {
@@ -216,7 +214,6 @@ Widget commentWidget(Comment comment) {
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // صورة المستخدم
         CircleAvatar(
           radius: 16,
           backgroundColor: ColorsManager.kPrimaryColor,
@@ -270,4 +267,75 @@ String _formatTimeAgo(DateTime dateTime) {
   } else {
     return 'الآن';
   }
+}
+
+Widget commentShimmerWidget(context) {
+  return Container(
+    margin: EdgeInsets.only(bottom: 12),
+    padding: EdgeInsets.all(12),
+    decoration: BoxDecoration(color: Colors.grey[50], borderRadius: BorderRadius.circular(8)),
+    child: Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Avatar shimmer
+          CircleAvatar(radius: 16, backgroundColor: Colors.grey[300]),
+
+          horizontalSpace(8),
+
+          // محتوى التعليق
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    // اسم المستخدم
+                    Container(
+                      height: 14,
+                      width: 80,
+                      decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(4)),
+                    ),
+                    Spacer(),
+                    // الوقت
+                    Container(
+                      height: 12,
+                      width: 50,
+                      decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(4)),
+                    ),
+                  ],
+                ),
+
+                verticalSpace(4),
+
+                // نص التعليق - عدة أسطر
+                Column(
+                  children: [
+                    Container(
+                      height: 14,
+                      width: double.infinity,
+                      decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(4)),
+                    ),
+                    verticalSpace(4),
+                    Container(
+                      height: 14,
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(4)),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+// لعرض عدة shimmer comments
+Widget commentsShimmerList({int itemCount = 3, context}) {
+  return Column(children: List.generate(itemCount, (index) => commentShimmerWidget(context)));
 }

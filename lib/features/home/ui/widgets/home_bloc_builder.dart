@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:graduation/features/home/cubit/home_state.dart';
-import 'package:graduation/features/home/ui/widgets/build_item_posts_cars.dart';
 import 'package:graduation/features/home/ui/widgets/shimmer_grid_posts_cars.dart';
 import 'package:graduation/features/reported_cars/ui/widgets/no_data_widget.dart';
 
@@ -14,15 +14,41 @@ class HomeBlocBuilder extends StatefulWidget {
 }
 
 class _HomeBlocBuilderState extends State<HomeBlocBuilder> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 100) {
+      final cubit = context.read<HomeCubit>();
+      final state = cubit.state;
+      if (!state.isLoadingMore && state.hasMoreData && !state.isSearching) {
+        cubit.loadMoreData();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        if (state.isLoading) {
+        if (state.isLoading && state.carInformation.isEmpty) {
           return ShimmerGridPostsCars();
-        } else if (state.error != null) {
+        } else if (state.error != null && state.carInformation.isEmpty) {
           return NoDataWidget(message: 'حدث خطأ أثناء تحميل البيانات');
-        } else if (state.carInformation.isEmpty) {
+        } else if (state.carInformation.isEmpty && !state.isLoading) {
           return NoDataWidget(message: 'لا توجد بيانات متاحة حالياً');
         } else {
           return LayoutBuilder(
@@ -31,7 +57,58 @@ class _HomeBlocBuilderState extends State<HomeBlocBuilder> {
               final bool isTablet = screenWidth > 600;
               int crossAxisCount = isTablet ? 3 : 2;
               double aspectRatio = isTablet ? 0.75 : 0.68;
-              return BuildHomeGridView(crossAxisCount: crossAxisCount, aspectRatio: aspectRatio, state: state);
+
+              return Column(
+                children: [
+                  Expanded(
+                    child: BuildHomeGridView(
+                      crossAxisCount: crossAxisCount,
+                      aspectRatio: aspectRatio,
+                      state: state,
+                      scrollController: _scrollController,
+                    ),
+                  ),
+                  if (state.isLoadingMore)
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 3,
+                              valueColor: AlwaysStoppedAnimation<Color>(ColorsManager.kPrimaryColor),
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Text(
+                            'جاري تحميل المزيد من البيانات...',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: ColorsManager.kPrimaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  // No more data indicator
+                  // if (!state.hasMoreData && state.carInformation.isNotEmpty && !state.isSearching)
+                  //   Container(
+                  //     padding: const EdgeInsets.symmetric(vertical: 12),
+                  //     child: Text(
+                  //       'تم عرض جميع البيانات',
+                  //       style: TextStyle(
+                  //         fontSize: 14,
+                  //         color: Colors.grey[600],
+                  //         fontWeight: FontWeight.w400,
+                  //       ),
+                  //     ),
+                  //   ),
+                ],
+              );
             },
           );
         }
@@ -40,146 +117,3 @@ class _HomeBlocBuilderState extends State<HomeBlocBuilder> {
   }
 }
 
-class BuildHomeGridView extends StatelessWidget {
-  final int crossAxisCount;
-  final double aspectRatio;
-  final HomeState state;
-
-  const BuildHomeGridView({super.key, required this.crossAxisCount, required this.aspectRatio, required this.state});
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(12),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        mainAxisSpacing: 1,
-        crossAxisSpacing: 1,
-        childAspectRatio: aspectRatio,
-      ),
-      itemCount: state.carInformation.length,
-      itemBuilder: (context, index) {
-        final carList = state.carInformation[index];
-        return BuildItemPostsCars(carList: carList);
-      },
-    );
-  }
-}
-// class HomeBlocBuilder extends StatefulWidget {
-//   final AnimationController controller;
-//   final bool isChangingFilter;
-
-//   const HomeBlocBuilder({super.key, required this.controller, required this.isChangingFilter});
-
-//   @override
-//   State<HomeBlocBuilder> createState() => _HomeBlocBuilderState();
-// }
-
-// class _HomeBlocBuilderState extends State<HomeBlocBuilder> with SingleTickerProviderStateMixin {
-//   late AnimationController _itemsAnimationController;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _itemsAnimationController = AnimationController(duration: const Duration(milliseconds: 600), vsync: this);
-//     _itemsAnimationController.forward();
-//   }
-
-//   @override
-//   void didUpdateWidget(HomeBlocBuilder oldWidget) {
-//     super.didUpdateWidget(oldWidget);
-//     if (widget.isChangingFilter && !oldWidget.isChangingFilter) {
-//       _itemsAnimationController.reset();
-//     } else if (!widget.isChangingFilter && oldWidget.isChangingFilter) {
-//       _itemsAnimationController.forward();
-//     }
-//   }
-
-//   @override
-//   void dispose() {
-//     _itemsAnimationController.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<HomeCubit, HomeState>(
-//       builder: (context, state) {
-//         if (state.isLoading) {
-//           return ShimmerGridPostsCars();
-//         } else if (state.error != null) {
-//           return Center(child: Text("❌ خطأ: ${state.error}"));
-//         } else {
-//           return LayoutBuilder(
-//             builder: (context, constraints) {
-//               final double screenWidth = MediaQuery.of(context).size.width;
-//               final bool isTablet = screenWidth > 600;
-//               int crossAxisCount = isTablet ? 3 : 2;
-//               double aspectRatio = isTablet ? 0.75 : 0.68;
-//               return BuildHomeGridView(
-//                 crossAxisCount: crossAxisCount,
-//                 aspectRatio: aspectRatio,
-//                 itemsAnimationController: _itemsAnimationController,
-//                 state: state,
-//               );
-//             },
-//           );
-//         }
-//       },
-//     );
-//   }
-// }
-
-// class BuildHomeGridView extends StatelessWidget {
-//   final int crossAxisCount;
-//   final double aspectRatio;
-//   final AnimationController _itemsAnimationController;
-//   final HomeState state;
-
-//   const BuildHomeGridView({
-//     super.key,
-//     required this.crossAxisCount,
-//     required this.aspectRatio,
-//     required AnimationController itemsAnimationController,
-//     required this.state,
-//   }) : _itemsAnimationController = itemsAnimationController;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GridView.builder(
-//       padding: const EdgeInsets.all(12),
-//       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//         crossAxisCount: crossAxisCount,
-//         mainAxisSpacing: 1,
-//         crossAxisSpacing: 1,
-//         childAspectRatio: aspectRatio,
-//       ),
-//       itemCount: state.carInformation.length,
-//       itemBuilder: (context, index) {
-//         final carList = state.carInformation[index];
-
-//         return AnimatedBuilder(
-//           animation: _itemsAnimationController,
-//           builder: (context, child) {
-//             final double delayStart = (index * 0.05).clamp(0.0, 0.9);
-//             final Animation<double> delayedAnimation = CurvedAnimation(
-//               parent: _itemsAnimationController,
-//               curve: Interval(delayStart, 1.0, curve: Curves.easeOutCubic),
-//             );
-
-//             final double safeOpacity = delayedAnimation.value.clamp(0.0, 1.0);
-
-//             return Opacity(
-//               opacity: safeOpacity,
-//               child: Transform.translate(
-//                 offset: Offset(0, 20 * (1 - safeOpacity)),
-//                 child: Transform.scale(scale: 0.9 + (0.1 * safeOpacity), child: child),
-//               ),
-//             );
-//           },
-//           child: BuildItemPostsCars(carList: carList),
-//         );
-//       },
-//     );
-//   }
-// }

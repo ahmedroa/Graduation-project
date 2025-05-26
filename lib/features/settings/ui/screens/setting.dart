@@ -8,7 +8,7 @@ import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/core/widgets/build_divider.dart';
 import 'package:graduation/core/widgets/not_registered.dart';
-import 'package:graduation/features/home/ui/widgets/add_post_bottom_sheet.dart';
+import 'package:graduation/features/posts/ui/widgets/add_post_bottom_sheet.dart';
 import 'package:graduation/features/settings/logic/cubit/settings_cubit.dart';
 import 'package:graduation/features/settings/ui/widgets/build_delete_account_button.dart';
 import 'package:graduation/features/settings/ui/widgets/build_sign_in_header.dart';

@@ -13,7 +13,7 @@ class BuildItemPostsCars extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(12.0),
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -44,13 +44,12 @@ class BuildItemPostsCars extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // صورة السيارة
               ClipRRect(
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                 child: Image.network(
                   carList.image ?? '',
                   width: double.infinity,
-                  height: 145,
+                  height: 165,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
@@ -70,13 +69,15 @@ class BuildItemPostsCars extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          carList.name ?? "اسم غير متوفر",
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        Expanded(
+                          child: Text(
+                            carList.name ?? "اسم غير متوفر",
+                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                        Spacer(),
+                        SizedBox(width: 8),
                         carList.stolen == true
                             ? Container(
                               decoration: BoxDecoration(
@@ -100,6 +101,7 @@ class BuildItemPostsCars extends StatelessWidget {
                             ),
                       ],
                     ),
+                    SizedBox(height: 4),
                     Text(
                       carList.description ?? "وصف غير متوفر",
                       maxLines: 1,
@@ -111,12 +113,16 @@ class BuildItemPostsCars extends StatelessWidget {
                       children: [
                         Icon(Icons.location_on_outlined, size: 16, color: ColorsManager.kPrimaryColor),
                         SizedBox(width: 4),
-                        Text(carList.city ?? '', style: TextStyle(fontSize: 12)),
-                        Text(' - ', style: TextStyle(fontSize: 12)),
-                        Text(carList.neighborhood ?? '', style: TextStyle(fontSize: 12)),
+                        Expanded(
+                          child: Text(
+                            '${carList.city ?? ''} - ${carList.neighborhood ?? ''}',
+                            style: TextStyle(fontSize: 12),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ],
                     ),
-                    verticalSpace(4),
                   ],
                 ),
               ),

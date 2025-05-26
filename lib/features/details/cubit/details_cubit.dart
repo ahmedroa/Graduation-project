@@ -11,7 +11,6 @@ class DetailsCubit extends Cubit<DetailsState> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // الحصول على معرف المستخدم الحالي
   String? getCurrentUserId() {
     return _auth.currentUser?.uid;
   }
@@ -72,16 +71,16 @@ class DetailsCubit extends Cubit<DetailsState> {
   }
 
   // جلب عدد اللايكات للسيارة
-  Future<void> getLikesCount(String carId) async {
-    try {
-      final carDoc = await firestore.collection('cars').doc(carId).get();
-      final likesCount = carDoc.data()?['likesCount'] ?? 0;
-      emit(state.copyWith(likesCount: likesCount));
-    } catch (e) {
-      print('Error getting likes count: $e');
-      emit(state.copyWith(error: e.toString()));
-    }
-  }
+  // Future<void> getLikesCount(String carId) async {
+  //   try {
+  //     final carDoc = await firestore.collection('cars').doc(carId).get();
+  //     final likesCount = carDoc.data()?['likesCount'] ?? 0;
+  //     emit(state.copyWith(likesCount: likesCount));
+  //   } catch (e) {
+  //     print('Error getting likes count: $e');
+  //     emit(state.copyWith(error: e.toString()));
+  //   }
+  // }
 
   // جلب آخر 3 تعليقات
   Future<void> getLastThreeComments(String carId) async {
@@ -177,6 +176,15 @@ class DetailsCubit extends Cubit<DetailsState> {
     emit(state.copyWith(error: null));
   }
 }
+
+
+
+
+
+
+
+
+
 // class DetailsCubit extends Cubit<DetailsState> {
 //   DetailsCubit() : super(DetailsState());
   

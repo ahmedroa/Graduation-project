@@ -9,7 +9,7 @@ import 'package:graduation/core/widgets/app_text_form_field.dart';
 import 'package:graduation/core/widgets/not_registered.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:graduation/features/home/search%20/build_search_result_item.dart';
-import 'package:graduation/features/home/ui/widgets/add_post_bottom_sheet.dart';
+import 'package:graduation/features/posts/ui/widgets/add_post_bottom_sheet.dart';
 import 'package:graduation/features/home/ui/widgets/home_bloc_builder.dart';
 import 'package:graduation/features/home/search%20/shimmer_loding_search.dart';
 
@@ -144,7 +144,7 @@ class _HomescreenState extends State<Homescreen> {
 
   Widget _buildHeader() {
     return SizedBox(
-      height: 70,
+      // height: 70,
       child: Padding(
         padding: const EdgeInsets.only(left: 12, right: 12),
         child: Row(
@@ -159,8 +159,8 @@ class _HomescreenState extends State<Homescreen> {
               ),
             ),
             horizontalSpace(12),
-            Spacer(),
-            Icon(Icons.notifications, color: ColorsManager.kPrimaryColor),
+            // Spacer(),
+            // Icon(Icons.notifications, color: ColorsManager.kPrimaryColor),
           ],
         ),
       ),
@@ -198,13 +198,8 @@ class _HomescreenState extends State<Homescreen> {
           textDirection: TextDirection.rtl,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            children: context
-                .read<HomeCubit>()
-                .tags
-                .asMap()
-                .entries
-                .map((MapEntry map) => _buildTags(map.key))
-                .toList(),
+            children:
+                context.read<HomeCubit>().tags.asMap().entries.map((MapEntry map) => _buildTags(map.key)).toList(),
           ),
         ),
       ),

@@ -103,9 +103,6 @@ class BuildFormReportVehicle extends StatelessWidget {
           keyboardType: TextInputType.number,
 
           validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'لا يمكن ترك الحقل فارغ';
-            }
             return null;
           },
         ),
