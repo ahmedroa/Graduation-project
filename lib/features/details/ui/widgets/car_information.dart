@@ -80,7 +80,7 @@ class CarInformationWidget extends StatelessWidget {
                     children: [
                       Text('تاريخ فقد السيارة', style: TextStyles.font16DarkBold),
                       horizontalSpace(8),
-                      Text(widget.carList?.dateOfCarLoss ?? "موقع غير متوفر", style: TextStyles.font14DarkMedium),
+                      Text(widget.carList?.date ?? "موقع غير متوفر", style: TextStyles.font14DarkMedium),
                     ],
                   ),
                 ),

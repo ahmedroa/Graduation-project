@@ -10,6 +10,7 @@ class PostCar {
   String? plateNumber;
   String? image;
   String? dateOfCarLoss;
+  String? date;
 
   List<String> images;
 
@@ -17,7 +18,7 @@ class PostCar {
   String? neighborhood;
   String? street;
 
-String? note;
+  String? note;
   String? description;
   String? carTheftHistory;
 
@@ -41,6 +42,7 @@ String? note;
     this.typeCar,
     this.model,
     this.color,
+    this.date,
     this.chassisNumber,
     this.plateNumber,
     this.dateOfCarLoss,
@@ -68,6 +70,7 @@ String? note;
     return PostCar(
       id: documentId,
       name: data['name'] ?? '',
+      date: data['date'] ?? '',
 
       timestamp: data['timestamp'] ?? '',
       typeCar: data['typeCar'] ?? '',
@@ -106,6 +109,7 @@ String? note;
       'color': color,
       'chassisNumber': chassisNumber,
       'plateNumber': plateNumber,
+      'date': date,
       'image': image,
       'images': images,
       'dateOfCarLoss': dateOfCarLoss,
@@ -133,6 +137,7 @@ String? note;
     String? name,
     String? timestamp,
     String? typeCar,
+    String? date,
     String? model,
     String? color,
     String? chassisNumber,
@@ -170,6 +175,7 @@ String? note;
       images: images ?? this.images,
       carSize: carSize ?? this.carSize,
       city: city ?? this.city,
+      date: date ?? this.date,
       note: note ?? this.note,
       neighborhood: neighborhood ?? this.neighborhood,
       street: street ?? this.street,

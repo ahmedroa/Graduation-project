@@ -66,6 +66,7 @@ class PostsCubit extends Cubit<PostsState> {
   final TextEditingController phoneOnerCarController = TextEditingController();
   final TextEditingController phoneOnerCarController2 = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
 
   bool whats = true;
   bool whats2 = true;

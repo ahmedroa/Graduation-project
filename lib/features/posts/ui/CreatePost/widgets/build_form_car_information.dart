@@ -9,6 +9,7 @@ import 'package:graduation/features/posts/logic/cubit/posts_cubit.dart';
 import 'package:graduation/features/posts/ui/CreatePost/widgets/car_images_gallery.dart';
 import 'package:graduation/features/posts/ui/data/show_car_type_selections_sheet.dart';
 import 'package:graduation/features/posts/ui/data/show_selection_sheet.dart';
+import 'package:intl/intl.dart';
 
 class BuildFormCarInformation extends StatelessWidget {
   final PostsCubit postsCubit;
@@ -91,24 +92,21 @@ class BuildFormCarInformation extends StatelessWidget {
           Center(
             child: SizedBox(
               height: 70,
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children:
-                      postsCubit.tags.asMap().entries.map((MapEntry map) {
-                        return TweenAnimationBuilder(
-                          tween: Tween<double>(begin: 0.8, end: 1.0),
-                          duration: const Duration(milliseconds: 300),
-                          builder: (context, double value, child) {
-                            return Transform.scale(
-                              scale: map.key == postsCubit.selectedTag ? value : 1.0,
-                              child: buildTags(map.key, postsCubit),
-                            );
-                          },
-                        );
-                      }).toList(),
-                ),
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children:
+                    postsCubit.tags.asMap().entries.map((MapEntry map) {
+                      return TweenAnimationBuilder(
+                        tween: Tween<double>(begin: 0.8, end: 1.0),
+                        duration: const Duration(milliseconds: 300),
+                        builder: (context, double value, child) {
+                          return Transform.scale(
+                            scale: map.key == postsCubit.selectedTag ? value : 1.0,
+                            child: buildTags(map.key, postsCubit),
+                          );
+                        },
+                      );
+                    }).toList(),
               ),
             ),
           ),
@@ -191,7 +189,16 @@ class BuildFormCarInformation extends StatelessWidget {
             readOnly: true,
           ),
           verticalSpace(16),
-          Text('رقم الهيكل', style: TextStyles.font14DarkMedium),
+
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              children: [
+                TextSpan(text: 'رقم الهيكل  ', style: TextStyles.font14DarkMedium),
+                TextSpan(text: '( إن وجد )', style: TextStyles.font10GreyRegular),
+              ],
+            ),
+          ),
           verticalSpace(8),
           AppTextFormField(
             hintText: 'ادخل رقم الهيكل',
@@ -210,6 +217,54 @@ class BuildFormCarInformation extends StatelessWidget {
             controller: postsCubit.plateNumberController,
             keyboardType: TextInputType.number,
 
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'لا يمكن ترك الحقل فارغ';
+              }
+              return null;
+            },
+          ),
+          verticalSpace(16),
+          Text('تاريخ سرقة السيارة', style: TextStyles.font14DarkMedium),
+          verticalSpace(8),
+
+          AppTextFormField(
+            hintText: 'ادخل التاريخ',
+            controller: postsCubit.dateController,
+            keyboardType: TextInputType.datetime,
+            readOnly: true,
+            // suffixIcon: Icon(Icons.calendar_today, color: ColorsManager.kPrimaryColor, size: 20),
+            onTap: () async {
+              FocusScope.of(context).unfocus();
+              DateTime? selectedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2019),
+                lastDate: DateTime(2100),
+                locale: Locale('ar', 'SA'),
+                builder: (context, child) {
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      colorScheme: ColorScheme.light(
+                        primary: ColorsManager.kPrimaryColor,
+                        onPrimary: Colors.white,
+                        surface: ColorsManager.grayBorder,
+                        onSurface: Colors.black,
+                      ),
+                      textButtonTheme: TextButtonThemeData(
+                        style: TextButton.styleFrom(foregroundColor: ColorsManager.kPrimaryColor),
+                      ),
+                    ),
+                    child: child!,
+                  );
+                },
+              );
+
+              if (selectedDate != null) {
+                String formattedDate = DateFormat('dd/MM/yyyy', 'en').format(selectedDate);
+                postsCubit.dateController.text = formattedDate;
+              }
+            },
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'لا يمكن ترك الحقل فارغ';

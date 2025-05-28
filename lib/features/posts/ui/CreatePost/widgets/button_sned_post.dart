@@ -58,6 +58,7 @@ class ButtonSnedPost extends StatelessWidget {
                         stolen: true,
                         carSize: postsCubit.selectedTagName,
                         timestamp: DateTime.now().millisecondsSinceEpoch.toString(),
+                        date: postsCubit.dateController.text,
                       );
                       context.read<PostsCubit>().addPostCar(postCar);
                     }
@@ -94,10 +95,7 @@ class ButtonSnedPost extends StatelessWidget {
       showError(context, "الرجاء إدخال رقم اللوحة");
       return false;
     }
-    if (postsCubit.chassisNumberController.text.isEmpty) {
-      showError(context, "الرجاء إدخال رقم الشاسيه");
-      return false;
-    }
+
 
     if (postsCubit.carImages.isEmpty) {
       showError(context, "الرجاء إضافة صورة واحدة على الأقل للسيارة");
@@ -117,7 +115,6 @@ class ButtonSnedPost extends StatelessWidget {
       return false;
     }
 
-    // التحقق من حقول صفحة معلومات المالك
     if (postsCubit.nameOnerCarController.text.isEmpty) {
       showError(context, "الرجاء إدخال اسم المالك");
       return false;

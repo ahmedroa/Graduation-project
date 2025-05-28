@@ -54,7 +54,7 @@ class BuildItemPostsCars extends StatelessWidget {
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
                       width: double.infinity,
-                      height: 140,
+                      height: 165,
                       color: Colors.grey[200],
                       alignment: Alignment.center,
                       child: const Icon(Icons.broken_image, size: 40, color: Colors.grey),

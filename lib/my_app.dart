@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation/check%D9%80app_status.dart';
 import 'package:graduation/core/extensions/auth_extensions.dart';
 import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/routing/routes.dart';
@@ -25,18 +26,27 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
-      child: MaterialApp(
-        localizationsDelegates: const [
-          GlobalCupertinoLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        supportedLocales: const [Locale("ar", "AE")],
-        locale: const Locale("ar", "AE"),
-        debugShowCheckedModeBanner: false,
-        theme: lightTheme,
-        onGenerateRoute: appRouter.generateRoute,
-        initialRoute: context.isNotLoggedIn ? Routes.loginScreen : Routes.bottomNavBar,
+      child: Builder(
+        builder: (context) {
+          // هذا هو المكان الصحيح
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            checkAppStatus(context);
+          });
+
+          return MaterialApp(
+            localizationsDelegates: const [
+              GlobalCupertinoLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale("ar", "AE")],
+            locale: const Locale("ar", "AE"),
+            debugShowCheckedModeBanner: false,
+            theme: lightTheme,
+            onGenerateRoute: appRouter.generateRoute,
+            initialRoute: context.isNotLoggedIn ? Routes.loginScreen : Routes.bottomNavBar,
+          );
+        },
       ),
     );
   }
