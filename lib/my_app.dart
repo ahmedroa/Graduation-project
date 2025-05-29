@@ -28,10 +28,9 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       child: Builder(
         builder: (context) {
-          // هذا هو المكان الصحيح
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            checkAppStatus(context);
-          });
+          // WidgetsBinding.instance.addPostFrameCallback((_) {
+          //   checkAppStatus(context);
+          // });
 
           return MaterialApp(
             localizationsDelegates: const [
@@ -44,7 +43,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: lightTheme,
             onGenerateRoute: appRouter.generateRoute,
-            initialRoute: context.isNotLoggedIn ? Routes.loginScreen : Routes.bottomNavBar,
+            initialRoute: context.isNotLoggedIn ? Routes.loginScreen : Routes.loginScreen,
           );
         },
       ),

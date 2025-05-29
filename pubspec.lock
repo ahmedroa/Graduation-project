@@ -393,6 +393,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+4"
+  firebase_analytics:
+    dependency: "direct main"
+    description:
+      name: firebase_analytics
+      sha256: b5b31727ad7c7f41e139637d1d582e435fd14054abcbd162c64476f90737105c
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.4.6"
+  firebase_analytics_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_analytics_platform_interface
+      sha256: "86817ee7db6377e09830467932c31644713d8e8915cefff64610ad735612bc7d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.3.6"
+  firebase_analytics_web:
+    dependency: transitive
+    description:
+      name: firebase_analytics_web
+      sha256: "4914e184a6aa37811d976db59f95fa8fda1d58db49ab7f73d4d8aac9dd9b19b7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.10+12"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -441,6 +465,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.23.0"
+  firebase_crashlytics:
+    dependency: "direct main"
+    description:
+      name: firebase_crashlytics
+      sha256: "49d20b1dd87bb42746e27b5c72c1e3a3d84ae6415d062f8b31ecb71a35d36d0c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.3.6"
+  firebase_crashlytics_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_crashlytics_platform_interface
+      sha256: "0a5b2c9a662db7563482547b31da06a3951277cbfb42af12c5b52a15456ea951"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.8.6"
   firebase_remote_config:
     dependency: "direct main"
     description:
@@ -849,26 +889,26 @@ packages:
     dependency: transitive
     description:
       name: leak_tracker
-      sha256: "8dcda04c3fc16c14f48a7bb586d4be1f0d1572731b6d81d51772ef47c02081e0"
+      sha256: "6bb818ecbdffe216e81182c2f0714a2e62b593f4a4f13098713ff1685dfb6ab0"
       url: "https://pub.dev"
     source: hosted
-    version: "11.0.1"
+    version: "10.0.9"
   leak_tracker_flutter_testing:
     dependency: transitive
     description:
       name: leak_tracker_flutter_testing
-      sha256: "1dbc140bb5a23c75ea9c4811222756104fbcd1a27173f0c34ca01e16bea473c1"
+      sha256: f8b613e7e6a13ec79cfdc0e97638fddb3ab848452eff057653abd3edba760573
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.10"
+    version: "3.0.9"
   leak_tracker_testing:
     dependency: transitive
     description:
       name: leak_tracker_testing
-      sha256: "8d5a2d49f4a66b49744b23b018848400d23e54caf9463f4eb20df3eb8acb2eb1"
+      sha256: "6ba465d5d76e67ddf503e1161d1f4a6bc42306f9d66ca1e8f079a47290fb06d3"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.2"
+    version: "3.0.1"
   lints:
     dependency: transitive
     description:

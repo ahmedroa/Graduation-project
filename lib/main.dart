@@ -7,8 +7,6 @@ import 'package:graduation/core/shared/bloc_observer.dart';
 import 'package:graduation/firebase_options.dart';
 import 'package:graduation/my_app.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:graduation/core/routing/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

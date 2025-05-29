@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field, unused_element, deprecated_member_use, file_names
 
 import 'package:flutter/material.dart';
+import 'package:graduation/check%D9%80app_status.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/features/favorite/screen/favorite.dart';
 import 'package:graduation/features/home/ui/screens/home.dart';
@@ -23,6 +24,10 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
   @override
   void initState() {
     super.initState();
+    // الآن context يحتوي على MaterialLocalizations
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkAppStatus(context);
+    });
 
     _screens = [Homescreen(), const Favorite(), const Setting()];
   }

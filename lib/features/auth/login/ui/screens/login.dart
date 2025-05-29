@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:graduation/check%D9%80app_status.dart';
 import 'package:graduation/core/helpers/extension.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/routing/app_router.dart';
@@ -41,6 +42,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkAppStatus(context);
+    });
     super.initState();
     _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
 
@@ -104,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   @override
   void dispose() {
     _controller.dispose();
+
     super.dispose();
   }
 
