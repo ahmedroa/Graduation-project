@@ -52,20 +52,18 @@ class _DetailsState extends State<Details> {
             context.read<DetailsCubit>().clearError();
           }
         },
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              BuildImagesCar(pageController: pageController, widget: widget),
-              CarInformationWidget(widget: widget),
-              verticalSpace(20),
-              if (widget.carList?.nameOwner != null && widget.carList!.nameOwner!.isNotEmpty)
-                PersonInformation(widget: widget),
-              verticalSpace(20),
-              if (widget.carList?.description != null && widget.carList!.description!.isNotEmpty) description(),
-              verticalSpace(20),
-              Comments(commentController: _commentController, widget: widget),
-            ],
-          ),
+        child: ListView(
+          children: [
+            BuildImagesCar(pageController: pageController, widget: widget),
+            CarInformationWidget(widget: widget),
+            verticalSpace(20),
+            if (widget.carList?.nameOwner != null && widget.carList!.nameOwner!.isNotEmpty)
+              PersonInformation(widget: widget),
+            verticalSpace(20),
+            if (widget.carList?.description != null && widget.carList!.description!.isNotEmpty) description(),
+            verticalSpace(20),
+            Comments(commentController: _commentController, widget: widget),
+          ],
         ),
       ),
     );

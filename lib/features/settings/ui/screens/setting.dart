@@ -13,6 +13,7 @@ import 'package:graduation/features/settings/logic/cubit/settings_cubit.dart';
 import 'package:graduation/features/settings/ui/widgets/build_delete_account_button.dart';
 import 'package:graduation/features/settings/ui/widgets/build_sign_in_header.dart';
 import 'package:graduation/features/settings/ui/widgets/k_setting_list_tile.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -112,7 +113,17 @@ class _SettingState extends State<Setting> {
               },
             ),
             BuildDivider(),
-            _buildListTile(title: 'مشاركة التطبيق', icon: Icons.share, onTap: () {}),
+            _buildListTile(
+              title: 'مشاركة التطبيق',
+              icon: Icons.share,
+              onTap: () {
+                Share.share(
+                  'هل فقدت سيارتك؟ 🚗\n',
+                  subject: 'تطبيق "رجّع لي لقيناها" يساعدك في العثور على سيارتك المفقودة أو المسروقة في السودان.\n',
+                  
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -196,4 +207,3 @@ class _SettingState extends State<Setting> {
     return BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8));
   }
 }
-

@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart' show ScreenUtil;
+import 'package:graduation/core/helpers/request_notification_permission.dart';
 import 'package:graduation/core/routing/routes.dart';
 import 'package:graduation/core/shared/bloc_observer.dart';
 import 'package:graduation/firebase_options.dart';
@@ -14,13 +16,16 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   await ScreenUtil.ensureScreenSize();
   timeago.setLocaleMessages('ar', timeago.ArMessages());
+  requestNotificationPermission();
 
+  FirebaseMessaging.instance.subscribeToTopic('users');
   runApp(MyApp(appRouter: AppRouter()));
 }
 
 // error to undarstand:
 // notfaction
 // details
+// 
 
 
 
@@ -32,7 +37,7 @@ void main() async {
 
 
 
-
+// flutter build appbundle --release
 // flutter pub run build_runner build --delete-conflicting-outputs 
 
 // final MyFirebase firebase = MyFirebase();

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation/features/auth/login/logic/cubit/login_state.dart';
@@ -19,6 +20,7 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginState.loading());
     try {
       UserCredential credential = await auth.signInWithEmailAndPassword(email: email, password: password);
+      FirebaseMessaging.instance.subscribeToTopic('users');
       emit(LoginState.success('User logged in successfully'));
     } on FirebaseAuthException catch (e) {
       emit(LoginState.error(error: e.message ?? 'An error occurred'));
