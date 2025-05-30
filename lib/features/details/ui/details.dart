@@ -8,7 +8,7 @@ import 'package:graduation/features/details/cubit/details_cubit.dart';
 import 'package:graduation/features/details/ui/widgets/build_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/features/details/ui/widgets/car_information.dart';
-import 'package:graduation/features/details/ui/widgets/comments_section.dart';
+import 'package:graduation/features/details/ui/widgets/comments/comments_section.dart';
 import 'package:graduation/features/details/ui/widgets/person_Information.dart';
 
 class Details extends StatefulWidget {
