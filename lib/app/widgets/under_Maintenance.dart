@@ -1,32 +1,25 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:graduation/core/helpers/spacing.dart';
 
 Future<Object?> underMaintenance(BuildContext context) {
-  return showGeneralDialog(
+  return showDialog(
     context: context,
+    barrierColor: Colors.black.withOpacity(0.5), // يخلي الخلفية فيها شفافية
     barrierDismissible: false,
-    barrierColor: Colors.black.withOpacity(0.5), // خلفية شفافة
-    transitionDuration: const Duration(milliseconds: 300),
-    pageBuilder: (context, anim1, anim2) {
-      return Center(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16)),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '🚧 تحت الصيانة',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+    builder:
+        (_) => Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // يعطي تأثير بلور للخلفية
+              child: AlertDialog(
+                backgroundColor: Colors.white.withOpacity(0.9), // شفافية داخل الديالوج
+                title: const Text('🚧 تحت الصيانة'),
+                content: const Text('التطبيق حالياً تحت الصيانة , الرجاء المحاولة لاحقاً.'),
               ),
-              verticalSpace(16),
-              Text('التطبيق حالياً تحت الصيانة.\nالرجاء المحاولة لاحقاً.', textAlign: TextAlign.center),
-            ],
+            ),
           ),
         ),
-      );
-    },
   );
 }

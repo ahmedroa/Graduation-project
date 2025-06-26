@@ -51,6 +51,20 @@ class _EmailAndPasswordState extends State<EmailAndPassword> {
       key: context.read<LoginCubit>().formKey,
       child: Column(
         children: [
+          // Center(
+          //   child: CountryCodePicker(
+          //     onChanged: print,
+          //     // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+          //     initialSelection: 'IT',
+          //     favorite: ['+39', 'FR'],
+          //     // optional. Shows only country name and flag
+          //     showCountryOnly: false,
+          //     // optional. Shows only country name and flag when popup is closed.
+          //     showOnlyCountryWhenClosed: false,
+          //     // optional. aligns the flag and the Text left
+          //     alignLeft: false,
+          //   ),
+          // ),
           AppTextFormField(
             controller: context.read<LoginCubit>().emailController,
             hintText: 'البريد الإلكتروني',

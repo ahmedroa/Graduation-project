@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -22,13 +23,18 @@ class RegisterCubit extends Cubit<RegisterState> {
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((value) async {
+          // var token = FirebaseMessaging.instance.getToken();
+
           await FirebaseFirestore.instance.collection('users').doc(value.user!.uid).set({
             'name': name,
             'email': email,
             'phone': phone,
             'uid': value.user!.uid,
+            // 'fcm_token': token,
           });
           print('User Added');
+          FirebaseMessaging.instance.subscribeToTopic('users');
+
           emit(RegisterState.success());
         })
         .catchError((onError) {

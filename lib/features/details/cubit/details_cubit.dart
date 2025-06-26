@@ -15,7 +15,6 @@ class DetailsCubit extends Cubit<DetailsState> {
     return _auth.currentUser?.uid;
   }
 
-  // التحقق من حالة الإعجاب للسيارة
   Future<bool> checkIfCarLiked(String? carId) async {
     if (carId == null) return false;
     final userId = getCurrentUserId();
@@ -35,10 +34,8 @@ class DetailsCubit extends Cubit<DetailsState> {
     }
   }
 
-  // تبديل حالة الإعجاب للسيارة
   Future<bool> toggleLike(PostCar car) async {
     if (car.id == null) return false;
-    // التحقق من تسجيل دخول المستخدم
     final userId = getCurrentUserId();
     if (userId == null) {
       return false;
@@ -60,7 +57,6 @@ class DetailsCubit extends Cubit<DetailsState> {
           transaction.update(carRef, {'likesCount': isCurrentlyLiked ? currentLikes - 1 : currentLikes + 1});
         }
       });
-      // تحديث الحالة لتعكس حالة الإعجاب الجديدة
       emit(state.copyWith(isLikeLoading: false, isLiked: !isCurrentlyLiked));
       return true;
     } catch (e) {
@@ -70,19 +66,7 @@ class DetailsCubit extends Cubit<DetailsState> {
     }
   }
 
-  // جلب عدد اللايكات للسيارة
-  // Future<void> getLikesCount(String carId) async {
-  //   try {
-  //     final carDoc = await firestore.collection('cars').doc(carId).get();
-  //     final likesCount = carDoc.data()?['likesCount'] ?? 0;
-  //     emit(state.copyWith(likesCount: likesCount));
-  //   } catch (e) {
-  //     print('Error getting likes count: $e');
-  //     emit(state.copyWith(error: e.toString()));
-  //   }
-  // }
-
-  // جلب آخر 3 تعليقات
+  
   Future<void> getLastThreeComments(String carId) async {
     try {
       emit(state.copyWith(isCommentsLoading: true));
@@ -108,7 +92,6 @@ class DetailsCubit extends Cubit<DetailsState> {
     }
   }
 
-  // إضافة تعليق جديد
   Future<bool> addComment(String carId, String commentText) async {
     final userId = getCurrentUserId();
     if (userId == null || commentText.trim().isEmpty) return false;
@@ -116,12 +99,10 @@ class DetailsCubit extends Cubit<DetailsState> {
     try {
       emit(state.copyWith(isAddingComment: true));
 
-      // الحصول على معلومات المستخدم
       final userDoc = await firestore.collection('users').doc(userId).get();
       final userName = userDoc.data()?['name'] ?? 'مستخدم';
       final userProfileImage = userDoc.data()?['profileImage'];
 
-      // إضافة التعليق
       await firestore.collection('posts').doc(carId).collection('comments').add({
         'userId': userId,
         'userName': userName,
@@ -130,12 +111,10 @@ class DetailsCubit extends Cubit<DetailsState> {
         'timestamp': FieldValue.serverTimestamp(),
       });
 
-      // تحديث عدد التعليقات في السيارة
       await firestore.collection('posts').doc(carId).update({'commentsCount': FieldValue.increment(1)});
 
       emit(state.copyWith(isAddingComment: false));
 
-      // إعادة جلب التعليقات لتحديث القائمة
       await getLastThreeComments(carId);
 
       return true;
@@ -146,7 +125,6 @@ class DetailsCubit extends Cubit<DetailsState> {
     }
   }
 
-  // جلب جميع التعليقات
   Future<void> getAllComments(String carId) async {
     try {
       emit(state.copyWith(isCommentsLoading: true));
@@ -171,95 +149,7 @@ class DetailsCubit extends Cubit<DetailsState> {
     }
   }
 
-  // مسح حقل الخطأ
   void clearError() {
     emit(state.copyWith(error: null));
   }
 }
-
-
-
-
-
-
-
-
-
-// class DetailsCubit extends Cubit<DetailsState> {
-//   DetailsCubit() : super(DetailsState());
-  
-//   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-//   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-//   // الحصول على معرف المستخدم الحالي
-//   String? getCurrentUserId() {
-//     return _auth.currentUser?.uid;
-//   }
-
-//   // التحقق من حالة الإعجاب للسيارة
-//   Future<bool> checkIfCarLiked(String? carId) async {
-//     if (carId == null) return false;
-//     final userId = getCurrentUserId();
-//     if (userId == null) {
-//       return false;
-//     }
-//     try {
-//       emit(state.copyWith(isLikeLoading: true));
-//       final docSnapshot = await firestore.collection('users').doc(userId).collection('liked_cars').doc(carId).get();
-//       final isLiked = docSnapshot.exists;
-//       emit(state.copyWith(isLikeLoading: false, isLiked: isLiked));
-//       return isLiked;
-//     } catch (e) {
-//       print('Error checking like status: $e');
-//       emit(state.copyWith(isLikeLoading: false, error: e.toString()));
-//       return false;
-//     }
-//   }
-
-//   // تبديل حالة الإعجاب للسيارة
-//   Future<bool> toggleLike(PostCar car) async {
-//     if (car.id == null) return false;
-//     // التحقق من تسجيل دخول المستخدم
-//     final userId = getCurrentUserId();
-//     if (userId == null) {
-//       return false;
-//     }
-//     try {
-//       final isCurrentlyLiked = await checkIfCarLiked(car.id);
-//       emit(state.copyWith(isLikeLoading: true));
-//       final userLikesRef = firestore.collection('users').doc(userId).collection('liked_cars');
-//       if (isCurrentlyLiked) {
-//         await userLikesRef.doc(car.id).delete();
-//       } else {
-//         await userLikesRef.doc(car.id).set(car.toMap());
-//       }
-//       final carRef = firestore.collection('cars').doc(car.id);
-//       await firestore.runTransaction((transaction) async {
-//         final carDoc = await transaction.get(carRef);
-//         if (carDoc.exists) {
-//           int currentLikes = carDoc.data()?['likesCount'] ?? 0;
-//           transaction.update(carRef, {'likesCount': isCurrentlyLiked ? currentLikes - 1 : currentLikes + 1});
-//         }
-//       });
-//       // تحديث الحالة لتعكس حالة الإعجاب الجديدة
-//       emit(state.copyWith(isLikeLoading: false, isLiked: !isCurrentlyLiked));
-//       return true;
-//     } catch (e) {
-//       print('Error toggling like: $e');
-//       emit(state.copyWith(isLikeLoading: false, error: e.toString()));
-//       return false;
-//     }
-//   }
-
-//   // جلب عدد اللايكات للسيارة
-//   Future<void> getLikesCount(String carId) async {
-//     try {
-//       final carDoc = await firestore.collection('cars').doc(carId).get();
-//       final likesCount = carDoc.data()?['likesCount'] ?? 0;
-//       emit(state.copyWith(likesCount: likesCount));
-//     } catch (e) {
-//       print('Error getting likes count: $e');
-//       emit(state.copyWith(error: e.toString()));
-//     }
-//   }
-// }

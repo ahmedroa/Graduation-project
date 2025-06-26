@@ -126,7 +126,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     verticalSpace(25),
                     AppTextFormField(
                       controller: emailController,
-                      hintText: 'البريد الإلكتروني المسجل',
+                      hintText: 'البريدالإلكتروني المسجل',
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value == null || value.isEmpty) {

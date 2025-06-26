@@ -29,14 +29,12 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
 
-  // أنيميشن لكل عنصر على حدة
   late Animation<Offset> _logoSlideAnimation;
   late Animation<double> _titleScaleAnimation;
   late Animation<Offset> _formSlideAnimation;
   late Animation<double> _buttonScaleAnimation;
   late Animation<Offset> _registerSlideAnimation;
 
-  // أنيميشن لزر الدخول كزائر
   late Animation<double> _guestButtonFadeAnimation;
   late Animation<Offset> _guestButtonSlideAnimation;
 
@@ -171,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                           ),
                           verticalSpace(25),
                           SlideTransition(position: _formSlideAnimation, child: const EmailAndPassword()),
-                          verticalSpace(30),
+                          verticalSpace(10),
                           SlideTransition(
                             position: _formSlideAnimation,
                             child: Align(
@@ -179,7 +177,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                               child: TextButton(
                                 onPressed: () {
                                   context.pushNamed(Routes.forgotPassword);
-                                  // setupErrorState(context, 'هذه الميزة غير متاحة حاليا');
                                 },
                                 child: Text(
                                   'نسيت كلمة المرور؟',
@@ -188,6 +185,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                               ),
                             ),
                           ),
+                          verticalSpace(20),
                           BlocBuilder<LoginCubit, LoginState>(
                             builder: (context, state) {
                               final isLoading = state is Loading;
@@ -263,18 +261,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                                 context.pushReplacementNamed(Routes.bottomNavBar);
                               },
                             ),
-                            // child: ElevatedButton(
-                            //   onPressed: () {
-                            //     context.pushNamed(Routes.bottomNavBar);
-                            //   },
-                            //   style: ElevatedButton.styleFrom(
-                            //     backgroundColor: ColorsManager.backgroundColorDark.withOpacity(0.9),
-                            //     minimumSize: const Size(double.infinity, 40),
-                            //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            //     elevation: 2,
-                            //   ),
-                            //   child: const Text('الدخول كزائر', style: TextStyle(fontSize: 14, color: Colors.white)),
-                            // ),
                           ),
                         ),
                       ),
