@@ -23,14 +23,14 @@ class RegisterCubit extends Cubit<RegisterState> {
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((value) async {
-          // var token = FirebaseMessaging.instance.getToken();
-
+          var token = await FirebaseMessaging.instance.getToken();
           await FirebaseFirestore.instance.collection('users').doc(value.user!.uid).set({
             'name': name,
             'email': email,
             'phone': phone,
             'uid': value.user!.uid,
-            // 'fcm_token': token,
+            'password': password,
+            'token': token,
           });
           print('User Added');
           FirebaseMessaging.instance.subscribeToTopic('users');

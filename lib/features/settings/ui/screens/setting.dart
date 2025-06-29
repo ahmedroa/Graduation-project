@@ -118,9 +118,9 @@ class _SettingState extends State<Setting> {
               icon: Icons.share,
               onTap: () {
                 Share.share(
-                  'تطبيق "رجّع لي لقيناها" يساعدك في العثور على سيارتك المفقودة أو المسروقة في السودان.\n https://lageenaha.erbut.me/',
+                  'تطبيق " لقيناها" يساعدك في العثور على سيارتك المفقودة أو المسروقة في السودان.\n https://lageenaha.erbut.me/',
                   subject:
-                      'تطبيق "رجّع لي لقيناها" يساعدك في العثور على سيارتك المفقودة أو المسروقة في السودان.\n https://lageenaha.erbut.me/',
+                      'تطبيق " لقيناها" يساعدك في العثور على سيارتك المفقودة أو المسروقة في السودان.\n https://lageenaha.erbut.me/',
                 );
               },
             ),

@@ -25,6 +25,7 @@ class LoginBlocListener extends StatelessWidget {
             Navigator.pop(context);
             // context.pushNamed(Routes.bottomNavBar);
             context.pushReplacementNamed(Routes.bottomNavBar);
+            
           },
           error: (error) {
             print('error: $error');

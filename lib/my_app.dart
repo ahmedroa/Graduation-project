@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
         theme: lightTheme,
         navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
         onGenerateRoute: widget.appRouter.generateRoute,
-        initialRoute: context.isNotLoggedIn ? Routes.bottomNavBar : Routes.bottomNavBar,
+        initialRoute: context.isNotLoggedIn ? Routes.splashView : Routes.bottomNavBar ,
       ),
     );
   }

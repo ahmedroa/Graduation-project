@@ -14,7 +14,6 @@ class CarInformationWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 130.h,
-      // color: Colors.white,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(topLeft: Radius.circular(50), topRight: Radius.circular(50)),

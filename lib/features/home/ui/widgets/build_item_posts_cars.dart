@@ -13,7 +13,7 @@ class BuildItemPostsCars extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: EdgeInsets.all(12.0.sign),
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -35,6 +35,7 @@ class BuildItemPostsCars extends StatelessWidget {
           );
         },
         child: Container(
+          // height: 290,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
