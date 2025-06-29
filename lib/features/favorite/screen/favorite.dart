@@ -37,7 +37,7 @@ class _FavoriteState extends State<Favorite> with SingleTickerProviderStateMixin
       appBar: AppBar(title: const Text('المفضلة')),
       body: Container(
         color: ColorsManager.backgroundColor,
-        child: context.isNotLoggedIn ? buildNotLoggedInView(context) : _buildLoggedInView(),
+        child: context.isNotLoggedIn ? BuildNotLoggedInView() : _buildLoggedInView(),
       ),
     );
   }

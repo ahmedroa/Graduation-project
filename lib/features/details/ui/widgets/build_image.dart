@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graduation/core/extensions/auth_extensions.dart';
+import 'package:graduation/core/widgets/not_registered.dart';
 import 'package:graduation/features/details/cubit/details_cubit.dart';
 import 'package:graduation/features/details/ui/details.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -76,8 +78,9 @@ class BuildImagesCar extends StatelessWidget {
                               color: state.isLiked ? Colors.red : Colors.white,
                             ),
                             onPressed: () {
-                              if (widget.carList != null) {
-                                context.read<DetailsCubit>().toggleLike(widget.carList!);
+                              if (widget.carList != null ) {
+                              context.isNotLoggedIn ? notRegistered(context):  context.read<DetailsCubit>().toggleLike(widget.carList!);
+                              
                               }
                             },
                           ),

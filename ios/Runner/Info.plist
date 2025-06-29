@@ -59,6 +59,9 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<key>NSUserTrackingUsageDescription</key>
+        <string>نحتاج إذنك لتفعيل الإشعارات</string>
+
 	</array>
 </dict>
 </plist>
