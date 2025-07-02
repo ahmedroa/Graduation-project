@@ -18,6 +18,7 @@ import 'package:graduation/features/profile/ui/screens/profile.dart';
 import 'package:graduation/features/reported_cars/logic/cubit/reported_cars_cubit.dart';
 import 'package:graduation/features/reported_cars/ui/screens/reported_cars.dart';
 import 'package:graduation/features/splach/splach.dart';
+import 'package:graduation/terms_screen.dart';
 import '../../features/auth/login/logic/cubit/login_cubit.dart';
 import '../../app/widgets/bottom_vav_bar.dart';
 
@@ -47,6 +48,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => BlocProvider(create: (context) => PostsCubit(), child: Section()));
       case Routes.carInformation:
         return MaterialPageRoute(builder: (_) => CarInformation());
+
       case Routes.reportVehicle:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(create: (context) => PostsCubit(), child: ReportVehicle()),
@@ -62,6 +64,8 @@ class AppRouter {
           builder:
               (_) => BlocProvider(create: (context) => ReportedCarsCubit()..getReportedCars(), child: ReportedCars()),
         );
+      case Routes.termsScreen:
+        return MaterialPageRoute(builder: (_) => TermsAndConditionsScreen());
 
       default:
         return null;

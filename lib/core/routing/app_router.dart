@@ -15,4 +15,5 @@ class Routes {
   static const String sectionReportVehicle = '/sectionReportVehicle';
   static const String profile = '/profile';
   static const String reportedCars = '/reportedCars';
+  static const String termsScreen = '/termsScreen';
 }

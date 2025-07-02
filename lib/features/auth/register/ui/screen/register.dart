@@ -1,7 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:graduation/core/helpers/extension.dart';
 import 'package:graduation/core/helpers/spacing.dart';
+import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/img.dart';
 import 'package:graduation/core/theme/text_styles.dart';
@@ -77,6 +80,46 @@ class _RegisterState extends State<Register> {
                             ),
                           );
                         },
+                      ),
+                      verticalSpace(20),
+
+                      RichText(
+                        textAlign: TextAlign.center,
+                        textDirection: TextDirection.rtl,
+                        text: TextSpan(
+                          style: TextStyle(color: ColorsManager.gray, fontSize: 16),
+                          children: [
+                            const TextSpan(text: 'من خلال الاستمرار في استخدام لِقيناها، فأنت توافق على '),
+                            TextSpan(
+                              text: 'شروط الخدمة',
+                              style: const TextStyle(
+                                color: ColorsManager.kPrimaryColor,
+                                decoration: TextDecoration.underline,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              recognizer:
+                                  TapGestureRecognizer()
+                                    ..onTap = () {
+                                      context.pushNamed(Routes.termsScreen);
+                                    },
+                            ),
+                            const TextSpan(text: ' و '),
+                            TextSpan(
+                              text: 'سياسة الخصوصية',
+                              style: const TextStyle(
+                                color: ColorsManager.kPrimaryColor,
+                                decoration: TextDecoration.underline,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              recognizer:
+                                  TapGestureRecognizer()
+                                    ..onTap = () {
+                                      context.pushNamed(Routes.termsScreen);
+                                    },
+                            ),
+                            const TextSpan(text: ' الخاصة بنا'),
+                          ],
+                        ),
                       ),
                     ],
                   ),

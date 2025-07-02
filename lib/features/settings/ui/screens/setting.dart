@@ -124,6 +124,14 @@ class _SettingState extends State<Setting> {
                 );
               },
             ),
+            BuildDivider(),
+            _buildListTile(
+              title: 'سياسة الخصوصية',
+              icon: Icons.privacy_tip_outlined,
+              onTap: () {
+                context.pushNamed(Routes.termsScreen);
+              },
+            ),
           ],
         ),
       ),

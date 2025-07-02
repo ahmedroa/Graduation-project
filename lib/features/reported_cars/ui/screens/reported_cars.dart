@@ -7,13 +7,11 @@ class ReportedCars extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int x = DateTime.now().millisecondsSinceEpoch;
-    print(x);
+    // int x = DateTime.now().millisecondsSinceEpoch;
+    // print(x);
     return Scaffold(
       backgroundColor: ColorsManager.backgroundColor,
-      appBar: AppBar(backgroundColor: Colors.white, title: Text(' السيارات المبلغ عنها'), centerTitle: true,
-
-      ),
+      appBar: AppBar(backgroundColor: Colors.white, title: Text(' السيارات المبلغ عنها'), centerTitle: true),
       body: BlocBuildereportedCars(),
     );
   }

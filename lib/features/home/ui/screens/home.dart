@@ -5,10 +5,10 @@ import 'package:graduation/core/helpers/extension.dart';
 import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/theme/colors.dart';
-import 'package:graduation/core/widgets/app_text_form_field.dart';
 import 'package:graduation/core/widgets/not_registered.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:graduation/features/home/search%20/build_search_result_item.dart';
+import 'package:graduation/features/home/ui/widgets/Build_search_field.dart';
 import 'package:graduation/features/posts/ui/widgets/add_post_bottom_sheet.dart';
 import 'package:graduation/features/home/ui/widgets/home_bloc_builder.dart';
 import 'package:graduation/features/home/search%20/shimmer_loding_search.dart';
@@ -133,7 +133,7 @@ class _HomescreenState extends State<Homescreen> {
       _buildHeader(),
       verticalSpace(12),
 
-      _buildSearchField(),
+      BuildSearchField(context: context, searchFocusNode: _searchFocusNode),
       verticalSpace(12),
 
       _buildTagsList(),
@@ -162,29 +162,6 @@ class _HomescreenState extends State<Homescreen> {
             // Spacer(),
             // Icon(Icons.notifications, color: ColorsManager.kPrimaryColor),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSearchField() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 12, right: 12),
-      child: GestureDetector(
-        onTap: () {
-          context.read<HomeCubit>().startSearch();
-          _searchFocusNode.requestFocus();
-        },
-        child: AbsorbPointer(
-          child: AppTextFormField(
-            hintText: 'بحث',
-            validator: (value) {
-              return null;
-            },
-            onChanged: (value) {},
-            fillColor: Colors.white,
-            prefixIcon: Icon(Icons.search, color: ColorsManager.kPrimaryColor),
-          ),
         ),
       ),
     );

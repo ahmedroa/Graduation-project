@@ -23,7 +23,7 @@ void main() async {
 
 // error to undarstand:
 // flutter build appbundle
-
+// تعديل البحث والتفاصيل فيها 
 
 
 

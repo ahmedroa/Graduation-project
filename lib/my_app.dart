@@ -25,7 +25,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // الآن context يحتوي على MaterialLocalizations
     WidgetsBinding.instance.addPostFrameCallback((_) {
       checkAppStatus(context);
     });
@@ -58,7 +57,7 @@ class _MyAppState extends State<MyApp> {
         theme: lightTheme,
         navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
         onGenerateRoute: widget.appRouter.generateRoute,
-        initialRoute: context.isNotLoggedIn ? Routes.splashView : Routes.bottomNavBar ,
+        initialRoute: context.isNotLoggedIn ? Routes.splashView : Routes.bottomNavBar,
       ),
     );
   }

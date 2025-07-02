@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
+import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
 import 'package:graduation/features/home/cubit/home_state.dart';
 import 'package:graduation/features/home/ui/widgets/build_item_posts_cars.dart';
@@ -26,6 +28,7 @@ class ShimmerGridPostsCars extends StatelessWidget {
     );
   }
 }
+
 class BuildHomeGridView extends StatelessWidget {
   final int crossAxisCount;
   final double aspectRatio;
@@ -42,9 +45,7 @@ class BuildHomeGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<dynamic> itemsToShow = state.isSearching 
-        ? state.searchResults 
-        : state.carInformation;
+    final List<dynamic> itemsToShow = state.isSearching ? state.searchResults : state.carInformation;
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -63,10 +64,7 @@ class BuildHomeGridView extends StatelessWidget {
         itemBuilder: (context, index) {
           if (state.isSearching) {
             final doc = itemsToShow[index] as QueryDocumentSnapshot;
-            final carData = PostCar.fromMap(
-              doc.data() as Map<String, dynamic>, 
-              doc.id,
-            );
+            final carData = PostCar.fromMap(doc.data() as Map<String, dynamic>, doc.id);
             return BuildItemPostsCars(carList: carData);
           } else {
             final car = itemsToShow[index] as PostCar;
@@ -77,7 +75,6 @@ class BuildHomeGridView extends StatelessWidget {
     );
   }
 }
-
 
 class ShimmerPostsCars extends StatelessWidget {
   const ShimmerPostsCars({super.key});
@@ -98,7 +95,6 @@ class ShimmerPostsCars extends StatelessWidget {
             ClipRRect(
               borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
               child: Shimmer.fromColors(
-          
                 baseColor: Colors.grey[300]!,
                 highlightColor: Colors.grey[100]!,
                 child: Container(width: double.infinity, height: 140, color: Colors.white),
@@ -109,10 +105,22 @@ class ShimmerPostsCars extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Shimmer.fromColors(
-                    baseColor: Colors.grey[300]!,
-                    highlightColor: Colors.grey[100]!,
-                    child: Container(width: double.infinity, height: 14, color: Colors.white),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(width: double.infinity, height: 14, color: Colors.white),
+                        ),
+                      ),
+                      horizontalSpace(16),
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(width: 40.w, height: 14, color: Colors.white),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 5),
                   Shimmer.fromColors(

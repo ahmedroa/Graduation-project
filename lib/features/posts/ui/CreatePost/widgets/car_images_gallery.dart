@@ -167,15 +167,15 @@ class CarImagesGallery extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildImageSourceOption(
-                      context,
-                      icon: Icons.camera_alt,
-                      title: 'الكاميرا',
-                      onTap: () {
-                        Navigator.pop(context);
-                        _pickImage(context, ImageSource.camera);
-                      },
-                    ),
+                    // _buildImageSourceOption(
+                    //   context,
+                    //   icon: Icons.camera_alt,
+                    //   title: 'الكاميرا',
+                    //   onTap: () {
+                    //     Navigator.pop(context);
+                    //     _pickImage(context, ImageSource.camera);
+                    //   },
+                    // ),
                     _buildImageSourceOption(
                       context,
                       icon: Icons.photo_library,
@@ -310,8 +310,3 @@ class CarImagesGallery extends StatelessWidget {
     );
   }
 }
-
-
-
-
-

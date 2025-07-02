@@ -45,6 +45,8 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  
+
   Future<void> loadMoreData() async {
     if (_isLoadingMore || !_hasMoreData || state.isSearching || state.isLoading) return;
 
