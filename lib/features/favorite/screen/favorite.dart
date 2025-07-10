@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation/core/extensions/auth_extensions.dart';
 import 'package:graduation/core/theme/colors.dart';
+import 'package:graduation/core/theme/font_weight_helper.dart';
 import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/core/widgets/not_logged_in_view.dart';
 import 'package:graduation/features/favorite/cubit/favorite_cubit.dart';
@@ -34,10 +35,22 @@ class _FavoriteState extends State<Favorite> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('المفضلة')),
-      body: Container(
-        color: ColorsManager.backgroundColor,
-        child: context.isNotLoggedIn ? BuildNotLoggedInView() : _buildLoggedInView(),
+      backgroundColor: ColorsManager.backgroundColor,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Text(
+              'المفضلة',
+              style: TextStyle(color: ColorsManager.dark, fontSize: 18, fontWeight: FontWeightHelper.bold),
+            ),
+            Expanded(
+              child: Container(
+                color: ColorsManager.backgroundColor,
+                child: context.isNotLoggedIn ? BuildNotLoggedInView() : _buildLoggedInView(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

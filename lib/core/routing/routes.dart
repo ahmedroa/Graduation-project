@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation/app/Report/report_content_screen.dart';
 import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/features/auth/login/ui/screens/forgot_password.dart';
 import 'package:graduation/features/auth/login/ui/screens/login.dart';
@@ -66,6 +67,14 @@ class AppRouter {
         );
       case Routes.termsScreen:
         return MaterialPageRoute(builder: (_) => TermsAndConditionsScreen());
+      case Routes.reportContentScreen:
+        return MaterialPageRoute(
+          builder:
+              (_) => ReportContentScreen(
+                contentId: settings.arguments as String,
+                reportedUserId: settings.arguments as String,
+              ),
+        );
 
       default:
         return null;

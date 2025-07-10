@@ -91,7 +91,7 @@ class BuildFormCarInformation extends StatelessWidget {
           verticalSpace(8),
           Center(
             child: SizedBox(
-              height: 70,
+              height: 70.h,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children:

@@ -19,7 +19,7 @@ class ButtonSnedPost extends StatelessWidget {
         listener: (context, state) {
           if (state is PostsSendSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("تمت إضافة بيانات المالك بنجاح!")));
-            context.pushNamed(Routes.bottomNavBar);
+            context.pushReplacementNamed(Routes.bottomNavBar);
           } else if (state is PostsError) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("خطأ: ${state.message}")));
           } else if (state is PageValidationError) {
@@ -95,7 +95,6 @@ class ButtonSnedPost extends StatelessWidget {
       showError(context, "الرجاء إدخال رقم اللوحة");
       return false;
     }
-
 
     if (postsCubit.carImages.isEmpty) {
       showError(context, "الرجاء إضافة صورة واحدة على الأقل للسيارة");

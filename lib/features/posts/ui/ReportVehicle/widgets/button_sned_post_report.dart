@@ -20,7 +20,7 @@ class ButtonSnedPostReport extends StatelessWidget {
         listener: (context, state) {
           if (state is PostsSendSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("تمت إضافة بيانات المالك بنجاح!")));
-            context.pushNamed(Routes.bottomNavBar);
+                  context.pushReplacementNamed(Routes.bottomNavBar);
           } else if (state is PostsError) {
             setupErrorState(context, state.message);
           } else if (state is PageValidationError) {

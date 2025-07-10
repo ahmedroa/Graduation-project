@@ -50,7 +50,7 @@ class BuildSearchResultItem extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8, right: 8),
-                      child: Text("مفقود", style: TextStyle(fontSize: 16, color: Color(0xffFF4D4D))),
+                      child: Text("مفقودة", style: TextStyle(fontSize: 16, color: Color(0xffFF4D4D))),
                     ),
                   )
                   : Container(
@@ -60,7 +60,7 @@ class BuildSearchResultItem extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8, right: 8),
-                      child: Text("موجود", style: TextStyle(fontSize: 16, color: Color(0xff0070D1))),
+                      child: Text("موجوده", style: TextStyle(fontSize: 16, color: Color(0xff0070D1))),
                     ),
                   ),
             ],

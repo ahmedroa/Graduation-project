@@ -78,9 +78,10 @@ class BuildImagesCar extends StatelessWidget {
                               color: state.isLiked ? Colors.red : Colors.white,
                             ),
                             onPressed: () {
-                              if (widget.carList != null ) {
-                              context.isNotLoggedIn ? notRegistered(context):  context.read<DetailsCubit>().toggleLike(widget.carList!);
-                              
+                              if (widget.carList != null) {
+                                context.isNotLoggedIn
+                                    ? notRegistered(context)
+                                    : context.read<DetailsCubit>().toggleLike(widget.carList!);
                               }
                             },
                           ),

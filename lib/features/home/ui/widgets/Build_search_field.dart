@@ -31,6 +31,7 @@ class BuildSearchField extends StatelessWidget {
                   validator: (value) {
                     return null;
                   },
+                  // onChanged: (value) {},
                   fillColor: Colors.white,
                   prefixIcon: Icon(Icons.search, color: ColorsManager.kPrimaryColor),
                 ),

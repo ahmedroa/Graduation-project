@@ -16,4 +16,5 @@ class Routes {
   static const String profile = '/profile';
   static const String reportedCars = '/reportedCars';
   static const String termsScreen = '/termsScreen';
+  static const String reportContentScreen = '/reportContentScreen';
 }

@@ -58,6 +58,9 @@ class _MyAppState extends State<MyApp> {
         navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
         onGenerateRoute: widget.appRouter.generateRoute,
         initialRoute: context.isNotLoggedIn ? Routes.splashView : Routes.bottomNavBar,
+        // home: ReportContentScreen(contentId: ''),
+        // home: BlockUserScreen(userId: '', userName: ''),
+        // home: ReportContentScreen(contentId: '', contentType: ''),
       ),
     );
   }

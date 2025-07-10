@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:flutter/material.dart';
 import 'package:graduation/core/data/models/Car_information.dart';
+import 'package:graduation/core/helpers/extension.dart';
 import 'package:graduation/core/helpers/spacing.dart';
+import 'package:graduation/core/routing/app_router.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/theme/text_styles.dart';
 import 'package:graduation/features/details/cubit/details_cubit.dart';
@@ -63,6 +65,16 @@ class _DetailsState extends State<Details> {
             if (widget.carList?.description != null && widget.carList!.description!.isNotEmpty) description(),
             verticalSpace(20),
             Comments(commentController: _commentController, widget: widget),
+
+            TextButton(
+              onPressed: () {
+                context.pushReplacementNamed(Routes.reportContentScreen, arguments: widget.carList?.id ?? '');
+              },
+              child: Text(
+                'الإبلاغ عن محتوى',
+                style: TextStyles.font16DarkBold.copyWith(color: ColorsManager.kPrimaryColor),
+              ),
+            ),
           ],
         ),
       ),
