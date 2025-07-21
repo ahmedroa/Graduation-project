@@ -14,6 +14,7 @@ import 'package:graduation/features/settings/ui/widgets/build_delete_account_but
 import 'package:graduation/features/settings/ui/widgets/build_sign_in_header.dart';
 import 'package:graduation/features/settings/ui/widgets/k_setting_list_tile.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -112,6 +113,20 @@ class _SettingState extends State<Setting> {
                 context.isNotLoggedIn ? notRegistered(context) : context.pushNamed(Routes.reportedCars);
               },
             ),
+            BuildDivider(),
+            _buildListTile(
+              title: 'حساب المطور',
+              icon: Icons.person_outline,
+              onTap: () async {
+                final url = Uri.parse('https://www.instagram.com/dev__ahmed10/#');
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
+            ),
+
             BuildDivider(),
             _buildListTile(
               title: 'مشاركة التطبيق',

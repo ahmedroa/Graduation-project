@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduation/core/helpers/spacing.dart';
 import 'package:graduation/core/theme/colors.dart';
 import 'package:graduation/core/widgets/app_text_form_field.dart';
 import 'package:graduation/features/home/cubit/home_cubit.dart';
-import 'package:graduation/features/home/ui/widgets/show_filter_dialog.dart';
 
 class BuildSearchField extends StatelessWidget {
   const BuildSearchField({super.key, required this.context, required FocusNode searchFocusNode})
